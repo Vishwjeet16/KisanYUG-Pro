@@ -1,0 +1,690 @@
+# =========================================
+# KISANYUG COMPLETE BACKEND
+# FILE NAME : app.py
+# =========================================
+
+from flask import Flask, request, jsonify, session
+from flask_cors import CORS
+from pymongo import MongoClient
+from bson.objectid import ObjectId
+from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import datetime
+import random
+
+# =========================================
+# FLASK APP
+# =========================================
+
+app = Flask(__name__)
+
+app.secret_key = "KISANYUG_SECRET_KEY_2026"
+
+# CORS
+CORS(
+    app,
+    supports_credentials=True
+)
+
+# =========================================
+# MONGODB CONNECTION
+# =========================================
+
+client = MongoClient("mongodb://localhost:27017/")
+
+db = client["KisanYUG"]
+
+users_collection = db["users"]
+
+farmerpass_collection = db["farmer_pass"]
+
+crops_collection = db["crops"]
+
+support_collection = db["support_messages"]
+
+# =========================================
+# HOME ROUTE
+# =========================================
+
+@app.route("/")
+def home():
+
+    return jsonify({
+        "message": "KisanYUG Backend Running 🚀"
+    })
+
+
+# =========================================
+# REGISTER API
+# =========================================
+
+@app.route("/register", methods=["POST"])
+def register():
+
+    try:
+
+        data = request.json
+
+        name = data.get("name")
+        email = data.get("email")
+        phone = data.get("phone")
+        password = data.get("password")
+
+        # CHECK EMPTY
+        if not all([name, email, phone, password]):
+
+            return jsonify({
+                "success": False,
+                "message": "All fields required"
+            })
+
+        # EMAIL EXISTS
+        existing_user = users_collection.find_one({
+            "email": email
+        })
+
+        if existing_user:
+
+            return jsonify({
+                "success": False,
+                "message": "Email already exists"
+            })
+
+        # HASH PASSWORD
+        hashed_password = generate_password_hash(password)
+
+        user_data = {
+
+            "name": name,
+            "email": email,
+            "phone": phone,
+            "password": hashed_password,
+
+            "has_farmer_pass": False,
+
+            "created_at": datetime.now()
+
+        }
+
+        users_collection.insert_one(user_data)
+
+        return jsonify({
+            "success": True,
+            "message": "Account Created Successfully"
+        })
+
+    except Exception as e:
+
+        return jsonify({
+            "success": False,
+            "message": str(e)
+        })
+
+
+# =========================================
+# LOGIN API
+# =========================================
+
+@app.route("/login", methods=["POST"])
+def login():
+
+    try:
+
+        data = request.json
+
+        email = data.get("email")
+        password = data.get("password")
+
+        user = users_collection.find_one({
+            "email": email
+        })
+
+        # USER CHECK
+        if not user:
+
+            return jsonify({
+                "success": False,
+                "message": "User not found"
+            })
+
+        # PASSWORD CHECK
+        if not check_password_hash(
+            user["password"],
+            password
+        ):
+
+            return jsonify({
+                "success": False,
+                "message": "Wrong password"
+            })
+
+        # SESSION
+        session["user_id"] = str(user["_id"])
+        session["user_name"] = user["name"]
+        session["user_email"] = user["email"]
+
+        return jsonify({
+
+            "success": True,
+            "message": "Login Successful",
+
+            "user": {
+
+                "name": user["name"],
+                "email": user["email"],
+                "phone": user["phone"]
+
+            }
+
+        })
+
+    except Exception as e:
+
+        return jsonify({
+            "success": False,
+            "message": str(e)
+        })
+
+
+# =========================================
+# CHECK LOGIN
+# =========================================
+
+@app.route("/check-login", methods=["GET"])
+def check_login():
+
+    if "user_id" in session:
+
+        return jsonify({
+
+            "loggedIn": True,
+
+            "user": {
+
+                "name": session.get("user_name"),
+                "email": session.get("user_email")
+
+            }
+
+        })
+
+    return jsonify({
+        "loggedIn": False
+    })
+
+
+# =========================================
+# LOGOUT
+# =========================================
+
+@app.route("/logout", methods=["POST"])
+def logout():
+
+    session.clear()
+
+    return jsonify({
+        "success": True,
+        "message": "Logout Successful"
+    })
+
+
+# =========================================
+# FARMER PASS CREATE
+# =========================================
+
+@app.route("/api/farmerpass", methods=["POST"])
+def create_farmer_pass():
+
+    try:
+
+        # LOGIN CHECK
+        if "user_id" not in session:
+
+            return jsonify({
+                "success": False,
+                "error": "Please login first"
+            })
+
+        # REQUEST DATA
+        data = request.json
+
+        # =========================================
+        # CHECK EXISTING PASS
+        # =========================================
+
+        existing_pass = farmerpass_collection.find_one({
+            "user_id": session["user_id"]
+        })
+
+        if existing_pass:
+
+            return jsonify({
+                "success": False,
+                "error": "Farmer Pass already created"
+            })
+
+        # =========================================
+        # CREATE PASS DATA
+        # =========================================
+
+        farmer_pass = {
+
+            "user_id": session["user_id"],
+
+            "name": data.get("name"),
+            "village": data.get("village"),
+            "crop": data.get("crop"),
+            "season": data.get("season"),
+            "area": data.get("area"),
+            "valid_till": data.get("valid_till"),
+
+            "custom_id":
+            data.get("custom_id") or
+            f"AGP-{random.randint(100000,999999)}",
+
+            "qr_text": data.get("qr_text"),
+
+            "created_at": datetime.now()
+
+        }
+
+        # SAVE PASS
+        farmerpass_collection.insert_one(
+            farmer_pass
+        )
+
+        # =========================================
+        # UPDATE USER STATUS
+        # =========================================
+
+        users_collection.update_one(
+
+            {
+                "_id": ObjectId(session["user_id"])
+            },
+
+            {
+                "$set": {
+                    "has_farmer_pass": True
+                }
+            }
+
+        )
+
+        # SUCCESS RESPONSE
+        return jsonify({
+
+            "success": True,
+            "message": "Farmer Pass Created Successfully",
+
+            "pass_id":
+            farmer_pass["custom_id"]
+
+        })
+
+    except Exception as e:
+
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        })
+
+
+# =========================================
+# GET FARMER PASS
+# =========================================
+
+@app.route("/api/get-pass/<pass_id>", methods=["GET"])
+def get_pass(pass_id):
+
+    farmer = farmerpass_collection.find_one({
+        "custom_id": pass_id
+    })
+
+    if not farmer:
+
+        return jsonify({
+            "success": False,
+            "message": "Pass not found"
+        })
+
+    farmer["_id"] = str(farmer["_id"])
+
+    return jsonify({
+        "success": True,
+        "data": farmer
+    })
+
+
+# =========================================
+# GET CURRENT USER FARMER PASS
+# =========================================
+
+@app.route("/api/my-pass", methods=["GET"])
+def my_pass():
+
+    try:
+
+        # LOGIN CHECK
+        if "user_id" not in session:
+
+            return jsonify({
+                "success": False,
+                "message": "Please login first"
+            })
+
+        # FIND PASS
+        farmer_pass = farmerpass_collection.find_one({
+            "user_id": session["user_id"]
+        })
+
+        if not farmer_pass:
+
+            return jsonify({
+                "success": False,
+                "message": "No farmer pass found"
+            })
+
+        # OBJECT ID STRING
+        farmer_pass["_id"] = str(
+            farmer_pass["_id"]
+        )
+
+        return jsonify({
+
+            "success": True,
+            "pass": farmer_pass
+
+        })
+
+    except Exception as e:
+
+        return jsonify({
+
+            "success": False,
+            "message": str(e)
+
+        })
+
+# =========================================
+# UPLOAD CROP
+# =========================================
+
+@app.route("/api/upload-crop", methods=["POST"])
+def upload_crop():
+
+    try:
+
+        # LOGIN REQUIRED
+        if "user_id" not in session:
+
+            return jsonify({
+                "success": False,
+                "message": "Please login first"
+            })
+
+        data = request.json
+
+        farmer_pass_id = data.get("farmerPass")
+
+        # CHECK FARMER PASS
+        farmer = farmerpass_collection.find_one({
+            "custom_id": farmer_pass_id
+        })
+
+        if not farmer:
+
+            return jsonify({
+                "success": False,
+                "message": "Invalid Farmer Pass"
+            })
+
+        crop_data = {
+
+            "user_id": session["user_id"],
+
+            "farmerPass": farmer_pass_id,
+
+            "farmerName": data.get("farmerName"),
+
+            "cropName": data.get("cropName"),
+
+            "cropQty": data.get("cropQty"),
+
+            "cropPrice": data.get("cropPrice"),
+
+            "cropVillage": data.get("cropVillage"),
+
+            "cropImage": data.get("cropImage"),
+
+            "created_at": datetime.now()
+
+        }
+
+        crops_collection.insert_one(crop_data)
+
+        return jsonify({
+
+            "success": True,
+            "message": "Crop Uploaded Successfully"
+
+        })
+
+    except Exception as e:
+
+        return jsonify({
+
+            "success": False,
+            "message": str(e)
+
+        })
+
+
+
+# =========================================
+# SUPPORT CONTACT API
+# =========================================
+
+@app.route("/api/support", methods=["POST"])
+def support_message():
+
+    try:
+
+        data = request.json
+
+        full_name = data.get("full_name")
+        email = data.get("email")
+        inquiry_type = data.get("inquiry_type")
+        message = data.get("message")
+
+        # VALIDATION
+        if not all([
+            full_name,
+            email,
+            inquiry_type,
+            message
+        ]):
+
+            return jsonify({
+
+                "success": False,
+                "message": "All fields are required"
+
+            })
+
+        # SAVE DATA
+        support_data = {
+
+            "full_name": full_name,
+            "email": email,
+            "inquiry_type": inquiry_type,
+            "message": message,
+            "created_at": datetime.now()
+
+        }
+
+        support_collection.insert_one(
+            support_data
+        )
+
+        return jsonify({
+
+            "success": True,
+            "message": "Support message sent successfully"
+
+        })
+
+    except Exception as e:
+
+        return jsonify({
+
+            "success": False,
+            "message": str(e)
+
+        })
+
+# =========================================
+# GET ALL CROPS
+# =========================================
+
+@app.route("/api/crops", methods=["GET"])
+def get_crops():
+
+    crops = []
+
+    all_crops = crops_collection.find().sort(
+        "created_at",
+        -1
+    )
+
+    for crop in all_crops:
+
+        crops.append({
+
+            "_id": str(crop["_id"]),
+
+            "farmerPass":
+            crop.get("farmerPass"),
+
+            "farmerName":
+            crop.get("farmerName"),
+
+            "cropName":
+            crop.get("cropName"),
+
+            "cropQty":
+            crop.get("cropQty"),
+
+            "cropPrice":
+            crop.get("cropPrice"),
+
+            "cropVillage":
+            crop.get("cropVillage"),
+
+            "cropImage":
+            crop.get("cropImage")
+
+        })
+
+    return jsonify({
+
+        "success": True,
+        "crops": crops
+
+    })
+
+
+# =========================================
+# DELETE CROP
+# =========================================
+
+@app.route("/api/delete-crop/<crop_id>", methods=["DELETE"])
+def delete_crop(crop_id):
+
+    try:
+
+        if "user_id" not in session:
+
+            return jsonify({
+                "success": False,
+                "message": "Please login first"
+            })
+
+        crop = crops_collection.find_one({
+            "_id": ObjectId(crop_id)
+        })
+
+        if not crop:
+
+            return jsonify({
+                "success": False,
+                "message": "Crop not found"
+            })
+
+        # ONLY OWNER DELETE
+        if crop["user_id"] != session["user_id"]:
+
+            return jsonify({
+                "success": False,
+                "message": "Unauthorized"
+            })
+
+        crops_collection.delete_one({
+            "_id": ObjectId(crop_id)
+        })
+
+        return jsonify({
+            "success": True,
+            "message": "Crop Deleted"
+        })
+
+    except Exception as e:
+
+        return jsonify({
+            "success": False,
+            "message": str(e)
+        })
+
+
+# =========================================
+# USER PROFILE
+# =========================================
+
+@app.route("/api/profile", methods=["GET"])
+def profile():
+
+    if "user_id" not in session:
+
+        return jsonify({
+            "success": False,
+            "message": "Please login"
+        })
+
+    user = users_collection.find_one({
+        "_id": ObjectId(session["user_id"])
+    })
+
+    return jsonify({
+
+        "success": True,
+
+        "user": {
+
+            "name": user["name"],
+            "email": user["email"],
+            "phone": user["phone"]
+
+        }
+
+    })
+
+
+# =========================================
+# START SERVER
+# =========================================
+
+if __name__ == "__main__":
+
+    app.run(
+        debug=True,
+        port=5000
+    )

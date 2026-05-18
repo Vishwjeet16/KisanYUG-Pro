@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KisanYUG | Sell Crop</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --moss:#4F5D2F;
+      --forest:#2D3B2D;
+      --cream:#F5F5DC;
+      --terracotta:#E2725B;
+    }
+
+    body{
+      font-family:'Inter',sans-serif;
+      background:var(--cream);
+      color:var(--forest);
+    }
+
+    .serif{
+      font-family:'Playfair Display',serif;
+    }
+
+    .glass{
+      background:rgba(255,255,255,0.45);
+      backdrop-filter:blur(10px);
+      -webkit-backdrop-filter:blur(10px);
+      border:1px solid rgba(255,255,255,0.35);
+    }
+
+    .input-style{
+      width:100%;
+      padding:14px 18px;
+      border-radius:16px;
+      border:1px solid #d1d5db;
+      background:#fff;
+      outline:none;
+    }
+
+    .input-style:focus{
+      border-color:var(--moss);
+      box-shadow:0 0 0 4px rgba(79,93,47,0.15);
+    }
+  </style>
+</head>
+
+<body class="pt-20">
+
+  <nav class="fixed top-0 left-0 w-full z-50 glass border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+      <a href="./index.html" class="flex items-center gap-2">
+        <iconify-icon icon="lucide:sprout" class="text-3xl text-[var(--moss)]"></iconify-icon>
+        <span class="serif text-2xl font-bold">KisanYUG</span>
+      </a>
+
+      <div class="hidden md:flex items-center gap-7 text-sm font-semibold">
+        <a href="./index.html" class="hover:text-[var(--moss)]">Home</a>
+        <a href="./market.html" class="hover:text-[var(--moss)]">Marketplace</a>
+        <a href="./sell.html" class="text-[var(--moss)] border-b-2 border-[var(--moss)]">Sell</a>
+        <a href="./farmerpass.html" class="hover:text-[var(--moss)]">Farmer Pass</a>
+        <a href="./contact_help.html" class="hover:text-[var(--moss)]">Support</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="max-w-7xl mx-auto px-6 py-10">
+    <div class="grid lg:grid-cols-[0.95fr_1.05fr] gap-10 items-start">
+
+      <section>
+        <div class="inline-flex items-center gap-2 bg-white border border-gray-200 rounded-full px-4 py-2 text-xs uppercase font-bold mb-6">
+          <span class="w-2 h-2 rounded-full bg-[var(--terracotta)]"></span>
+          Farmer Pass Required
+        </div>
+
+        <h1 class="serif text-5xl md:text-6xl leading-tight mb-5">
+          Sell Your Crop
+          <span class="text-[var(--moss)]">Directly</span>
+        </h1>
+
+        <p class="text-gray-600 text-lg leading-relaxed mb-8">
+          Login ke baad apna Farmer Pass ID enter karke crop upload karein. Verified crop marketplace me buyers ke liye visible ho jayegi.
+        </p>
+
+        <div id="passBox" class="bg-white rounded-3xl p-6 shadow">
+          <div class="flex items-center gap-4">
+            <div class="w-14 h-14 rounded-2xl bg-[var(--moss)]/10 flex items-center justify-center">
+              <iconify-icon icon="lucide:badge-check" class="text-3xl text-[var(--moss)]"></iconify-icon>
+            </div>
+            <div>
+              <p class="text-sm text-gray-500">Your Farmer Pass</p>
+              <h2 id="myPassId" class="font-bold text-xl">Checking...</h2>
+            </div>
+          </div>
+          <a href="./farmerpass.html" class="inline-flex mt-5 text-[var(--moss)] font-bold hover:underline">
+            Create or view Farmer Pass
+          </a>
+        </div>
+      </section>
+
+      <section class="bg-white rounded-[32px] shadow-xl p-7 md:p-9">
+        <div class="flex items-center gap-3 mb-7">
+          <div class="w-12 h-12 rounded-2xl bg-[var(--forest)] text-white flex items-center justify-center">
+            <iconify-icon icon="lucide:wheat" class="text-3xl"></iconify-icon>
+          </div>
+          <div>
+            <h2 class="serif text-3xl">Crop Details</h2>
+            <p class="text-sm text-gray-500">Fill all required fields</p>
+          </div>
+        </div>
+
+        <form id="sellForm" class="space-y-5">
+          <div class="grid md:grid-cols-2 gap-5">
+            <div>
+              <label class="block mb-2 font-semibold">Farmer Pass ID</label>
+              <input id="farmerPass" class="input-style" placeholder="e.g. AGP-123456" required>
+            </div>
+            <div>
+              <label class="block mb-2 font-semibold">Farmer Name</label>
+              <input id="farmerName" class="input-style" placeholder="Your name" required>
+            </div>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-5">
+            <div>
+              <label class="block mb-2 font-semibold">Crop Name</label>
+              <input id="cropName" class="input-style" placeholder="e.g. Wheat" required>
+            </div>
+            <div>
+              <label class="block mb-2 font-semibold">Quantity</label>
+              <input id="cropQty" class="input-style" placeholder="e.g. 120 KG" required>
+            </div>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-5">
+            <div>
+              <label class="block mb-2 font-semibold">Price</label>
+              <input id="cropPrice" class="input-style" placeholder="e.g. Rs 2400" required>
+            </div>
+            <div>
+              <label class="block mb-2 font-semibold">Village</label>
+              <input id="cropVillage" class="input-style" placeholder="Village name" required>
+            </div>
+          </div>
+
+          <div>
+            <label class="block mb-2 font-semibold">Crop Image URL</label>
+            <input id="cropImage" class="input-style" placeholder="Paste image URL" required>
+          </div>
+
+          <div id="messageBox" class="hidden rounded-2xl p-4 text-sm font-semibold"></div>
+
+          <div class="flex flex-wrap gap-3 pt-2">
+            <button type="submit" class="bg-[var(--moss)] hover:bg-[var(--forest)] text-white px-6 py-3 rounded-xl font-bold transition">
+              Upload For Sale
+            </button>
+            <a href="./market.html" class="border-2 border-[var(--moss)] text-[var(--moss)] hover:bg-[var(--moss)] hover:text-white px-6 py-3 rounded-xl font-bold transition">
+              Go To Market
+            </a>
+          </div>
+        </form>
+      </section>
+
+    </div>
+  </main>
+
+  <script>
+const apiBase = location.port === "5000" ? "" : "http://127.0.0.1:5000";
+const sellForm = document.getElementById("sellForm");
+const messageBox = document.getElementById("messageBox");
+
+function showMessage(message, success){
+  messageBox.textContent = message;
+  messageBox.className = success
+    ? "rounded-2xl p-4 text-sm font-semibold bg-green-50 text-green-700 border border-green-200"
+    : "rounded-2xl p-4 text-sm font-semibold bg-red-50 text-red-700 border border-red-200";
+}
+
+async function loadMyPass(){
+  try{
+    const response = await fetch(`${apiBase}/api/my-pass`, {
+      credentials:"include"
+    });
+    const data = await response.json();
+
+    if(data.success){
+      document.getElementById("myPassId").textContent = data.pass.custom_id;
+      document.getElementById("farmerPass").value = data.pass.custom_id;
+      document.getElementById("farmerName").value = data.pass.name || "";
+      return;
+    }
+
+    document.getElementById("myPassId").textContent = "No pass found";
+  }
+  catch(error){
+    document.getElementById("myPassId").textContent = "Backend not connected";
+  }
+}
+
+sellForm.addEventListener("submit", async event => {
+  event.preventDefault();
+
+  const cropData = {
+    farmerPass: document.getElementById("farmerPass").value.trim(),
+    farmerName: document.getElementById("farmerName").value.trim(),
+    cropName: document.getElementById("cropName").value.trim(),
+    cropQty: document.getElementById("cropQty").value.trim(),
+    cropPrice: document.getElementById("cropPrice").value.trim(),
+    cropVillage: document.getElementById("cropVillage").value.trim(),
+    cropImage: document.getElementById("cropImage").value.trim()
+  };
+
+  try{
+    const response = await fetch(`${apiBase}/api/upload-crop`, {
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      credentials:"include",
+      body:JSON.stringify(cropData)
+    });
+
+    const data = await response.json();
+    showMessage(data.message || data.error, data.success);
+
+    if(data.success){
+      sellForm.reset();
+      loadMyPass();
+    }
+  }
+  catch(error){
+    showMessage("Backend se connect nahi ho paya. Flask server start karein.", false);
+  }
+});
+
+loadMyPass();
+  </script>
+</body>
+</html>

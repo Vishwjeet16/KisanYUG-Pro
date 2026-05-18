@@ -1,0 +1,43 @@
+  <!-- Product Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+        <!-- Product 1 -->
+        <div class="bg-white rounded-[2rem] overflow-hidden shadow-sm hover:shadow-xl transition-all group">
+          <div class="relative aspect-square">
+            <img alt="Organic Heirloom Carrots" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="/agent-py/static/source/images/placeholder.svg">
+            <div class="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-[10px] font-bold flex items-center gap-1 shadow-sm">
+              <iconify-icon class="text-blue-500" icon="lucide:droplets"></iconify-icon>
+              SOIL HUMIDITY: 42%
+            </div>
+            <button class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/90 backdrop-blur flex items-center justify-center hover:bg-terracotta hover:text-white transition-colors">
+              <iconify-icon icon="lucide:heart"></iconify-icon>
+            </button>
+          </div>
+          <div class="p-6">
+            <div class="flex justify-between items-start mb-2">
+              <div>
+                <h3 class="font-bold text-lg">Purple Haze Carrots</h3>
+                <p class="text-xs text-stone-500">Grown by Elena Rodriguez</p>
+              </div>
+              <div class="text-right">
+                <p class="font-bold text-moss">$4.50</p>
+                <p class="text-[10px] text-stone-400">per bunch</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-4 py-4 border-y border-stone-50 my-4">
+              <div class="flex items-center gap-1">
+                <iconify-icon class="text-amber-500 text-xs" icon="lucide:star"></iconify-icon>
+                <span class="text-xs font-bold">4.9</span>
+              </div>
+              <div class="w-px h-3 bg-stone-200"></div>
+              <div class="flex items-center gap-1">
+                <iconify-icon class="text-stone-400 text-xs" icon="lucide:truck"></iconify-icon>
+                <span class="text-xs text-stone-500">2.1 mi</span>
+              </div>
+              <div class="w-px h-3 bg-stone-200"></div>
+              <div class="bg-moss/10 text-moss text-[9px] font-bold px-2 py-0.5 rounded">BLOCKCHAIN VERIFIED</div>
+            </div>
+            <button class="w-full bg-moss text-white py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2 hover:bg-[#2D3B2D] transition-colors">
+              Add to Harvest Box
+            </button>
+          </div>
+        </div>

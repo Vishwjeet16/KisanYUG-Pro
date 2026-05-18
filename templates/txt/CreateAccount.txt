@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>KisanYUG | Create Account</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Iconify -->
+  <script src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    body{
+      font-family:'Inter',sans-serif;
+      background:#f5f5dc;
+      overflow-x:hidden;
+    }
+
+    .serif{
+      font-family:'Playfair Display', serif;
+    }
+
+    :root{
+      --moss:#4F5D2F;
+      --dark:#2D3B2D;
+      --oatmeal:#F5F5DC;
+      --terracotta:#E2725B;
+    }
+
+    .glass{
+      background:rgba(255,255,255,0.75);
+      backdrop-filter:blur(15px);
+      border:1px solid rgba(255,255,255,0.3);
+    }
+
+    .bg-moss{
+      background:var(--moss);
+    }
+
+    .text-moss{
+      color:var(--moss);
+    }
+
+    .hero-bg{
+      background:
+      linear-gradient(rgba(0,0,0,0.45),rgba(0,0,0,0.45)),
+      url('https://images.unsplash.com/photo-1501004318641-b39e6451bec6?q=80&w=1600&auto=format&fit=crop');
+      background-size:cover;
+      background-position:center;
+    }
+
+    .input-box{
+      transition:0.3s;
+    }
+
+    .input-box:focus{
+      transform:translateY(-2px);
+      box-shadow:0 10px 25px rgba(79,93,47,0.15);
+    }
+
+    .btn-hover{
+      transition:0.3s;
+    }
+
+    .btn-hover:hover{
+      transform:translateY(-2px) scale(1.01);
+    }
+
+    .fade{
+      animation:fadeIn 0.7s ease;
+    }
+
+    @keyframes fadeIn{
+      from{
+        opacity:0;
+        transform:translateY(20px);
+      }
+      to{
+        opacity:1;
+        transform:translateY(0);
+      }
+    }
+
+  </style>
+</head>
+
+<body class="min-h-screen hero-bg flex items-center justify-center p-5">
+
+  <!-- Back Button -->
+  <a href="./index.html"
+     class="fixed top-6 left-6 z-50 flex items-center gap-2 bg-white/20 hover:bg-white/30 text-white px-5 py-3 rounded-full backdrop-blur-md transition">
+
+    <iconify-icon icon="lucide:arrow-left"></iconify-icon>
+
+    Home
+
+  </a>
+
+  <!-- Main Container -->
+  <div class="w-full max-w-6xl grid lg:grid-cols-2 rounded-[40px] overflow-hidden shadow-2xl glass fade">
+
+    <!-- LEFT SIDE -->
+    <div class="hidden lg:flex flex-col justify-between p-16 bg-moss text-white relative overflow-hidden">
+
+      <div class="absolute inset-0 opacity-10">
+
+        <div class="absolute -top-10 -right-10 w-72 h-72 bg-white rounded-full"></div>
+
+        <div class="absolute bottom-0 left-0 w-60 h-60 bg-white rounded-full"></div>
+
+      </div>
+
+      <!-- Logo -->
+      <a href="./index.html" class="flex items-center gap-3 relative z-10">
+
+        <iconify-icon icon="lucide:sprout" class="text-4xl"></iconify-icon>
+
+        <span class="serif text-4xl font-bold">
+          KisanYUG
+        </span>
+
+      </a>
+
+      <!-- Content -->
+      <div class="relative z-10">
+
+        <h1 class="serif text-6xl leading-tight mb-6">
+
+          Create Your <br>
+
+          Smart Farmer <br>
+
+          <span class="italic text-[#d6e6b5]">
+            Account Today
+          </span>
+
+        </h1>
+
+        <p class="text-stone-200 text-lg leading-relaxed max-w-md">
+
+          Join KisanYUG and connect directly with buyers,
+          upload crops, create farmer passes,
+          and grow your digital farming business.
+
+        </p>
+
+      </div>
+
+      <!-- Bottom Users -->
+      <div class="relative z-10 flex items-center gap-4">
+
+        <div class="flex -space-x-4">
+
+          <img src="https://randomuser.me/api/portraits/women/44.jpg"
+               class="w-12 h-12 rounded-full border-2 border-white object-cover">
+
+          <img src="https://randomuser.me/api/portraits/men/32.jpg"
+               class="w-12 h-12 rounded-full border-2 border-white object-cover">
+
+          <img src="https://randomuser.me/api/portraits/women/68.jpg"
+               class="w-12 h-12 rounded-full border-2 border-white object-cover">
+
+        </div>
+
+        <p class="text-sm text-stone-200">
+          Trusted by 20,000+ farmers
+        </p>
+
+      </div>
+
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="bg-white p-8 md:p-14 flex flex-col justify-center">
+
+      <!-- Mobile Logo -->
+      <div class="lg:hidden flex items-center justify-center gap-2 mb-8">
+
+        <iconify-icon icon="lucide:sprout"
+                       class="text-3xl text-moss"></iconify-icon>
+
+        <span class="serif text-3xl font-bold text-moss">
+          KisanYUG
+        </span>
+
+      </div>
+
+      <!-- Heading -->
+      <div class="mb-10 text-center lg:text-left">
+
+        <h2 class="serif text-5xl text-gray-800 mb-3">
+          Create Account
+        </h2>
+
+        <p class="text-gray-500">
+          Start your smart agriculture journey
+        </p>
+
+      </div>
+
+      <!-- FORM -->
+      <form id="signupForm" class="space-y-5">
+
+        <!-- Full Name -->
+        <div>
+
+          <label class="block text-sm font-semibold text-gray-600 mb-2">
+            Full Name
+          </label>
+
+          <div class="relative">
+
+            <iconify-icon
+              icon="lucide:user"
+              class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg">
+            </iconify-icon>
+
+            <input
+              type="text"
+              id="name"
+              placeholder="Enter your full name"
+              class="input-box w-full pl-12 pr-4 py-4 rounded-2xl border border-gray-200 bg-gray-50 outline-none focus:ring-2 focus:ring-[#4F5D2F]"
+              required
+            >
+
+          </div>
+
+        </div>
+
+        <!-- Email -->
+        <div>
+
+          <label class="block text-sm font-semibold text-gray-600 mb-2">
+            Email Address
+          </label>
+
+          <div class="relative">
+
+            <iconify-icon
+              icon="lucide:mail"
+              class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg">
+            </iconify-icon>
+
+            <input
+              type="email"
+              id="email"
+              placeholder="you@example.com"
+              class="input-box w-full pl-12 pr-4 py-4 rounded-2xl border border-gray-200 bg-gray-50 outline-none focus:ring-2 focus:ring-[#4F5D2F]"
+              required
+            >
+
+          </div>
+
+        </div>
+
+        <!-- Phone -->
+        <div>
+
+          <label class="block text-sm font-semibold text-gray-600 mb-2">
+            Mobile Number
+          </label>
+
+          <div class="relative">
+
+            <iconify-icon
+              icon="lucide:phone"
+              class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg">
+            </iconify-icon>
+
+            <input
+              type="tel"
+              id="phone"
+              placeholder="9876543210"
+              class="input-box w-full pl-12 pr-4 py-4 rounded-2xl border border-gray-200 bg-gray-50 outline-none focus:ring-2 focus:ring-[#4F5D2F]"
+              required
+            >
+
+          </div>
+
+        </div>
+
+        <!-- Password -->
+        <div>
+
+          <label class="block text-sm font-semibold text-gray-600 mb-2">
+            Password
+          </label>
+
+          <div class="relative">
+
+            <iconify-icon
+              icon="lucide:lock"
+              class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg">
+            </iconify-icon>
+
+            <input
+              type="password"
+              id="password"
+              placeholder="Create password"
+              class="input-box w-full pl-12 pr-12 py-4 rounded-2xl border border-gray-200 bg-gray-50 outline-none focus:ring-2 focus:ring-[#4F5D2F]"
+              required
+            >
+
+            <button
+              type="button"
+              id="togglePassword"
+              class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700">
+
+              <iconify-icon
+                id="eyeIcon"
+                icon="lucide:eye">
+              </iconify-icon>
+
+            </button>
+
+          </div>
+
+        </div>
+
+        <!-- Confirm Password -->
+        <div>
+
+          <label class="block text-sm font-semibold text-gray-600 mb-2">
+            Confirm Password
+          </label>
+
+          <div class="relative">
+
+            <iconify-icon
+              icon="lucide:shield-check"
+              class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg">
+            </iconify-icon>
+
+            <input
+              type="password"
+              id="confirmPassword"
+              placeholder="Confirm password"
+              class="input-box w-full pl-12 pr-4 py-4 rounded-2xl border border-gray-200 bg-gray-50 outline-none focus:ring-2 focus:ring-[#4F5D2F]"
+              required
+            >
+
+          </div>
+
+        </div>
+
+        <!-- Terms -->
+        <label class="flex items-center gap-3 text-sm text-gray-600">
+
+          <input
+            type="checkbox"
+            required
+            class="accent-[#4F5D2F] w-4 h-4">
+
+          I agree to Terms & Conditions
+
+        </label>
+
+        <!-- Submit -->
+         
+        <button
+          type="submit"
+          
+          class="w-full bg-moss text-white py-4 rounded-2xl text-lg font-semibold shadow-xl hover:bg-[#2D3B2D] btn-hover">
+
+          Create Account
+
+        </button>
+        
+      </form>
+
+      <!-- Login -->
+      <p class="text-center text-gray-500 mt-8">
+
+        Already have an account?
+
+        <a href="./auth.html"
+           class="text-moss font-semibold hover:underline">
+
+          Sign In
+
+        </a>
+
+      </p>
+
+    </div>
+
+  </div>
+
+  <!-- JAVASCRIPT -->
+  <script>
+
+    // PASSWORD TOGGLE
+
+    const togglePassword =
+    document.getElementById("togglePassword");
+
+    const password =
+    document.getElementById("password");
+
+    const eyeIcon =
+    document.getElementById("eyeIcon");
+
+    togglePassword.addEventListener("click", () => {
+
+      if(password.type === "password"){
+
+        password.type = "text";
+
+        eyeIcon.setAttribute(
+          "icon",
+          "lucide:eye-off"
+        );
+
+      }
+
+      else{
+
+        password.type = "password";
+
+        eyeIcon.setAttribute(
+          "icon",
+          "lucide:eye"
+        );
+
+      }
+
+    });
+
+
+
+
+    // SIGNUP FORM
+
+    const signupForm =
+    document.getElementById("signupForm");
+
+    signupForm.addEventListener("submit", async (e) => {
+
+      e.preventDefault();
+
+      const name =
+      document.getElementById("name").value;
+
+      const email =
+      document.getElementById("email").value;
+
+      const phone =
+      document.getElementById("phone").value;
+
+      const password =
+      document.getElementById("password").value;
+
+      const confirmPassword =
+      document.getElementById("confirmPassword").value;
+
+
+      // PASSWORD MATCH CHECK
+
+      if(password !== confirmPassword){
+
+        alert("Passwords do not match ❌");
+
+        return;
+
+      }
+
+
+      const userData = {
+
+        name:name,
+        email:email,
+        phone:phone,
+        password:password
+
+      };
+
+
+      try{
+
+        const response = await fetch(
+          "http://127.0.0.1:5000/register",
+          {
+
+            method:"POST",
+
+            headers:{
+              "Content-Type":"application/json"
+            },
+
+            body:JSON.stringify(userData)
+
+          }
+        );
+
+        const data =
+        await response.json();
+
+        if(data.success){
+
+          alert("Account Created Successfully ✅");
+
+          window.location.href =
+          "./auth.html";
+
+        }
+
+        else{
+
+          alert(data.message);
+
+        }
+
+      }
+
+      catch(error){
+
+        console.log(error);
+
+        alert("Backend Server Error");
+
+      }
+
+    });
+
+  </script>
+
+</body>
+</html>

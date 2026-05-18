@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>KisanYUG | Farmer Pass</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Iconify -->
+  <script src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+
+    :root{
+      --moss:#4F5D2F;
+      --forest:#2D3B2D;
+      --cream:#F5F5DC;
+      --terracotta:#E2725B;
+      --sand:#D2B48C;
+    }
+
+    body{
+      font-family:'Inter',sans-serif;
+      background:var(--cream);
+      color:var(--forest);
+      overflow-x:hidden;
+    }
+
+    .serif{
+      font-family:'Playfair Display',serif;
+    }
+
+    .glass{
+      background:rgba(255,255,255,0.2);
+      backdrop-filter:blur(12px);
+      -webkit-backdrop-filter:blur(12px);
+      border:1px solid rgba(255,255,255,0.3);
+    }
+
+    .hero-bg{
+
+      background:
+      linear-gradient(to right, rgba(245,245,220,0.92), rgba(245,245,220,0.4)),
+      url('https://images.unsplash.com/photo-1500937386664-56d1dfef3854?q=80&w=1600&auto=format&fit=crop');
+
+      background: size 100%;;
+      background-position:center;
+      background-attachment:fixed;
+
+    }
+
+    .input-style{
+      width:100%;
+      padding:14px 18px;
+      border-radius:18px;
+      border:1px solid #d1d5db;
+      outline:none;
+      background:white;
+      transition:0.3s;
+    }
+
+    .input-style:focus{
+      border-color:var(--moss);
+      box-shadow:0 0 0 4px rgba(79,93,47,0.15);
+    }
+
+    .pass-card{
+      background:white;
+      border-radius:40px;
+      overflow:hidden;
+      box-shadow:0 20px 50px rgba(0,0,0,0.12);
+    }
+
+    .btn-main{
+      background:var(--moss);
+      color:white;
+      padding:14px 24px;
+      border-radius:18px;
+      font-weight:700;
+      transition:0.3s;
+    }
+
+    .btn-main:hover{
+      background:var(--forest);
+      transform:translateY(-2px);
+    }
+
+    .btn-outline{
+      border:1px solid #d1d5db;
+      padding:14px 24px;
+      border-radius:18px;
+      font-weight:600;
+      background:white;
+    }
+
+    .btn-outline:hover{
+      background:#f3f4f6;
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <header class="fixed top-0 left-0 w-full z-50 glass border-b border-gray-200">
+
+    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+
+      <!-- Logo -->
+      <div class="flex items-center gap-2">
+
+        <iconify-icon icon="lucide:sprout" class="text-3xl text-[var(--moss)]"></iconify-icon>
+
+        <h1 class="serif text-2xl font-bold">
+          KisanYUG
+        </h1>
+
+      </div>
+
+      <!-- Menu -->
+      <nav class="hidden md:flex items-center gap-8 text-sm uppercase tracking-widest font-semibold">
+
+        <a href="./index.html" class="hover:text-[var(--moss)]">Home</a>
+
+        <a href="./market.html" class="hover:text-[var(--moss)]">Marketplace</a>
+ 
+        <a href="./kisanmarket.html" class="farmer-only hidden text-[var(--moss)]">KisanMarket</a>
+        
+        <a href="./services.html" class="hover:text-[var(--moss)]">Services</a>
+
+
+        <a href="./farmerpass.html" class="text-[var(--moss)] border-b-2 border-[var(--moss)]">
+          Farmer Pass
+        </a>
+
+        <a href="./contact_help.html" class="hover:text-[var(--moss)]">Support</a>
+
+      </nav>
+
+      <!-- Button -->
+      <button class="btn-main hidden md:block">
+        Generate Pass
+      </button>
+
+    </div>
+
+  </header>
+
+  <!-- HERO -->
+  <section class="hero-bg min-h-screen flex items-center pt-24 px-6">
+
+    <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-start">
+
+      <!-- LEFT -->
+      <div>
+
+        <div class="inline-flex items-center gap-2 bg-white/60 border border-gray-200 rounded-full px-4 py-2 text-xs uppercase font-bold mb-6">
+
+          <span class="w-2 h-2 rounded-full bg-[var(--terracotta)] animate-ping"></span>
+
+          Verified Smart Farmer Identity
+
+        </div>
+
+        <h1 class="serif text-5xl md:text-7xl leading-tight mb-6">
+
+          Digital
+          <span class="italic text-[var(--moss)]">Farmer Pass</span>
+
+        </h1>
+
+        <p class="text-lg text-gray-700 leading-relaxed max-w-xl mb-10">
+
+          Generate a secure and verified digital farmer pass
+          with crop details, land information, QR identity,
+          and government support access.
+
+        </p>
+
+        <!-- PASS PREVIEW -->
+        <div id="passCard" class="pass-card ">
+
+          <!-- TOP -->
+          <div class="bg-[var(--forest)] text-white p-8">
+
+            <div class="flex items-center justify-between mb-8">
+
+              <div>
+
+                <div class="text-sm uppercase tracking-widest text-gray-300 mb-2">
+                  Smart Agriculture Identity
+                </div>
+
+                <h2 class="serif text-4xl">
+                  AgriPass
+                </h2>
+
+              </div>
+
+              <iconify-icon icon="lucide:shield-check" class="text-5xl text-green-400"></iconify-icon>
+
+            </div>
+
+            <div class="flex items-center gap-5">
+
+              <div class="w-24 h-24 rounded-3xl bg-white/10 border border-white/20 flex items-center justify-center">
+
+                <iconify-icon icon="lucide:user" class="text-5xl text-white"></iconify-icon>
+
+              </div>
+
+              <div>
+
+                <h3 class="text-3xl font-bold" id="pName">
+                  Farmer: —
+                </h3>
+
+                <p class="text-gray-300 mt-2" id="pVillage">
+                  Village: —
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- DETAILS -->
+          <div class="p-8 grid grid-cols-2 gap-6">
+
+            <div>
+              <p class="text-gray-500 text-sm mb-1">
+                Primary Crop
+              </p>
+
+              <h4 class="font-bold text-lg" id="pCrop">
+                —
+              </h4>
+            </div>
+
+            <div>
+              <p class="text-gray-500 text-sm mb-1">
+                Season
+              </p>
+
+              <h4 class="font-bold text-lg" id="pSeason">
+                —
+              </h4>
+            </div>
+
+            <div>
+              <p class="text-gray-500 text-sm mb-1">
+                Land Area
+              </p>
+
+              <h4 class="font-bold text-lg" id="pArea">
+                —
+              </h4>
+            </div>
+
+            <div>
+              <p class="text-gray-500 text-sm mb-1">
+                Valid Till
+              </p>
+
+              <h4 class="font-bold text-lg" id="pValid">
+                —
+              </h4>
+            </div>
+
+          </div>
+
+          <!-- FOOTER -->
+          <div class="px-8 pb-8 flex items-center justify-between">
+
+            <div class="w-20 h-20 rounded-2xl bg-gray-100 flex items-center justify-center font-bold text-sm">
+              QR
+            </div>
+
+            <div class="bg-[var(--cream)] px-5 py-3 rounded-2xl font-bold">
+              ID : <span id="pId">AGP-000000</span>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- RIGHT -->
+      <div id="formSection"  class="bg-white rounded-[40px] shadow-2xl p-10">
+
+        <div class="mb-8">
+
+          <h2 class="serif text-5xl mb-4">
+            Generate Pass
+          </h2>
+
+          <p class="text-gray-500">
+            Fill all details to create your smart digital farmer identity.
+          </p>
+
+        </div>
+
+        <!-- FORM -->
+        <form id="passForm" class="space-y-6 pt-5" onsubmit="event.preventDefault(); createFarmerPass();">
+
+          <div class="grid md:grid-cols-2 gap-5">
+
+            <div>
+              <label class="block mb-2 font-semibold">
+                Full Name
+              </label>
+
+              <input
+                type="text"
+                id="name"
+                class="input-style"
+                placeholder="Enter farmer name"
+                required
+              >
+            </div>
+
+            <div>
+              <label class="block mb-2 font-semibold">
+                Village / City
+              </label>
+
+              <input
+                type="text"
+                id="village"
+                class="input-style"
+                placeholder="Enter village"
+                required
+              >
+            </div>
+
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-5">
+
+            <div>
+              <label class="block mb-2 font-semibold">
+                Primary Crop
+              </label>
+
+              <select id="crop" class="input-style" required>
+
+                <option value="">Select Crop</option>
+
+                <option>Wheat</option>
+
+                <option>Rice</option>
+
+                <option>Cotton</option>
+
+                <option>Soybean</option>
+
+                <option>Vegetables</option>
+
+              </select>
+            </div>
+
+            <div>
+              <label class="block mb-2 font-semibold">
+                Season
+              </label>
+
+              <select id="season" class="input-style" required>
+
+                <option value="">Select Season</option>
+
+                <option>Kharif</option>
+
+                <option>Rabi</option>
+
+                <option>Zaid</option>
+
+              </select>
+            </div>
+
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-5">
+
+            <div>
+              <label class="block mb-2 font-semibold">
+                Land Area (Acres)
+              </label>
+
+              <input
+                type="number"
+                id="area"
+                class="input-style"
+                placeholder="e.g. 4.5"
+                required
+              >
+            </div>
+
+            <div>
+              <label class="block mb-2 font-semibold">
+                Valid Till
+              </label>
+
+              <input
+                type="date"
+                id="valid"
+                class="input-style"
+                required
+              >
+            </div>
+
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-5">
+
+            <div>
+              <label class="block mb-2 font-semibold">
+                Custom ID
+              </label>
+
+              <input
+                type="text"
+                id="id"
+                class="input-style"
+                placeholder="e.g. MP-2026-001"
+              >
+            </div>
+
+            <div>
+              <label class="block mb-2 font-semibold">
+                QR Text
+              </label>
+
+              <input
+                type="text"
+                id="qrtext"
+                class="input-style"
+                placeholder="QR Information"
+                required
+              >
+            </div>
+
+          </div>
+
+          <!-- BUTTONS -->
+          <div class="flex flex-wrap gap-4 pt-4">
+
+            <button type="submit" class="btn-main">
+              Generate Pass
+            </button>
+
+            <button type="button" class="btn-outline" onclick="window.print()">
+              Print Pass
+            </button>
+
+            <button type="reset" class="btn-outline">
+              Clear
+            </button>
+
+          </div>
+
+        </form>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-[var(--forest)] text-white py-16 px-6 mt-4">
+
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+
+      <div class="flex items-center gap-2">
+
+        <iconify-icon icon="lucide:sprout" class="text-3xl text-[var(--moss)]"></iconify-icon>
+
+        <h2 class="serif text-2xl font-bold">
+          KisanYUG
+        </h2>
+
+      </div>
+
+      <p class="text-gray-400 text-center">
+        © 2026 KisanYUG. Smart Digital Farming Platform.
+      </p>
+
+      <div class="flex items-center gap-4 text-2xl">
+
+        <iconify-icon icon="mdi:facebook"></iconify-icon>
+
+        <iconify-icon icon="mdi:instagram"></iconify-icon>
+
+        <iconify-icon icon="mdi:twitter"></iconify-icon>
+
+      </div>
+
+    </div>
+
+  </footer>
+
+  <!-- JAVASCRIPT -->
+ <script>
+
+  // =========================================
+  // CREATE FARMER PASS
+  // =========================================
+
+  async function createFarmerPass(){
+
+    const farmerData = {
+
+      name: document.getElementById("name").value,
+      village: document.getElementById("village").value,
+      crop: document.getElementById("crop").value,
+      season: document.getElementById("season").value,
+      area: document.getElementById("area").value,
+      valid_till: document.getElementById("valid").value,
+
+      custom_id:
+      document.getElementById("id").value ||
+      "AGP-" + Math.floor(Math.random()*100000),
+
+      qr_text:
+      document.getElementById("qrtext").value
+
+    };
+
+    try{
+
+      const response = await fetch(
+        "http://127.0.0.1:5000/api/farmerpass",
+        {
+          method:"POST",
+
+          headers:{
+            "Content-Type":"application/json"
+          },
+
+          body:JSON.stringify(farmerData),
+
+          credentials:"include"
+        }
+      );
+
+      const data = await response.json();
+
+      // =========================================
+      // SUCCESS
+      // =========================================
+
+      if(data.success){
+
+        // UPDATE PASS DETAILS
+        document.getElementById("pName").innerText =
+        "Farmer: " + farmerData.name;
+
+        document.getElementById("pVillage").innerText =
+        "Village: " + farmerData.village;
+
+        document.getElementById("pCrop").innerText =
+        farmerData.crop;
+
+        document.getElementById("pSeason").innerText =
+        farmerData.season;
+
+        document.getElementById("pArea").innerText =
+        farmerData.area + " Acres";
+
+        document.getElementById("pValid").innerText =
+        farmerData.valid_till;
+
+        document.getElementById("pId").innerText =
+        farmerData.custom_id;
+
+        // HIDE FORM
+        document.getElementById("formSection")
+        .classList.add("hidden");
+
+        // MOVE PASS CARD TO RIGHT SIDE
+        document.getElementById("formSection")
+        .insertAdjacentElement(
+          "afterend",
+          document.getElementById("passCard")
+        );
+
+        // SHOW PASS CARD
+        document.getElementById("passCard")
+        .classList.remove("hidden");
+
+        // CENTER PASS
+        document.getElementById("passCard")
+        .style.margin = "0 auto";
+
+        document.querySelectorAll(".farmer-only").forEach(link => {
+
+          link.classList.remove("hidden");
+
+        });
+
+        alert(data.message);
+
+      }
+
+      else{
+
+        alert(data.error || data.message);
+
+      }
+
+    }
+
+    catch(err){
+
+      console.error("Backend Error:", err);
+
+      alert("Backend से connect नहीं हो पाया");
+
+    }
+
+  }
+
+  // =========================================
+  // LOAD EXISTING PASS
+  // =========================================
+
+  window.addEventListener(
+    "DOMContentLoaded",
+    async () => {
+
+      try{
+
+        const response = await fetch(
+          "http://127.0.0.1:5000/api/my-pass",
+          {
+            method:"GET",
+            credentials:"include"
+          }
+        );
+
+        const data = await response.json();
+
+        if(data.success){
+
+          const pass = data.pass;
+
+          // UPDATE PASS DETAILS
+          document.getElementById("pName").innerText =
+          "Farmer: " + pass.name;
+
+          document.getElementById("pVillage").innerText =
+          "Village: " + pass.village;
+
+          document.getElementById("pCrop").innerText =
+          pass.crop;
+
+          document.getElementById("pSeason").innerText =
+          pass.season;
+
+          document.getElementById("pArea").innerText =
+          pass.area + " Acres";
+
+          document.getElementById("pValid").innerText =
+          pass.valid_till;
+
+          document.getElementById("pId").innerText =
+          pass.custom_id;
+
+          // HIDE FORM
+          document.getElementById("formSection")
+          .classList.add("hidden");
+
+          // MOVE PASS CARD TO RIGHT SIDE
+          document.getElementById("formSection")
+          .insertAdjacentElement(
+            "afterend",
+            document.getElementById("passCard")
+          );
+
+          // SHOW PASS
+          document.getElementById("passCard")
+          .classList.remove("hidden");
+
+          // CENTER PASS
+          document.getElementById("passCard")
+          .style.margin = "0 auto";
+
+        }
+
+      }
+
+      catch(error){
+
+        console.log(error);
+
+      }
+
+    }
+
+  );
+
+</script>
+
+
+  <script>
+async function updateFarmerOnlyLinks(){
+  const apiBase = location.port === "5000" ? "" : "http://127.0.0.1:5000";
+
+  try{
+    const response = await fetch(`${apiBase}/check-login`, {
+      credentials:"include"
+    });
+
+    const data = await response.json();
+
+    if(data.loggedIn && data.hasFarmerPass){
+      document.querySelectorAll(".farmer-only").forEach(link => {
+        link.classList.remove("hidden");
+      });
+    }
+  }
+  catch(error){
+    console.log("Farmer status check failed", error);
+  }
+}
+
+updateFarmerOnlyLinks();
+  </script>
+</body>
+</html>

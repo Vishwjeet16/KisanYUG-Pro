@@ -1,0 +1,2064 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>kisanYUG | Smart Farmer Marketplace</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Iconify -->
+  <script src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
+  <style>
+
+    :root{
+      --moss:#4F5D2F;
+      --forest:#2D3B2D;
+      --cream:#F5F5DC;
+      --terracotta:#E2725B;
+    }
+
+    body{
+      font-family:'Inter',sans-serif;
+      background:var(--cream);
+      overflow-x:hidden;
+    }
+
+    .serif{
+      font-family:'Playfair Display',serif;
+    }
+
+    .glass{
+      background:rgba(255,255,255,0.4);
+      backdrop-filter:blur(10px);
+      -webkit-backdrop-filter:blur(10px);
+      border:1px solid rgba(255,255,255,0.3);
+    }
+
+    .product-card img{
+      transition:0.5s;
+    }
+
+    #productGrid{
+      align-items:stretch;
+    }
+
+    .product-card{
+      display:flex;
+      flex-direction:column;
+      height:100%;
+    }
+
+    .product-card > .p-6{
+      display:flex;
+      flex:1;
+      flex-direction:column;
+    }
+
+    .product-card > .p-6 > .grid.grid-cols-2.gap-3,
+    .product-card > .p-6 > div:last-child:has(button){
+      margin-top:auto;
+    }
+
+    .product-card:hover img{
+      transform:scale(1.08);
+    }
+
+    .pulse{
+      animation:pulse 2s infinite;
+    }
+
+    .product-card .grid.grid-cols-2.gap-3:has(.farmer-only.hidden){
+      grid-template-columns:1fr;
+    }
+
+    @keyframes pulse{
+      0%{
+        box-shadow:0 0 0 0 rgba(79,93,47,0.4);
+      }
+      70%{
+        box-shadow:0 0 0 15px rgba(79,93,47,0);
+      }
+      100%{
+        box-shadow:0 0 0 0 rgba(79,93,47,0);
+      }
+    }
+
+  </style>
+</head>
+
+<body class="pt-20">
+
+  <!-- NAVBAR -->
+  <nav class="fixed top-0 left-0 w-full z-50 glass border-b border-gray-200">
+
+    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+
+      <!-- LOGO -->
+      <a href="./index.html" class="flex items-center gap-2">
+
+        <iconify-icon
+          icon="lucide:sprout"
+          class="text-3xl text-[var(--moss)]"
+        ></iconify-icon>
+
+        <span class="serif text-2xl font-bold">
+          KisanYUG
+        </span>
+
+      </a>
+
+      <!-- SEARCH -->
+      <div class="hidden md:block flex-1 max-w-xl mx-8 relative">
+
+        <input
+          id="marketSearch"
+          type="text"
+          placeholder="Search vegetables, honey, grains..."
+          class="w-full rounded-full border border-gray-200 bg-white/70 py-3 pl-12 pr-4 outline-none focus:ring-2 focus:ring-[var(--moss)]"
+        >
+
+        <iconify-icon
+          icon="lucide:search"
+          class="absolute left-4 top-3.5 text-gray-400 text-xl"
+        ></iconify-icon>
+
+      </div>
+
+      <!-- MENU -->
+      <div class="flex items-center gap-6">
+
+        <!-- HOME PAGE LINK -->
+        <a
+          href="./index.html"
+          class="font-semibold hover:text-[var(--moss)] transition"
+        >
+          Home
+        </a>
+
+        <!-- MARKET -->
+        <a
+          href="./market.html"
+          class="text-[var(--moss)] border-b-2 border-[var(--moss)]"
+        >
+          Marketplace
+        </a>
+
+        <!-- <a href="./sell.html" class="farmer-only hidden font-semibold hover:text-[var(--moss)] transition">Sell</a> -->
+
+        <a href="./orders.html" class="font-semibold hover:text-[var(--moss)] transition">My Orders</a>
+
+        <!-- <a href="./kisanmarket.html" class="farmer-only hidden font-semibold hover:text-[var(--moss)] transition">KisanMarket</a> -->
+
+        <a href="./services.html" class="font-semibold hover:text-[var(--moss)] transition">Services</a>
+
+        <a href="./farmerpass.html" class="font-semibold hover:text-[var(--moss)] transition">
+          Farmer Pass
+        </a>
+
+        <!-- SUPPORT -->
+        <a
+          href="./contact_help.html"
+          class="font-semibold hover:text-[var(--moss)] transition"
+        >
+          Support
+        </a>
+
+        <!-- <div id="authButtons" class="flex items-center gap-3">
+          <a
+            href="./auth.html"
+            id="loginBtn"
+            class="font-semibold hover:text-[var(--moss)] transition"
+          >
+            Sign In
+          </a>
+
+          <button
+            id="logoutBtn"
+            type="button"
+            class="hidden bg-red-500 text-white px-4 py-2 rounded-full font-semibold"
+          >
+            Logout
+          </button>
+        </div>         -->
+
+        <!-- CART -->
+        <button id="MEcart" type="button" class="relative cursor-pointer" aria-label="Open cart">
+
+          <iconify-icon
+            icon="lucide:shopping-cart"
+            class="text-3xl text-gray-700"
+          ></iconify-icon>
+
+          <span id="cartCount" class="absolute -top-1 -right-1 bg-[var(--terracotta)] text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold">0</span>
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </nav>
+
+  <!-- MAIN -->
+  <div class="max-w-7xl mx-auto px-6 py-8 flex gap-8">
+
+    <!-- SIDEBAR -->
+    <aside class="hidden lg:block w-72 shrink-0">
+
+      <div class="sticky top-28 space-y-8">
+
+        <!-- CATEGORY -->
+        <div>
+
+          <h3 class="font-bold uppercase text-sm tracking-widest mb-4">
+            Categories
+          </h3>
+
+          <div class="space-y-3">
+
+            <label class="flex items-center gap-3 cursor-pointer">
+              <input type="checkbox" checked class="category-filter accent-[var(--moss)]" value="all">
+              <span>All Products</span>
+            </label>
+
+            <label class="flex items-center gap-3 cursor-pointer">
+              <input type="checkbox" class="category-filter accent-[var(--moss)]" value="vegetables">
+              <span>Vegetables</span>
+            </label>
+
+            <label class="flex items-center gap-3 cursor-pointer">
+              <input type="checkbox" class="category-filter accent-[var(--moss)]" value="fruits">
+              <span>Organic Fruits</span>
+            </label>
+
+            <label class="flex items-center gap-3 cursor-pointer">
+              <input type="checkbox" class="category-filter accent-[var(--moss)]" value="dairy">
+              <span>Dairy Products</span>
+            </label>
+
+          </div>
+
+        </div>
+
+        <!-- IMPACT CARD -->
+        <div class="bg-[var(--forest)] text-white rounded-3xl p-6">
+
+          <h4 class="serif text-2xl mb-3">
+            Sustainable Impact
+          </h4>
+
+          <p id="impactText" class="text-sm text-gray-300 mb-5">
+            Your shopping saved 4.2kg COÃ¢â€šâ€š this week Ã°Å¸Å’Â±
+          </p>
+
+          <div class="w-full h-2 rounded-full bg-gray-700 overflow-hidden mb-3">
+            <div id="impactProgress" class="bg-green-500 h-full w-[0%] transition-all duration-500"></div>
+          </div>
+
+          <p id="impactGoalText" class="text-xs text-green-400 font-bold">
+            70% Weekly Goal Completed
+          </p>
+
+        </div>
+
+      </div>
+
+    </aside>
+
+    <!-- PRODUCTS -->
+    <main class="flex-1">
+
+      <!-- TOP BAR -->
+      <div class="flex flex-wrap items-center justify-between gap-4 mb-8">
+
+        <h1 class="serif text-4xl">
+          Fresh Marketplace
+        </h1>
+
+        <select
+          id="marketSort"
+          class="rounded-xl border border-gray-200 px-4 py-3 bg-white outline-none rounded-full "
+        >
+          <option class="rounded" value="popular">Sort by Popularity</option>
+          <option class="" value="price-low">Lowest Price</option>
+          <option value="rating-high">Highest Rating</option>
+        </select>
+
+      </div>
+
+      <!-- PRODUCT GRID -->
+      <div id="productGrid" class="grid sm:grid-cols-2 xl:grid-cols-3 gap-8">
+
+        <!-- PRODUCT -->
+       <div class="product-card bg-white rounded-[30px] overflow-hidden shadow hover:shadow-2xl transition">
+
+          <div class="relative aspect-square overflow-hidden">
+
+            <img
+              src="https://images.unsplash.com/photo-1587049352851-8d4e89133924?q=80&w=1200&auto=format&fit=crop"
+              class="w-full h-full object-cover"
+              alt="Honey"
+            >
+
+          </div>
+
+          <div class="p-6">
+
+            <div class="flex justify-between mb-3">
+
+              <div>
+                <h3 class="font-bold text-xl">
+                  Raw Honey
+                </h3>
+
+                <p class="text-sm text-gray-500">
+                  Mountain Bee Farm
+                </p>
+              </div>
+
+              <div class="text-right">
+
+                <h4 class="font-bold text-[var(--moss)]">
+                  Rs 120
+                </h4>
+
+                <p class="text-xs text-gray-400">
+                  500g
+                </p>
+
+              </div>
+
+            </div>
+
+            <div class="grid grid-cols-1 gap-3">
+
+              <button class="w-full bg-[var(--moss)] hover:bg-[var(--forest)] transition text-white py-3 rounded-xl font-bold">
+
+                Add To Cart
+
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- PRODUCT -->
+        <div class="product-card bg-white rounded-[30px] overflow-hidden shadow hover:shadow-2xl transition">
+
+          <div class="relative aspect-square overflow-hidden">
+
+            <img
+              src="https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=1200&auto=format&fit=crop"
+              class="w-full h-full object-cover"
+              alt="Bread"
+            >
+
+          </div>
+
+          <div class="p-6">
+
+            <div class="flex justify-between mb-3">
+
+              <div>
+                <h3 class="font-bold text-xl">
+                  Sourdough Bread
+                </h3>
+
+                <p class="text-sm text-gray-500">
+                  Fresh Bakery
+                </p>
+              </div>
+
+              <div class="text-right">
+
+                <h4 class="font-bold text-[var(--moss)]">
+                  Rs 80
+                </h4>
+
+              </div>
+
+            </div>
+
+            <div class="grid grid-cols-1 gap-3">
+
+              <button class="w-full bg-[var(--moss)] hover:bg-[var(--forest)] transition text-white py-3 rounded-xl font-bold">
+
+                Add To Cart
+
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- PRODUCT -->
+        <div class="product-card bg-white rounded-[30px] overflow-hidden shadow hover:shadow-2xl transition">
+
+          <div class="relative aspect-square overflow-hidden">
+
+            <img
+              src="https://images.unsplash.com/photo-1519996529931-28324d5a630e?q=80&w=1200&auto=format&fit=crop"
+              class="w-full h-full object-cover"
+              alt="Eggs"
+            >
+
+          </div>
+
+          <div class="p-6">
+
+            <h3 class="font-bold text-xl mb-2">
+              Organic Eggs
+            </h3>
+
+            <p class="text-sm text-gray-500 mb-5">
+              Sunny Farm
+            </p>
+
+            <div class="grid grid-cols-1 gap-3">
+
+              <button class="w-full bg-[var(--moss)] hover:bg-[var(--forest)] transition text-white py-3 rounded-xl font-bold">
+
+                Add To Cart - Rs 65
+
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- PRODUCT -->
+        <div class="product-card bg-white rounded-[30px] overflow-hidden shadow hover:shadow-2xl transition">
+
+          <div class="relative aspect-square overflow-hidden">
+
+            <img
+              src="https://images.unsplash.com/photo-1464965911861-746a04b4bca6?q=80&w=1200&auto=format&fit=crop"
+              class="w-full h-full object-cover"
+              alt="Strawberry"
+            >
+
+          </div>
+
+          <div class="p-6">
+
+            <h3 class="font-bold text-xl mb-2">
+              Strawberries
+            </h3>
+
+            <p class="text-sm text-gray-500 mb-5">
+              Berry Farm
+            </p>
+
+            <div class="grid grid-cols-1 gap-3">
+
+              <button class="w-full bg-[var(--moss)] hover:bg-[var(--forest)] transition text-white py-3 rounded-xl font-bold">
+
+                Add To Cart - Rs 52
+
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- PRODUCT -->
+        <div class="product-card bg-white rounded-[30px] overflow-hidden shadow hover:shadow-2xl transition">
+
+          <div class="relative aspect-square overflow-hidden">
+
+            <img
+              src="https://images.unsplash.com/photo-1576045057995-568f588f82fb?q=80&w=1200&auto=format&fit=crop"
+              class="w-full h-full object-cover"
+              alt="Kale"
+            >
+
+          </div>
+
+          <div class="p-6">
+
+            <h3 class="font-bold text-xl mb-2">
+              Fresh Kale
+            </h3>
+
+            <p class="text-sm text-gray-500 mb-5">
+              Green Valley
+            </p>
+
+            <div class="grid grid-cols-1 gap-3">
+
+              <button class="w-full bg-[var(--moss)] hover:bg-[var(--forest)] transition text-white py-3 rounded-xl font-bold">
+
+                Add To Cart - Rs 38
+
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="product-card bg-white rounded-[30px] overflow-hidden shadow hover:shadow-2xl transition">
+
+          <div class="relative aspect-square overflow-hidden">
+
+            <img
+              src="https://images.unsplash.com/photo-1587049352851-8d4e89133924?q=80&w=1200&auto=format&fit=crop"
+              class="w-full h-full object-cover"
+              alt="Honey"
+            >
+
+          </div>
+
+          <div class="p-6">
+
+            <div class="flex justify-between mb-3">
+
+              <div>
+                <h3 class="font-bold text-xl">
+                  Raw Honey
+                </h3>
+
+                <p class="text-sm text-gray-500">
+                  Mountain Bee Farm
+                </p>
+              </div>
+
+              <div class="text-right">
+
+                <h4 class="font-bold text-[var(--moss)]">
+                  Rs 120
+                </h4>
+
+                <p class="text-xs text-gray-400">
+                  500g
+                </p>
+
+              </div>
+
+            </div>
+
+            <div class="grid grid-cols-1 gap-3">
+
+              <button class="w-full bg-[var(--moss)] hover:bg-[var(--forest)] transition text-white py-3 rounded-xl font-bold">
+
+                Add To Cart
+
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- PRODUCT -->
+        <div class="product-card bg-white rounded-[30px] overflow-hidden shadow hover:shadow-2xl transition">
+
+          <div class="relative aspect-square overflow-hidden">
+
+            <img
+              src="https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=1200&auto=format&fit=crop"
+              class="w-full h-full object-cover"
+              alt="Bread"
+            >
+
+          </div>
+
+          <div class="p-6">
+
+            <div class="flex justify-between mb-3">
+
+              <div>
+                <h3 class="font-bold text-xl">
+                  Sourdough Bread
+                </h3>
+
+                <p class="text-sm text-gray-500">
+                  Fresh Bakery
+                </p>
+              </div>
+
+              <div class="text-right">
+
+                <h4 class="font-bold text-[var(--moss)]">
+                  Rs 80
+                </h4>
+
+              </div>
+
+            </div>
+
+            <div class="grid grid-cols-1 gap-3">
+
+              <button class="w-full bg-[var(--moss)] hover:bg-[var(--forest)] transition text-white py-3 rounded-xl font-bold">
+
+                Add To Cart
+
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- PRODUCT -->
+        <div class="product-card bg-white rounded-[30px] overflow-hidden shadow hover:shadow-2xl transition">
+
+          <div class="relative aspect-square overflow-hidden">
+
+            <img
+              src="https://images.unsplash.com/photo-1519996529931-28324d5a630e?q=80&w=1200&auto=format&fit=crop"
+              class="w-full h-full object-cover"
+              alt="Eggs"
+            >
+
+          </div>
+
+          <div class="p-6">
+
+            <h3 class="font-bold text-xl mb-2">
+              Organic Eggs
+            </h3>
+
+            <p class="text-sm text-gray-500 mb-5">
+              Sunny Farm
+            </p>
+
+            <div class="grid grid-cols-1 gap-3">
+
+              <button class="w-full bg-[var(--moss)] hover:bg-[var(--forest)] transition text-white py-3 rounded-xl font-bold">
+
+                Add To Cart - Rs 65
+
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- PRODUCT -->
+        <div class="product-card bg-white rounded-[30px] overflow-hidden shadow hover:shadow-2xl transition">
+
+          <div class="relative aspect-square overflow-hidden">
+
+            <img
+              src="https://images.unsplash.com/photo-1464965911861-746a04b4bca6?q=80&w=1200&auto=format&fit=crop"
+              class="w-full h-full object-cover"
+              alt="Strawberry"
+            >
+
+          </div>
+
+          <div class="p-6">
+
+            <h3 class="font-bold text-xl mb-2">
+              Strawberries
+            </h3>
+
+            <p class="text-sm text-gray-500 mb-5">
+              Berry Farm
+            </p>
+
+            <div class="grid grid-cols-1 gap-3">
+
+              <button class="w-full bg-[var(--moss)] hover:bg-[var(--forest)] transition text-white py-3 rounded-xl font-bold">
+
+                Add To Cart - Rs 52
+
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- PRODUCT -->
+        <div class="product-card bg-white rounded-[30px] overflow-hidden shadow hover:shadow-2xl transition">
+
+          <div class="relative aspect-square overflow-hidden">
+
+            <img
+              src="https://images.unsplash.com/photo-1576045057995-568f588f82fb?q=80&w=1200&auto=format&fit=crop"
+              class="w-full h-full object-cover"
+              alt="Kale"
+            >
+
+          </div>
+
+          <div class="p-6">
+
+            <h3 class="font-bold text-xl mb-2">
+              Fresh Kale
+            </h3>
+
+            <p class="text-sm text-gray-500 mb-5">
+              Green Valley
+            </p>
+
+            <div class="grid grid-cols-1 gap-3">
+
+              <button class="w-full bg-[var(--moss)] hover:bg-[var(--forest)] transition text-white py-3 rounded-xl font-bold">
+
+                Add To Cart - Rs 38
+
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- PRODUCT -->
+        <div class="product-card bg-white rounded-[30px] overflow-hidden shadow hover:shadow-2xl transition">
+
+          <div class="relative aspect-square overflow-hidden">
+
+            <img
+              src="https://images.unsplash.com/photo-1519996529931-28324d5a630e?q=80&w=1200&auto=format&fit=crop"
+              class="w-full h-full object-cover"
+              alt="Eggs"
+            >
+
+          </div>
+
+          <div class="p-6">
+
+            <h3 class="font-bold text-xl mb-2">
+              Organic Eggs
+            </h3>
+
+            <p class="text-sm text-gray-500 mb-5">
+              Sunny Farm
+            </p>
+
+            <div class="grid grid-cols-1 gap-3">
+
+              <button class="w-full bg-[var(--moss)] hover:bg-[var(--forest)] transition text-white py-3 rounded-xl font-bold">
+
+                Add To Cart - Rs 65
+
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- PRODUCT -->
+        <div class="product-card bg-white rounded-[30px] overflow-hidden shadow hover:shadow-2xl transition">
+
+          <div class="relative aspect-square overflow-hidden">
+
+            <img
+              src="https://images.unsplash.com/photo-1464965911861-746a04b4bca6?q=80&w=1200&auto=format&fit=crop"
+              class="w-full h-full object-cover"
+              alt="Strawberry"
+            >
+
+          </div>
+
+          <div class="p-6">
+
+            <h3 class="font-bold text-xl mb-2">
+              Strawberries
+            </h3>
+
+            <p class="text-sm text-gray-500 mb-5">
+              Berry Farm
+            </p>
+
+            <div class="grid grid-cols-1 gap-3">
+
+              <button class="w-full bg-[var(--moss)] hover:bg-[var(--forest)] transition text-white py-3 rounded-xl font-bold">
+
+                Add To Cart - Rs 52
+
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- PRODUCT -->
+        <div class="product-card bg-white rounded-[30px] overflow-hidden shadow hover:shadow-2xl transition">
+
+          <div class="relative aspect-square overflow-hidden">
+
+            <img
+              src="https://images.unsplash.com/photo-1576045057995-568f588f82fb?q=80&w=1200&auto=format&fit=crop"
+              class="w-full h-full object-cover"
+              alt="Kale"
+            >
+
+          </div>
+
+          <div class="p-6">
+
+            <h3 class="font-bold text-xl mb-2">
+              Fresh Kale
+            </h3>
+
+            <p class="text-sm text-gray-500 mb-5">
+              Green Valley
+            </p>
+
+            <div class="grid grid-cols-1 gap-3">
+
+              <button class="w-full bg-[var(--moss)] hover:bg-[var(--forest)] transition text-white py-3 rounded-xl font-bold">
+
+                Add To Cart - Rs 38
+
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="product-card bg-white rounded-[30px] overflow-hidden shadow hover:shadow-2xl transition">
+
+          <div class="relative aspect-square overflow-hidden">
+
+            <img
+              src="https://images.unsplash.com/photo-1587049352851-8d4e89133924?q=80&w=1200&auto=format&fit=crop"
+              class="w-full h-full object-cover"
+              alt="Honey"
+            >
+
+          </div>
+
+          <div class="p-6">
+
+            <div class="flex justify-between mb-3">
+
+              <div>
+                <h3 class="font-bold text-xl">
+                  Raw Honey
+                </h3>
+
+                <p class="text-sm text-gray-500">
+                  Mountain Bee Farm
+                </p>
+              </div>
+
+              <div class="text-right">
+
+                <h4 class="font-bold text-[var(--moss)]">
+                  Rs 120
+                </h4>
+
+                <p class="text-xs text-gray-400">
+                  500g
+                </p>
+
+              </div>
+
+            </div>
+
+            <div class="grid grid-cols-1 gap-3">
+
+              <button class="w-full bg-[var(--moss)] hover:bg-[var(--forest)] transition text-white py-3 rounded-xl font-bold">
+
+                Add To Cart
+
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- PRODUCT -->
+        <div class="product-card bg-white rounded-[30px] overflow-hidden shadow hover:shadow-2xl transition">
+
+          <div class="relative aspect-square overflow-hidden">
+
+            <img
+              src="https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=1200&auto=format&fit=crop"
+              class="w-full h-full object-cover"
+              alt="Bread"
+            >
+
+          </div>
+
+          <div class="p-6">
+
+            <div class="flex justify-between mb-3">
+
+              <div>
+                <h3 class="font-bold text-xl">
+                  Sourdough Bread
+                </h3>
+
+                <p class="text-sm text-gray-500">
+                  Fresh Bakery
+                </p>
+              </div>
+
+              <div class="text-right">
+
+                <h4 class="font-bold text-[var(--moss)]">
+                  Rs 80
+                </h4>
+
+              </div>
+
+            </div>
+
+            <div class="grid grid-cols-1 gap-3">
+
+              <button class="w-full bg-[var(--moss)] hover:bg-[var(--forest)] transition text-white py-3 rounded-xl font-bold">
+
+                Add To Cart
+
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- PRODUCT -->
+        <div class="product-card bg-white rounded-[30px] overflow-hidden shadow hover:shadow-2xl transition">
+
+          <div class="relative aspect-square overflow-hidden">
+
+            <img
+              src="https://images.unsplash.com/photo-1519996529931-28324d5a630e?q=80&w=1200&auto=format&fit=crop"
+              class="w-full h-full object-cover"
+              alt="Eggs"
+            >
+
+          </div>
+
+          <div class="p-6">
+
+            <h3 class="font-bold text-xl mb-2">
+              Organic Eggs
+            </h3>
+
+            <p class="text-sm text-gray-500 mb-5">
+              Sunny Farm
+            </p>
+
+            <div class="grid grid-cols-1 gap-3">
+
+              <button class="w-full bg-[var(--moss)] hover:bg-[var(--forest)] transition text-white py-3 rounded-xl font-bold">
+
+                Add To Cart - Rs 65
+
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- PRODUCT -->
+        <div class="product-card bg-white rounded-[30px] overflow-hidden shadow hover:shadow-2xl transition">
+
+          <div class="relative aspect-square overflow-hidden">
+
+            <img
+              src="https://images.unsplash.com/photo-1464965911861-746a04b4bca6?q=80&w=1200&auto=format&fit=crop"
+              class="w-full h-full object-cover"
+              alt="Strawberry"
+            >
+
+          </div>
+
+          <div class="p-6">
+
+            <h3 class="font-bold text-xl mb-2">
+              Strawberries
+            </h3>
+
+            <p class="text-sm text-gray-500 mb-5">
+              Berry Farm
+            </p>
+
+            <div class="grid grid-cols-1 gap-3">
+
+              <button class="w-full bg-[var(--moss)] hover:bg-[var(--forest)] transition text-white py-3 rounded-xl font-bold">
+
+                Add To Cart - Rs 52
+
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- PRODUCT -->
+        <div class="product-card bg-white rounded-[30px] overflow-hidden shadow hover:shadow-2xl transition">
+
+          <div class="relative aspect-square overflow-hidden">
+
+            <img
+              src="https://images.unsplash.com/photo-1576045057995-568f588f82fb?q=80&w=1200&auto=format&fit=crop"
+              class="w-full h-full object-cover"
+              alt="Kale"
+            >
+
+          </div>
+
+          <div class="p-6">
+
+            <h3 class="font-bold text-xl mb-2">
+              Fresh Kale
+            </h3>
+
+            <p class="text-sm text-gray-500 mb-5">
+              Green Valley
+            </p>
+
+            <div class="grid grid-cols-1 gap-3">
+
+              <button class="w-full bg-[var(--moss)] hover:bg-[var(--forest)] transition text-white py-3 rounded-xl font-bold">
+
+                Add To Cart - Rs 38
+
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        
+
+      </div>
+
+    </main>
+
+  </div>
+  <!-- CART SIDE PANEL -->
+  <div id="cartOverlay" class="hidden fixed inset-0 bg-black/40 z-[60]"></div>
+
+  <aside
+    id="cartDrawer"
+    class="fixed top-0 right-0 h-full w-full max-w-md bg-white z-[70] shadow-2xl translate-x-full transition-transform duration-300 flex flex-col"
+    aria-label="Shopping cart"
+  >
+
+    <div class="bg-[var(--forest)] text-white p-5 flex items-center justify-between">
+
+      <div>
+        <h2 class="serif text-2xl">My Cart</h2>
+        <p class="text-sm text-white/70">Saved marketplace products</p>
+      </div>
+
+      <button id="closeCart" type="button" class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center" aria-label="Close cart">
+        <iconify-icon icon="lucide:x" class="text-2xl"></iconify-icon>
+      </button>
+
+    </div>
+
+    <div id="cartItems" class="flex-1 overflow-y-auto p-5 space-y-4"></div>
+
+    <div class="border-t p-5 bg-gray-50">
+      <div class="flex items-center justify-between mb-4">
+        <span class="font-bold text-gray-700">Total</span>
+        <span id="cartTotal" class="font-bold text-xl text-[var(--moss)]">Rs 0</span>
+      </div>
+
+      <button id="clearCart" type="button" class="w-full border-2 border-red-400 text-red-500 hover:bg-red-500 hover:text-white transition py-3 rounded-xl font-bold">
+        Clear Cart
+      </button>
+
+      <button id="purchaseCart" type="button" class="w-full bg-[var(--moss)] hover:bg-[var(--forest)] text-white transition py-3 rounded-xl font-bold mt-3">
+        Purchase Now
+      </button>
+    </div>
+
+  </aside>
+
+  <!-- ORDER SUCCESS MODAL -->
+  <div id="orderSuccessModal" class="hidden fixed inset-0 bg-black/50 z-[80] items-center justify-center px-4">
+    <div class="bg-white rounded-[28px] shadow-2xl max-w-md w-full overflow-hidden">
+      <div class="bg-[var(--forest)] text-white p-6 text-center">
+        <div class="w-16 h-16 rounded-full bg-green-500 mx-auto mb-4 flex items-center justify-center">
+          <iconify-icon icon="lucide:check" class="text-4xl"></iconify-icon>
+        </div>
+        <h2 class="serif text-3xl">Order Placed</h2>
+        <p class="text-white/70 text-sm mt-1">Your purchase has been saved successfully.</p>
+      </div>
+
+      <div class="p-6">
+        <div class="space-y-3 mb-6">
+          <div class="flex justify-between gap-4">
+            <span class="text-gray-500">Order ID</span>
+            <span id="successOrderId" class="font-bold text-right break-all"></span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-gray-500">Items</span>
+            <span id="successOrderItems" class="font-bold"></span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-gray-500">Total</span>
+            <span id="successOrderTotal" class="font-bold text-[var(--moss)]"></span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <a href="./orders.html" class="text-center bg-[var(--moss)] hover:bg-[var(--forest)] text-white py-3 rounded-xl font-bold transition">
+            View Orders
+          </a>
+          <button id="closeOrderSuccess" type="button" class="border-2 border-[var(--moss)] text-[var(--moss)] hover:bg-[var(--moss)] hover:text-white py-3 rounded-xl font-bold transition">
+            Continue
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FLOATING CHAT BUTTON -->
+  <button
+    id="chatBtn"
+    class="fixed bottom-8 right-8 w-16 h-16 rounded-full bg-[var(--moss)] text-white flex items-center justify-center shadow-2xl pulse hover:scale-110 transition z-50"
+  >
+
+    <iconify-icon
+      icon="lucide:bot"
+      class="text-3xl"
+    ></iconify-icon>
+
+  </button>
+
+  <!-- CHAT BOX -->
+ <!-- CHAT BOT -->
+  <div class="fixed bottom-8 right-8 z-50">
+
+    <!-- Toggle -->
+    <button
+      id="chatBtn"
+      class="w-16 h-16 rounded-full bg-[var(--moss)] text-white flex items-center justify-center shadow-2xl pulse-ai hover:scale-110 transition"
+    >
+      <iconify-icon icon="lucide:bot" class="text-3xl"></iconify-icon>
+    </button>
+
+    <!-- Chat Window -->
+    <div
+      id="chatWindow"
+      class="hidden absolute bottom-20 right-0 w-[360px] h-[500px] glass rounded-3xl overflow-hidden shadow-2xl flex flex-col"
+    >
+
+      <!-- Header -->
+      <div class="p-5 border-b flex items-center justify-between">
+
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-[var(--moss)] text-white flex items-center justify-center">
+            <iconify-icon icon="lucide:zap"></iconify-icon>
+          </div>
+
+          <div>
+            <h4 class="font-bold">Terra AI</h4>
+            <p class="text-xs text-green-600">Online</p>
+          </div>
+        </div>
+
+        <button id="closeChat">
+          <iconify-icon icon="lucide:x" class="text-2xl"></iconify-icon>
+        </button>
+
+      </div>
+
+      <!-- Messages -->
+      <div id="chatMessages" class="flex-1 p-5 overflow-y-auto space-y-5">
+
+        <div class="flex gap-3">
+          <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
+            <iconify-icon icon="lucide:bot"></iconify-icon>
+          </div>
+
+          <div class="bg-white p-4 rounded-2xl rounded-tl-none text-sm shadow">
+            Hello ðŸ‘‹ <br>
+            I can help you find fresh organic products.
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Input -->
+      <div class="p-4 border-t bg-white/40">
+
+        <div class="relative">
+          <input
+            id="chatInput"
+            type="text"
+            placeholder="Ask something..."
+            class="w-full rounded-2xl px-4 py-3 pr-12 outline-none"
+          >
+
+          <button id="chatSend" class="absolute right-2 top-2 w-8 h-8 rounded-xl bg-[var(--moss)] text-white flex items-center justify-center">
+            <iconify-icon icon="lucide:arrow-up"></iconify-icon>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT -->
+
+
+  
+  <script>
+
+async function checkLogin(){
+
+  const loginApiBase =
+  location.port === "5000" ? "" : "http://127.0.0.1:5000";
+
+  const response =
+  await fetch(`${loginApiBase}/check-login`, {
+
+    credentials:"include"
+
+  });
+
+  const data =
+  await response.json();
+
+  const loginBtn =
+  document.getElementById("loginBtn");
+
+  const logoutBtn =
+  document.getElementById("logoutBtn");
+
+  if(data.loggedIn){
+
+    loginBtn?.classList.add("hidden");
+
+    logoutBtn?.classList.remove("hidden");
+
+    if(data.hasFarmerPass){
+
+      document.querySelectorAll(".farmer-only").forEach(link => {
+
+        link.classList.remove("hidden");
+
+      });
+
+    }
+    else{
+
+      try{
+
+        const passResponse =
+        await fetch(`${loginApiBase}/api/my-pass`, {
+
+          credentials:"include"
+
+        });
+
+        const passData =
+        await passResponse.json();
+
+        if(passData.success){
+
+          document.querySelectorAll(".farmer-only").forEach(link => {
+
+            link.classList.remove("hidden");
+
+          });
+
+        }
+
+      }
+      catch(error){
+
+        console.log("Farmer pass check failed", error);
+
+      }
+
+    }
+
+  }
+
+  else{
+
+    loginBtn?.classList.remove("hidden");
+
+    logoutBtn?.classList.add("hidden");
+
+  }
+
+}
+
+checkLogin();
+
+if(document.getElementById("logoutBtn")){
+  document.getElementById("logoutBtn").addEventListener("click", async () => {
+    const logoutApiBase =
+    location.port === "5000" ? "" : "http://127.0.0.1:5000";
+
+    const response = await fetch(`${logoutApiBase}/logout`, {
+      method: "POST",
+      credentials: "include"
+    });
+
+    const data = await response.json();
+
+    if(data.success){
+      localStorage.removeItem("user");
+      window.location.reload();
+    }
+  });
+}
+
+const cartKey = "kisanYugCartItems";
+const impactKey = "kisanYugWeeklyImpact";
+const weeklyImpactGoal = 6;
+const cartButton = document.getElementById("MEcart");
+const cartDrawer = document.getElementById("cartDrawer");
+const cartOverlay = document.getElementById("cartOverlay");
+const closeCartButton = document.getElementById("closeCart");
+const clearCartButton = document.getElementById("clearCart");
+const purchaseCartButton = document.getElementById("purchaseCart");
+const cartItemsContainer = document.getElementById("cartItems");
+const cartCount = document.getElementById("cartCount");
+const cartTotal = document.getElementById("cartTotal");
+const productGrid = document.getElementById("productGrid");
+const marketSearch = document.getElementById("marketSearch");
+const marketSort = document.getElementById("marketSort");
+const categoryFilters = document.querySelectorAll(".category-filter");
+const impactText = document.getElementById("impactText");
+const impactProgress = document.getElementById("impactProgress");
+const impactGoalText = document.getElementById("impactGoalText");
+const apiBase = location.port === "5000" ? "" : "http://127.0.0.1:5000";
+const orderSuccessModal = document.getElementById("orderSuccessModal");
+const closeOrderSuccessButton = document.getElementById("closeOrderSuccess");
+const successOrderId = document.getElementById("successOrderId");
+const successOrderItems = document.getElementById("successOrderItems");
+const successOrderTotal = document.getElementById("successOrderTotal");
+
+function getCartItems(){
+
+  return JSON.parse(
+    localStorage.getItem(cartKey) || "[]"
+  );
+
+}
+
+function saveCartItems(items){
+
+  localStorage.setItem(
+    cartKey,
+    JSON.stringify(items)
+  );
+
+}
+
+function priceToNumber(priceText){
+
+  return Number(
+    String(priceText).replace(/[^0-9.]/g, "")
+  ) || 0;
+
+}
+
+function formatRupees(amount){
+
+  return `Rs ${Math.round(Number(amount) || 0)}`;
+
+}
+
+function getWeekKey(){
+
+  const now = new Date();
+  const firstDay = new Date(now.getFullYear(), 0, 1);
+  const dayNumber = Math.floor((now - firstDay) / 86400000) + firstDay.getDay() + 1;
+
+  return `${now.getFullYear()}-${Math.ceil(dayNumber / 7)}`;
+
+}
+
+function getWeeklyImpact(){
+
+  const week = getWeekKey();
+  const data = JSON.parse(localStorage.getItem(impactKey) || "{}");
+
+  if(data.week !== week){
+    return {
+      week,
+      savedKg: 0
+    };
+  }
+
+  return {
+    week,
+    savedKg: Number(data.savedKg) || 0
+  };
+
+}
+
+function saveWeeklyImpact(savedKg){
+
+  localStorage.setItem(
+    impactKey,
+    JSON.stringify({
+      week: getWeekKey(),
+      savedKg
+    })
+  );
+
+}
+
+function estimateItemImpact(item){
+
+  const text = `${item.name || ""} ${item.farm || ""}`.toLowerCase();
+  let impact = 0.35;
+
+  if(text.includes("farmer")){
+    impact += 0.25;
+  }
+
+  if(text.includes("organic") || text.includes("kale") || text.includes("fruit") || text.includes("strawber")){
+    impact += 0.2;
+  }
+
+  return impact * (Number(item.quantity) || 1);
+
+}
+
+function calculateImpact(items){
+
+  return items.reduce((sum, item) => sum + estimateItemImpact(item), 0);
+
+}
+
+function updateImpactDashboard(){
+
+  const impact = getWeeklyImpact();
+  const cartImpact = calculateImpact(getCartItems());
+  const previewTotal = impact.savedKg + cartImpact;
+  const percentage = Math.min(Math.round((previewTotal / weeklyImpactGoal) * 100), 100);
+
+  impactText.textContent = `Your shopping saved ${previewTotal.toFixed(1)}kg CO2 this week`;
+  impactProgress.style.width = `${percentage}%`;
+  impactGoalText.textContent = `${percentage}% Weekly Goal Completed`;
+
+}
+
+function recordPurchasedImpact(items){
+
+  const impact = getWeeklyImpact();
+  const purchasedImpact = calculateImpact(items);
+
+  saveWeeklyImpact(impact.savedKg + purchasedImpact);
+
+}
+
+function getProductData(button){
+
+  const card = button.closest(".product-card");
+  const name = card.querySelector("h3")?.textContent.trim() || "Product";
+  const farm = card.querySelector("p")?.textContent.trim() || "KisanYUG Market";
+  const image = card.querySelector("img")?.src || "";
+  const priceText = card.querySelector("h4")?.textContent.trim() || button.textContent.replace("Add To Cart -", "").trim();
+  const price = priceToNumber(priceText);
+
+  return {
+    id: `${name}-${farm}`.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
+    name,
+    farm,
+    image,
+    price,
+    quantity: 1
+  };
+
+}
+
+function inferProductCategory(text){
+
+  const value = text.toLowerCase();
+
+  if(value.includes("kale") || value.includes("vegetable") || value.includes("tomato") || value.includes("potato") || value.includes("onion") || value.includes("spinach") || value.includes("carrot")){
+    return "vegetables";
+  }
+
+  if(value.includes("strawber") || value.includes("fruit") || value.includes("apple") || value.includes("mango") || value.includes("banana") || value.includes("orange")){
+    return "fruits";
+  }
+
+  if(value.includes("egg") || value.includes("milk") || value.includes("dairy") || value.includes("cheese") || value.includes("paneer") || value.includes("butter")){
+    return "dairy";
+  }
+
+  return "other";
+
+}
+
+function inferProductRating(text){
+
+  const value = text.toLowerCase();
+
+  if(value.includes("organic") || value.includes("farmer crop")){
+    return 4.9;
+  }
+
+  if(value.includes("strawber") || value.includes("honey")){
+    return 4.8;
+  }
+
+  if(value.includes("kale")){
+    return 4.7;
+  }
+
+  if(value.includes("bread")){
+    return 4.6;
+  }
+
+  return 4.5;
+
+}
+
+function inferProductPopularity(text, index){
+
+  const value = text.toLowerCase();
+  let score = 100 - index;
+
+  if(value.includes("farmer crop") || value.includes("organic")){
+    score += 30;
+  }
+
+  if(value.includes("honey") || value.includes("strawber") || value.includes("kale")){
+    score += 18;
+  }
+
+  if(value.includes("bread") || value.includes("egg") || value.includes("milk")){
+    score += 10;
+  }
+
+  return score;
+
+}
+
+function prepareProductCards(){
+
+  Array.from(productGrid.querySelectorAll(".product-card")).forEach((card, index) => {
+    const text = card.textContent;
+    const priceText = card.querySelector("h4")?.textContent || card.querySelector("button")?.textContent || "";
+
+    card.dataset.search = text.toLowerCase();
+    card.dataset.category = card.dataset.category || inferProductCategory(text);
+    card.dataset.rating = card.dataset.rating || String(inferProductRating(text));
+    card.dataset.popularity = card.dataset.popularity || String(inferProductPopularity(text, index));
+    card.dataset.price = String(priceToNumber(priceText));
+  });
+
+}
+
+function getSelectedCategories(){
+
+  return Array.from(categoryFilters)
+    .filter(input => input.checked)
+    .map(input => input.value);
+
+}
+
+function applyMarketFilters(){
+
+  const query = marketSearch.value.trim().toLowerCase();
+  const selectedCategories = getSelectedCategories();
+  const showAllCategories = selectedCategories.includes("all") || selectedCategories.length === 0;
+  const cards = Array.from(productGrid.querySelectorAll(".product-card"));
+
+  const sortCards = (first, second) => {
+    if(marketSort.value === "price-low"){
+      return Number(first.dataset.price) - Number(second.dataset.price);
+    }
+
+    if(marketSort.value === "rating-high"){
+      return Number(second.dataset.rating) - Number(first.dataset.rating);
+    }
+
+    return Number(second.dataset.popularity) - Number(first.dataset.popularity);
+  };
+
+  cards.sort(sortCards).forEach(card => {
+    const matchesSearch = !query || card.dataset.search.includes(query);
+    const matchesCategory = showAllCategories || selectedCategories.includes(card.dataset.category);
+
+    card.classList.toggle("hidden", !(matchesSearch && matchesCategory));
+    productGrid.appendChild(card);
+  });
+
+}
+
+// Search
+
+marketSearch.addEventListener("input", applyMarketFilters);
+marketSort.addEventListener("change", applyMarketFilters);
+categoryFilters.forEach(input => {
+  input.addEventListener("change", () => {
+
+    const allInput = Array.from(categoryFilters).find(category => category.value === "all");
+
+    if(input.value === "all" && input.checked){
+      categoryFilters.forEach(category => {
+        if(category.value !== "all"){
+          category.checked = false;
+        }
+      });
+    }
+
+    if(input.value !== "all" && input.checked && allInput){
+      allInput.checked = false;
+    }
+
+    if(getSelectedCategories().length === 0 && allInput){
+      allInput.checked = true;
+    }
+
+    applyMarketFilters();
+  });
+});
+
+
+
+function renderCart(){
+
+  const items = getCartItems();
+  const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
+  const totalPrice = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+  cartCount.textContent = totalItems;
+  cartTotal.textContent = formatRupees(totalPrice);
+  updateImpactDashboard();
+
+  if(items.length === 0){
+
+    cartItemsContainer.innerHTML = `
+      <div class="h-full flex flex-col items-center justify-center text-center text-gray-500 py-16">
+        <iconify-icon icon="lucide:shopping-basket" class="text-5xl mb-3 text-gray-300"></iconify-icon>
+        <p class="font-bold text-gray-700">Cart is empty</p>
+        <p class="text-sm">Add products from the marketplace.</p>
+      </div>
+    `;
+
+    return;
+
+  }
+
+  cartItemsContainer.innerHTML = items.map(item => `
+    <div class="flex gap-4 border rounded-2xl p-3 bg-white shadow-sm">
+      <img src="${item.image}" alt="${item.name}" class="w-20 h-20 rounded-xl object-cover">
+      <div class="flex-1 min-w-0">
+        <h3 class="font-bold text-gray-900 truncate">${item.name}</h3>
+        <p class="text-sm text-gray-500 truncate">${item.farm}</p>
+        <p class="font-bold text-[var(--moss)] mt-1">${formatRupees(item.price)}</p>
+        <div class="flex items-center justify-between mt-3">
+          <div class="flex items-center gap-2">
+            <button type="button" class="cart-qty w-8 h-8 rounded-full border flex items-center justify-center" data-id="${item.id}" data-action="decrease">-</button>
+            <span class="font-bold min-w-6 text-center">${item.quantity}</span>
+            <button type="button" class="cart-qty w-8 h-8 rounded-full border flex items-center justify-center" data-id="${item.id}" data-action="increase">+</button>
+          </div>
+          <button type="button" class="remove-cart text-red-500 font-bold text-sm" data-id="${item.id}">Remove</button>
+        </div>
+      </div>
+    </div>
+  `).join("");
+
+}
+
+function openCart(){
+
+  cartOverlay.classList.remove("hidden");
+  cartDrawer.classList.remove("translate-x-full");
+
+}
+
+function closeCart(){
+
+  cartDrawer.classList.add("translate-x-full");
+  setTimeout(() => cartOverlay.classList.add("hidden"), 250);
+
+}
+
+function showOrderSuccess(orderId, total, itemCount){
+
+  successOrderId.textContent = orderId;
+  successOrderItems.textContent = itemCount;
+  successOrderTotal.textContent = formatRupees(total);
+  orderSuccessModal.classList.remove("hidden");
+  orderSuccessModal.classList.add("flex");
+
+}
+
+function closeOrderSuccess(){
+
+  orderSuccessModal.classList.add("hidden");
+  orderSuccessModal.classList.remove("flex");
+
+}
+
+function addToCart(button){
+
+  const product = getProductData(button);
+  const items = getCartItems();
+  const existingItem = items.find(item => item.id === product.id);
+
+  if(existingItem){
+
+    existingItem.quantity += 1;
+
+  }
+  else{
+
+    items.push(product);
+
+  }
+
+  saveCartItems(items);
+  renderCart();
+  openCart();
+
+}
+
+document.addEventListener("click", event => {
+
+  const button = event.target.closest(".product-card button");
+
+  if(!button){
+
+    return;
+
+  }
+
+  if(button.textContent.includes("Add To Cart")){
+
+    addToCart(button);
+
+  }
+
+});
+
+cartButton.addEventListener("click", openCart);
+closeCartButton.addEventListener("click", closeCart);
+cartOverlay.addEventListener("click", closeCart);
+clearCartButton.addEventListener("click", () => {
+
+  saveCartItems([]);
+  renderCart();
+
+});
+
+purchaseCartButton.addEventListener("click", async () => {
+
+  const items = getCartItems();
+
+  if(items.length === 0){
+
+    alert("Cart empty hai. Pehle product add karein.");
+    return;
+
+  }
+
+  const total = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+  try{
+
+    const response = await fetch(`${apiBase}/api/purchase`, {
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      credentials:"include",
+      body:JSON.stringify({
+        items,
+        total
+      })
+    });
+
+    const data = await response.json();
+
+    if(data.success){
+
+      recordPurchasedImpact(items);
+      saveCartItems([]);
+      renderCart();
+      closeCart();
+      showOrderSuccess(data.order_id, total, items.reduce((sum, item) => sum + item.quantity, 0));
+      return;
+
+    }
+
+    alert(data.message || "Purchase failed");
+
+  }
+  catch(error){
+
+    alert("Backend se connect nahi ho paya. Flask server start karein.");
+
+  }
+
+});
+
+closeOrderSuccessButton.addEventListener("click", closeOrderSuccess);
+orderSuccessModal.addEventListener("click", event => {
+
+  if(event.target === orderSuccessModal){
+
+    closeOrderSuccess();
+
+  }
+
+});
+
+cartItemsContainer.addEventListener("click", event => {
+
+  const quantityButton = event.target.closest(".cart-qty");
+  const removeButton = event.target.closest(".remove-cart");
+  const items = getCartItems();
+
+  if(quantityButton){
+
+    const item = items.find(cartItem => cartItem.id === quantityButton.dataset.id);
+
+    if(item && quantityButton.dataset.action === "increase"){
+      item.quantity += 1;
+    }
+
+    if(item && quantityButton.dataset.action === "decrease"){
+      item.quantity -= 1;
+    }
+
+    saveCartItems(items.filter(cartItem => cartItem.quantity > 0));
+    renderCart();
+
+  }
+
+  if(removeButton){
+
+    saveCartItems(
+      items.filter(cartItem => cartItem.id !== removeButton.dataset.id)
+    );
+    renderCart();
+
+  }
+
+});
+
+prepareProductCards();
+applyMarketFilters();
+renderCart();
+
+function initChatbot(){
+
+  const chatBtn = document.getElementById("chatBtn");
+  const chatBox = document.getElementById("chatBox");
+  const closeChat = document.getElementById("closeChat");
+
+  if(!chatBtn || !chatBox){
+    return;
+  }
+
+  const messagesBox = chatBox.querySelector(".overflow-y-auto");
+  const input = chatBox.querySelector("input[type='text']");
+  const sendBtn = chatBox.querySelector(".border-t button");
+  const chatApiBases = location.protocol.startsWith("http")
+    ? ["", "http://127.0.0.1:5000", "http://127.0.0.1:5001"]
+    : ["http://127.0.0.1:5000", "http://127.0.0.1:5001"];
+
+  async function requestChatbot(message){
+    let lastError;
+
+    for(const base of chatApiBases){
+      try{
+        const response = await fetch(`${base}/api/chatbot`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ message })
+        });
+
+        if(response.ok){
+          return await response.json();
+        }
+
+        lastError = new Error(`Chatbot API returned ${response.status}`);
+      }
+      catch(error){
+        lastError = error;
+      }
+    }
+
+    throw lastError;
+  }
+
+  chatBtn.addEventListener("click", () => {
+    chatBox.classList.toggle("hidden");
+    input?.focus();
+  });
+
+  closeChat?.addEventListener("click", () => {
+    chatBox.classList.add("hidden");
+  });
+
+  function addChatMessage(text, sender){
+    const messageEl = document.createElement("div");
+    messageEl.className = sender === "user"
+      ? "ml-auto mt-3 bg-[var(--moss)] text-white rounded-2xl rounded-tr-none p-4 text-sm max-w-[85%]"
+      : "mt-3 bg-gray-100 rounded-2xl rounded-tl-none p-4 text-sm max-w-[85%]";
+    messageEl.textContent = text;
+    messagesBox.appendChild(messageEl);
+    messagesBox.scrollTop = messagesBox.scrollHeight;
+  }
+
+  async function sendChatMessage(){
+    const message = input.value.trim();
+
+    if(!message){
+      return;
+    }
+
+    input.value = "";
+    addChatMessage(message, "user");
+    sendBtn.disabled = true;
+
+    try{
+      const data = await requestChatbot(message);
+      addChatMessage(data.reply || "Sorry, mujhe iska answer nahi mila.", "bot");
+    }
+    catch(error){
+      addChatMessage("Backend se connect nahi ho paaya. Flask server start karke phir try karein.", "bot");
+    }
+    finally{
+      sendBtn.disabled = false;
+      input.focus();
+    }
+  }
+
+  sendBtn?.addEventListener("click", sendChatMessage);
+
+  input?.addEventListener("keydown", (event) => {
+    if(event.key === "Enter"){
+      sendChatMessage();
+    }
+  });
+}
+
+initChatbot();
+
+async function loadFarmerCrops(){
+
+  try{
+
+    const response = await fetch(`${apiBase}/api/crops`);
+    const data = await response.json();
+
+    if(!data.success || !Array.isArray(data.crops) || data.crops.length === 0){
+
+      return;
+
+    }
+
+    data.crops.forEach((crop, index) => {
+
+      const price = formatRupees(priceToNumber(crop.cropPrice || "0"));
+      const card = document.createElement("div");
+
+      card.className = "product-card bg-white rounded-[30px] overflow-hidden shadow hover:shadow-2xl transition";
+      card.dataset.farmerCrop = "true";
+      card.dataset.popularity = String(160 - index);
+      card.dataset.category = inferProductCategory(`${crop.cropName} ${crop.cropVillage}`);
+      card.dataset.rating = "4.9";
+      card.innerHTML = `
+        <div class="relative aspect-square overflow-hidden">
+          <img
+            src="${crop.cropImage}"
+            class="w-full h-full object-cover"
+            alt="${crop.cropName}"
+          >
+          <span class="absolute top-4 left-4 bg-[var(--terracotta)] text-white text-xs font-bold px-3 py-1 rounded-full">
+            Farmer Crop
+          </span>
+        </div>
+
+        <div class="p-6">
+          <div class="flex justify-between gap-4 mb-3">
+            <div>
+              <h3 class="font-bold text-xl">${crop.cropName}</h3>
+              <p class="text-sm text-gray-500">Farmer: ${crop.farmerName}</p>
+            </div>
+            <div class="text-right">
+              <h4 class="font-bold text-[var(--moss)]">${price}</h4>
+              <p class="text-xs text-gray-400">${crop.cropQty}</p>
+            </div>
+          </div>
+
+          <p class="text-sm text-gray-500 mb-4">
+            Village: ${crop.cropVillage} | Pass: ${crop.farmerPass}
+          </p>
+
+          <div>
+            <button class="w-full bg-[var(--moss)] hover:bg-[var(--forest)] transition text-white py-3 rounded-xl font-bold">
+              Add To Cart
+            </button>
+          </div>
+        </div>
+      `;
+
+      productGrid.appendChild(card);
+
+    });
+
+    prepareProductCards();
+    applyMarketFilters();
+
+  }
+  catch(error){
+
+    console.log("Could not load farmer crops", error);
+
+  }
+
+}
+
+loadFarmerCrops();
+
+</script>
+
+</body>
+</html>
+
+
+
+

@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>KisanYUG | Support</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Iconify -->
+  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --moss:#4F5D2F;
+      --forest:#2D3B2D;
+      --terracotta:#E2725B;
+      --oatmeal:#F5F5DC;
+    }
+
+    body{
+      font-family:'Inter',sans-serif;
+      background: var(--oatmeal);
+      color:#1f2937;
+    }
+
+    .serif{
+      font-family:'Playfair Display',serif;
+    }
+
+    .glass{
+      background: rgba(255,255,255,0.5);
+      backdrop-filter: blur(10px);
+      border:1px solid rgba(255,255,255,0.4);
+    }
+
+    .pulse-ai{
+      animation:pulse 2s infinite;
+    }
+
+    @keyframes pulse{
+      0%{
+        box-shadow:0 0 0 0 rgba(79,93,47,0.4);
+      }
+      70%{
+        box-shadow:0 0 0 16px rgba(79,93,47,0);
+      }
+      100%{
+        box-shadow:0 0 0 0 rgba(79,93,47,0);
+      }
+    }
+
+    summary::-webkit-details-marker{
+      display:none;
+    }
+  </style>
+</head>
+
+<body class="pt-10">
+
+  <!-- ================= NAVBAR ================= -->
+  <nav class="fixed top-0 left-0 w-full z-50 glass border-b border-stone-200">
+    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+
+      <!-- Logo -->
+      <a href="./index.html" class="flex items-center gap-2">
+        <iconify-icon icon="lucide:sprout" class="text-3xl text-[var(--moss)]"></iconify-icon>
+        <span class="serif text-2xl font-bold">KisanYUG</span>
+      </a>
+
+      <!-- Desktop Menu -->
+      <div class="hidden md:flex items-center gap-8 text-sm uppercase tracking-widest font-semibold">
+        <a href="./index.html" class="font-semibold hover:text-[var(--moss)] transition">Home</a>
+        <a href="./market.html" class="font-semibold hover:text-[var(--moss)] transition">Marketplace</a>
+        <a href="./kisanmarket.html" class="farmer-only hidden text-[var(--moss)]">KisanMarket</a>
+        <a href="./services.html" class="font-semibold hover:text-[var(--moss)] transition">Services</a>
+        <a href="./farmerpass.html" class="hover:text-[var(--moss)]">
+          Farmer Pass
+        </a>
+        <a href="./support.html" class="text-[var(--moss)] border-b-2 border-[var(--moss)]">
+          Support
+        </a>
+      </div>
+
+      <!-- Buttons -->
+      <div class="flex items-center gap-4">
+        <a href="auth.html"
+          class="hidden sm:block text-sm font-semibold hover:text-[var(--moss)]">
+          Login
+        </a>
+
+        <button id="menuBtn"
+          class="md:hidden text-3xl text-[var(--moss)]">
+          <iconify-icon icon="lucide:menu"></iconify-icon>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu"
+      class="hidden md:hidden px-6 pb-6 pt-2 bg-white border-t border-stone-200">
+      <div class="flex flex-col gap-4 text-sm font-semibold">
+        <a href="index.html">Home</a>
+        <a href="market.html">Marketplace</a>
+        <a href="support.html" class="text-[var(--moss)]">Support</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ================= HERO ================= -->
+  <section class="py-20 px-6 text-center bg-gradient-to-b from-stone-100 to-[var(--oatmeal)]">
+
+    <div class="max-w-4xl mx-auto">
+
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white shadow-sm border border-stone-200 mb-6">
+        <span class="w-2 h-2 rounded-full bg-green-500 animate-ping"></span>
+        <span class="text-xs font-bold uppercase tracking-widest">
+          Support Center Active
+        </span>
+      </div>
+
+      <h1 class="serif text-5xl md:text-6xl leading-tight mb-6">
+        How can we <span class="text-[var(--moss)]">help</span> you grow?
+      </h1>
+
+      <p class="max-w-2xl mx-auto text-stone-600 text-lg leading-relaxed mb-10">
+        Get answers about orders, deliveries, blockchain tracking, farmer support,
+        and kisanYUG marketplace services.
+      </p>
+
+      <!-- Search -->
+      <div class="max-w-2xl mx-auto relative">
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Search support articles..."
+          class="w-full py-5 pl-14 pr-5 rounded-2xl border-none shadow-xl focus:ring-2 focus:ring-[var(--moss)] outline-none text-lg"
+        >
+
+        <iconify-icon
+          icon="lucide:search"
+          class="absolute left-5 top-1/2 -translate-y-1/2 text-2xl text-stone-400">
+        </iconify-icon>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= MAIN SECTION ================= -->
+  <section class="max-w-7xl mx-auto px-6 py-20 grid lg:grid-cols-3 gap-16">
+
+    <!-- FAQ -->
+    <div class="lg:col-span-2 ">
+
+      <div class="flex items-center justify-between mb-8">
+        <h2 class="serif text-4xl">
+          Frequently Asked Questions
+        </h2>
+
+        <span class="text-sm text-stone-500">
+          24/7 Smart Support
+        </span>
+      </div>
+
+      <div class="space-y-5" id="faqContainer">
+
+        <!-- FAQ ITEM -->
+        <details class="faq-item bg-white rounded-3xl p-6 border border-stone-100 hover:shadow-lg transition-all">
+          <summary class="flex justify-between items-center cursor-pointer font-bold text-lg">
+            How does the CSA 2.0 Swap feature work?
+
+            <iconify-icon
+              icon="lucide:chevron-down"
+              class="text-2xl transition-transform faq-icon">
+            </iconify-icon>
+          </summary>
+
+          <p class="mt-5 text-stone-600 leading-relaxed">
+            CSA members can swap up to 3 products in their weekly harvest box
+            before dispatch. AI recommendations show the best seasonal alternatives.
+          </p>
+        </details>
+
+        <!-- FAQ ITEM -->
+        <details class="faq-item bg-white rounded-3xl p-6 border border-stone-100 hover:shadow-lg transition-all">
+          <summary class="flex justify-between items-center cursor-pointer font-bold text-lg">
+            Can I track my farm produce in real time?
+
+            <iconify-icon
+              icon="lucide:chevron-down"
+              class="text-2xl transition-transform faq-icon">
+            </iconify-icon>
+          </summary>
+
+          <p class="mt-5 text-stone-600 leading-relaxed">
+            Yes. Every order includes blockchain tracking and IoT sensor data,
+            including temperature, moisture, and freshness details.
+          </p>
+        </details>
+
+        <!-- FAQ ITEM -->
+        <details class="faq-item bg-white rounded-3xl p-6 border border-stone-100 hover:shadow-lg transition-all">
+          <summary class="flex justify-between items-center cursor-pointer font-bold text-lg">
+            What is the Farmer Reliability Score?
+
+            <iconify-icon
+              icon="lucide:chevron-down"
+              class="text-2xl transition-transform faq-icon">
+            </iconify-icon>
+          </summary>
+
+          <p class="mt-5 text-stone-600 leading-relaxed">
+            This score is generated using delivery speed, customer reviews,
+            freshness ratings, and sustainability practices.
+          </p>
+        </details>
+
+        <!-- FAQ ITEM -->
+        <details class="faq-item bg-white rounded-3xl p-6 border border-stone-100 hover:shadow-lg transition-all">
+          <summary class="flex justify-between items-center cursor-pointer font-bold text-lg">
+            How do I contact kisanYUG support?
+
+            <iconify-icon
+              icon="lucide:chevron-down"
+              class="text-2xl transition-transform faq-icon">
+            </iconify-icon>
+          </summary>
+
+          <p class="mt-5 text-stone-600 leading-relaxed">
+            You can use the contact form, email support, or chat directly
+            using the AI assistant available on the website.
+          </p>
+        </details>
+
+      </div>
+    </div>
+
+    <!-- CONTACT CARD -->
+    <aside>
+
+      <div class="bg-[var(--forest)] text-white rounded-[2rem] p-8 shadow-2xl w-full top-28 ">
+
+        <h3 class="serif text-3xl mb-6">
+          Contact Support
+        </h3>
+
+        <form id="supportForm" class="space-y-5">
+
+  <!-- Name -->
+  <div>
+
+    <label class="text-xs uppercase tracking-widest opacity-70 block mb-2">
+      Full Name
+    </label>
+
+    <input
+      
+  type="text"
+  id="fullName"
+  required
+      class="w-full rounded-xl bg-white/10 border border-white/20 px-4 py-3 outline-none focus:ring-2 focus:ring-white"
+    >
+
+  </div>
+
+  <!-- Email -->
+  <div>
+
+    <label class="text-xs uppercase tracking-widest opacity-70 block mb-2">
+      Email
+    </label>
+
+    <input
+  type="email"
+  id="email"
+  required
+      class="w-full rounded-xl bg-white/10 border border-white/20 px-4 py-3 outline-none focus:ring-2 focus:ring-white"
+    >
+
+  </div>
+
+  <!-- Inquiry -->
+  <div>
+
+    <label class="text-xs uppercase tracking-widest opacity-70 block mb-2">
+      Inquiry Type
+    </label>
+
+    <select
+     id="inquiryType"
+      class="w-full rounded-xl bg-white/10 border border-white/20 px-4 py-3 outline-none focus:ring-2 focus:ring-white"
+    >
+
+      <option class="text-black">
+        Order Issue
+      </option>
+
+      <option class="text-black">
+        Technical Support
+      </option>
+
+      <option class="text-black">
+        Farmer Partnership
+      </option>
+
+    </select>
+
+  </div>
+
+  <!-- Message -->
+  <div>
+
+    <label class="text-xs uppercase tracking-widest opacity-70 block mb-2">
+      Message
+    </label>
+
+    <textarea
+      rows="5"
+      id="message"
+      required
+      class="w-full rounded-xl bg-white/10 border border-white/20 px-4 py-3 outline-none focus:ring-2 focus:ring-white">
+    </textarea>
+
+  </div>
+
+  <!-- Button -->
+  <button
+    type="submit"
+    class="w-full bg-[var(--terracotta)] hover:bg-white hover:text-[var(--terracotta)] transition-all py-4 rounded-xl font-bold uppercase tracking-widest text-sm">
+
+    Send Message
+
+  </button>
+
+</form>
+
+        <!-- Contact Info -->
+        <div class="mt-10 pt-8 border-t border-white/10 space-y-5">
+
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center">
+              <iconify-icon icon="lucide:phone"></iconify-icon>
+            </div>
+
+            <div>
+              <p class="text-xs uppercase opacity-60">
+                Phone
+              </p>
+
+              <p class="font-semibold">
+                +91 9340844421
+              </p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center">
+              <iconify-icon icon="lucide:mail"></iconify-icon>
+            </div>
+
+            <div>
+              <p class="text-xs uppercase opacity-60">
+                Email
+              </p>
+
+              <p class="font-semibold">
+                support@KisanYUG.com
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </aside>
+
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="bg-[var(--forest)] text-white py-10 mt-20">
+
+    <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+
+      <div class="flex items-center gap-2">
+        <iconify-icon icon="lucide:sprout" class="text-3xl text-green-400"></iconify-icon>
+
+        <span class="serif text-2xl">
+          KisanYUG
+        </span>
+      </div>
+
+      <div class="flex flex-wrap gap-6 text-sm text-stone-300">
+        <a href="index.html" class="hover:text-white">Home</a>
+        <a href="market.html" class="hover:text-white">Marketplace</a>
+        <a href="support.html" class="hover:text-white">Support</a>
+      </div>
+
+      <p class="text-sm text-stone-400">
+        © 2026 KisanYUG. All rights reserved.
+      </p>
+
+    </div>
+  </footer>
+
+  <!-- CHAT BOT -->
+  <div class="fixed bottom-8 right-8 z-50">
+
+    <!-- Toggle -->
+    <button
+      id="chatBtn"
+      class="w-16 h-16 rounded-full bg-[var(--moss)] text-white flex items-center justify-center shadow-2xl pulse-ai hover:scale-110 transition"
+    >
+      <iconify-icon icon="lucide:bot" class="text-3xl"></iconify-icon>
+    </button>
+
+    <!-- Chat Window -->
+    <div
+      id="chatWindow"
+      class="hidden absolute bottom-20 right-0 w-[360px] h-[500px] glass rounded-3xl overflow-hidden shadow-2xl flex flex-col"
+    >
+
+      <!-- Header -->
+      <div class="p-5 border-b flex items-center justify-between">
+
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-[var(--moss)] text-white flex items-center justify-center">
+            <iconify-icon icon="lucide:zap"></iconify-icon>
+          </div>
+
+          <div>
+            <h4 class="font-bold">kisanYUG AI</h4>
+            <p class="text-xs text-green-600">Online</p>
+          </div>
+        </div>
+
+        <button id="closeChat">
+          <iconify-icon icon="lucide:x" class="text-2xl"></iconify-icon>
+        </button>
+
+      </div>
+
+      <!-- Messages -->
+      <div id="chatMessages" class="flex-1 p-5 overflow-y-auto space-y-5">
+
+        <div class="flex gap-3">
+          <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
+            <iconify-icon icon="lucide:bot"></iconify-icon>
+          </div>
+
+          <div class="bg-white p-4 rounded-2xl rounded-tl-none text-sm shadow">
+            Hello! <br>
+            I can help you find fresh organic products.
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Input -->
+      <div class="p-4 border-t bg-white/40">
+
+        <div class="relative">
+          <input
+            id="chatInput"
+            type="text"
+            placeholder="Ask something..."
+            class="w-full rounded-2xl px-4 py-3 pr-12 outline-none"
+          >
+
+          <button id="chatSend" class="absolute right-2 top-2 w-8 h-8 rounded-xl bg-[var(--moss)] text-white flex items-center justify-center">
+            <iconify-icon icon="lucide:arrow-up"></iconify-icon>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ================= JAVASCRIPT ================= -->
+  <script>
+
+    // Mobile Menu
+    const menuBtn = document.getElementById("menuBtn");
+    const mobileMenu = document.getElementById("mobileMenu");
+
+    menuBtn.addEventListener("click", () => {
+      mobileMenu.classList.toggle("hidden");
+    });
+
+    // Chat
+    const chatBtn = document.getElementById("chatBtn");
+    const chatWindow = document.getElementById("chatWindow");
+    const closeChat = document.getElementById("closeChat");
+    const chatMessages = document.getElementById("chatMessages");
+    const chatInput = document.getElementById("chatInput");
+    const chatSend = document.getElementById("chatSend");
+    const chatApiBase = location.port === "5000" ? "" : "http://127.0.0.1:5000";
+
+    chatBtn.addEventListener("click", () => {
+      chatWindow.classList.toggle("hidden");
+    });
+
+    closeChat.addEventListener("click", () => {
+      chatWindow.classList.add("hidden");
+    });
+
+    function addChatMessage(text, sender){
+      const row = document.createElement("div");
+      row.className = sender === "user" ? "flex justify-end" : "flex justify-start";
+      row.innerHTML = `
+        <div class="${sender === "user" ? "bg-[var(--moss)] text-white rounded-tr-none" : "bg-stone-100 text-gray-700 rounded-tl-none"} rounded-2xl p-4 text-sm max-w-[250px]"></div>
+      `;
+      row.firstElementChild.textContent = text;
+      chatMessages.appendChild(row);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+      return row;
+    }
+
+    async function sendChatMessage(){
+      const message = chatInput.value.trim();
+
+      if(!message){
+        return;
+      }
+
+      chatInput.value = "";
+      addChatMessage(message, "user");
+      const loading = addChatMessage("Typing...", "bot");
+
+      try{
+        const response = await fetch(`${chatApiBase}/api/chatbot`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ message })
+        });
+
+        const data = await response.json();
+        loading.firstElementChild.textContent =
+          data.reply || data.message || "Sorry, I could not answer that right now.";
+      }
+      catch(error){
+        loading.firstElementChild.textContent =
+          "I cannot reach the server right now. Please make sure the Flask app is running.";
+      }
+    }
+
+    chatSend.addEventListener("click", sendChatMessage);
+    chatInput.addEventListener("keydown", (event) => {
+      if(event.key === "Enter"){
+        sendChatMessage();
+      }
+    });
+
+    // Contact Form
+    // ===================================
+// SUPPORT FORM BACKEND CONNECT
+// ===================================
+
+const supportForm =
+document.getElementById("supportForm");
+
+supportForm.addEventListener(
+  "submit",
+  async (e) => {
+
+    e.preventDefault();
+
+    const full_name =
+    document.getElementById("fullName").value;
+
+    const email =
+    document.getElementById("email").value;
+
+    const inquiry_type =
+    document.getElementById("inquiryType").value;
+
+    const message =
+    document.getElementById("message").value;
+
+    try {
+
+      const response =
+      await fetch(
+        "http://127.0.0.1:5000/api/support",
+        {
+
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+            "application/json"
+          },
+
+          body: JSON.stringify({
+
+            full_name,
+            email,
+            inquiry_type,
+            message
+
+          })
+
+        }
+      );
+
+      const data =
+      await response.json();
+
+      if(data.success){
+
+        alert(
+          "✅ Support Message Sent"
+        );
+
+        supportForm.reset();
+
+      }
+
+      else{
+
+        alert(data.message);
+
+      }
+
+    }
+
+    catch(error){
+
+      console.log(error);
+
+      alert(
+        "Backend Server Error"
+      );
+
+    }
+
+});
+    // FAQ Animation
+    const details = document.querySelectorAll("details");
+
+    details.forEach((targetDetail) => {
+      targetDetail.addEventListener("toggle", () => {
+
+        const icon = targetDetail.querySelector(".faq-icon");
+
+        if(targetDetail.open){
+          icon.style.transform = "rotate(180deg)";
+        }else{
+          icon.style.transform = "rotate(0deg)";
+        }
+
+      });
+    });
+
+  </script>
+
+
+  <script>
+async function updateFarmerOnlyLinks(){
+  const apiBase = location.port === "5000" ? "" : "http://127.0.0.1:5000";
+
+  try{
+    const response = await fetch(`${apiBase}/check-login`, {
+      credentials:"include"
+    });
+
+    const data = await response.json();
+
+    if(data.loggedIn && data.hasFarmerPass){
+      document.querySelectorAll(".farmer-only").forEach(link => {
+        link.classList.remove("hidden");
+      });
+    }
+  }
+  catch(error){
+    console.log("Farmer status check failed", error);
+  }
+}
+
+updateFarmerOnlyLinks();
+  </script>
+</body>
+</html>

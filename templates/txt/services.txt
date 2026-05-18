@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>KisanYUG | Services</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Iconify -->
+  <script src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+
+    :root{
+      --moss:#4F5D2F;
+      --forest:#2D3B2D;
+      --cream:#F5F5DC;
+      --terracotta:#E2725B;
+      --sand:#D2B48C;
+    }
+
+    body{
+      font-family:'Inter',sans-serif;
+      background:var(--cream);
+      color:var(--forest);
+      overflow-x:hidden;
+    }
+
+    .serif{
+      font-family:'Playfair Display',serif;
+    }
+
+    .glass{
+      background:rgba(255,255,255,0.2);
+      backdrop-filter:blur(12px);
+      -webkit-backdrop-filter:blur(12px);
+      border:1px solid rgba(255,255,255,0.3);
+    }
+
+    .hero-bg{
+      background:
+      linear-gradient(to right, rgba(245,245,220,0.92), rgba(245,245,220,0.4)),
+      url('https://images.unsplash.com/photo-1500937386664-56d1dfef3854?q=80&w=1600&auto=format&fit=crop');
+
+      background-size:cover;
+      background-position:center;
+    }
+
+    .service-card{
+      transition:0.4s;
+    }
+
+    .service-card:hover{
+      transform:translateY(-10px);
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="fixed top-0 left-0 w-full z-50 glass border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+
+      <!-- Logo -->
+      <div class="flex items-center gap-2">
+        <iconify-icon icon="lucide:sprout" class="text-3xl text-[var(--moss)]"></iconify-icon>
+        <h1 class="serif text-2xl font-bold">KisanYUG</h1>
+      </div>
+
+      <!-- Menu -->
+      <div class="hidden md:flex items-center gap-5  text-sm uppercase tracking-widest font-semibold">
+        <a href="./index.html" class="hover:text-[var(--moss)]">Home</a>
+        <a href="./market.html" class="hover:text-[var(--moss)]">Marketplace</a>
+        <a href="./kisanmarket.html" class="hover:text-[var(--moss)]">
+          KisanMarket
+        </a>
+        <a href="./services.html" class="text-[var(--moss)] border-b-2 border-[var(--moss)]">Services</a>
+        <a href="./farmerpass.html" class="hover:text-[var(--moss)]">
+          Farmer Pass
+        </a>
+        <a href="./contact_help.html" class="hover:text-[var(--moss)]">Support</a>
+        
+      </div>
+
+      <!-- Button -->
+      <a href="./market.html">
+        <button class="bg-[var(--moss)] hover:bg-[var(--forest)] transition text-white px-5 py-2 rounded-full flex items-center gap-2">
+          Explore
+          <iconify-icon icon="lucide:arrow-right"></iconify-icon>
+        </button>
+      </a>
+
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero-bg min-h-screen flex items-center pt-20 px-6">
+
+    <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
+
+      <!-- LEFT -->
+      <div>
+
+        <div class="inline-flex items-center gap-2 bg-white/60 border border-gray-200 rounded-full px-4 py-2 text-xs uppercase font-bold mb-6">
+          <span class="w-2 h-2 rounded-full bg-[var(--terracotta)] animate-ping"></span>
+          Smart Agriculture Services
+        </div>
+
+        <h1 class="serif text-5xl md:text-7xl leading-tight mb-6">
+          Helping
+          <span class="italic text-[var(--moss)]"> Farmers</span>
+          Grow Better
+        </h1>
+
+        <p class="text-lg text-gray-700 leading-relaxed max-w-xl mb-8">
+          We provide modern agriculture solutions like crop insurance,
+          farmer health insurance, soil testing, and smart farming support
+          for every किसान.
+        </p>
+
+        <div class="flex flex-wrap gap-4">
+
+          <button 
+          onclick="scrollToServices()"
+          class="bg-[var(--terracotta)] text-white px-8 py-4 rounded-xl font-bold hover:scale-105 transition">
+            Explore Services
+          </button>
+
+          <button class="bg-white border px-8 py-4 rounded-xl font-bold hover:bg-gray-50">
+            Learn More
+          </button>
+
+        </div>
+
+      </div>
+
+      <!-- RIGHT -->
+      <div class="relative">
+
+        <img 
+          src="https://images.unsplash.com/photo-1523741543316-beb7fc7023d8?q=80&w=1200&auto=format&fit=crop"
+          class="rounded-[40px] shadow-2xl"
+          alt="Farmer"
+        >
+
+        <!-- Floating Card -->
+        <div class="absolute -bottom-5 -left-5 glass p-5 rounded-2xl shadow-xl w-64">
+
+          <div class="flex items-center gap-3 mb-3">
+
+            <div class="w-10 h-10 rounded-full bg-[var(--moss)]/20 flex items-center justify-center">
+              <iconify-icon icon="lucide:shield-check" class="text-xl text-[var(--moss)]"></iconify-icon>
+            </div>
+
+            <div>
+              <h4 class="font-bold text-sm">Farmer Protection</h4>
+              <p class="text-xs text-gray-500">Insurance & Support</p>
+            </div>
+
+          </div>
+
+          <div class="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+            <div class="h-full bg-[var(--moss)] w-[95%]"></div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- SERVICES -->
+  <section id="servicesSection" class="py-24 px-6 bg-white">
+
+    <div class="max-w-7xl mx-auto">
+
+      <!-- Heading -->
+      <div class="text-center mb-16">
+
+        <h2 class="serif text-5xl mb-4">
+          Our Services
+        </h2>
+
+        <p class="text-gray-500 max-w-2xl mx-auto">
+          Advanced and trusted agricultural services designed specially
+          for Indian farmers.
+        </p>
+
+      </div>
+
+      <!-- Cards -->
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+        <!-- CARD 1 -->
+        <div class="service-card bg-[var(--cream)] rounded-3xl p-8 shadow-lg">
+
+          <div class="w-16 h-16 rounded-2xl bg-[var(--moss)] text-white flex items-center justify-center mb-6">
+            <iconify-icon icon="lucide:heart-pulse" class="text-3xl"></iconify-icon>
+          </div>
+
+          <h3 class="serif text-3xl mb-4">
+            Kisan Health Insurance
+          </h3>
+
+          <p class="text-gray-600 leading-relaxed">
+            Affordable healthcare and medical insurance support
+            specially designed for farmers and their families.
+          </p>
+
+        </div>
+
+        <!-- CARD 2 -->
+        <div class="service-card bg-[var(--cream)] rounded-3xl p-8 shadow-lg">
+
+          <div class="w-16 h-16 rounded-2xl bg-[var(--terracotta)] text-white flex items-center justify-center mb-6">
+            <iconify-icon icon="lucide:wheat" class="text-3xl"></iconify-icon>
+          </div>
+
+          <h3 class="serif text-3xl mb-4">
+            Kisan Fasal Bima
+          </h3>
+
+          <p class="text-gray-600 leading-relaxed">
+            Protect your crops against natural disasters,
+            heavy rain, drought, and unexpected farming losses.
+          </p>
+
+        </div>
+
+        <!-- CARD 3 -->
+        <div class="service-card bg-[var(--cream)] rounded-3xl p-8 shadow-lg">
+
+          <div class="w-16 h-16 rounded-2xl bg-[var(--forest)] text-white flex items-center justify-center mb-6">
+            <iconify-icon icon="lucide:flask-conical" class="text-3xl"></iconify-icon>
+          </div>
+
+          <h3 class="serif text-3xl mb-4">
+            Soil Testing
+          </h3>
+
+          <p class="text-gray-600 leading-relaxed">
+            Get detailed soil reports and recommendations
+            to improve crop quality and productivity.
+          </p>
+
+        </div>
+
+        <!-- CARD 4 -->
+        <div class="service-card bg-[var(--cream)] rounded-3xl p-8 shadow-lg">
+
+          <div class="w-16 h-16 rounded-2xl bg-[var(--moss)] text-white flex items-center justify-center mb-6">
+            <iconify-icon icon="lucide:cloud-rain" class="text-3xl"></iconify-icon>
+          </div>
+
+          <h3 class="serif text-3xl mb-4">
+            Weather Forecast
+          </h3>
+
+          <p class="text-gray-600 leading-relaxed">
+            Real-time weather updates and alerts
+            to help farmers plan farming activities better.
+          </p>
+
+        </div>
+
+        <!-- CARD 5 -->
+        <div class="service-card bg-[var(--cream)] rounded-3xl p-8 shadow-lg">
+
+          <div class="w-16 h-16 rounded-2xl bg-[var(--terracotta)] text-white flex items-center justify-center mb-6">
+            <iconify-icon icon="lucide:tractor" class="text-3xl"></iconify-icon>
+          </div>
+
+          <h3 class="serif text-3xl mb-4">
+            Smart Farming Support
+          </h3>
+
+          <p class="text-gray-600 leading-relaxed">
+            Modern farming guidance with smart technology,
+            irrigation support, and AI recommendations.
+          </p>
+
+        </div>
+
+        <!-- CARD 6 -->
+        <div class="service-card bg-[var(--cream)] rounded-3xl p-8 shadow-lg">
+
+          <div class="w-16 h-16 rounded-2xl bg-[var(--forest)] text-white flex items-center justify-center mb-6">
+            <iconify-icon icon="lucide:truck" class="text-3xl"></iconify-icon>
+          </div>
+
+          <h3 class="serif text-3xl mb-4">
+            Farm Delivery Network
+          </h3>
+
+          <p class="text-gray-600 leading-relaxed">
+            Fast and secure logistics support
+            for delivering farm products directly to customers.
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- CTA -->
+  <section class="py-24 px-6 bg-[var(--forest)] text-white">
+
+    <div class="max-w-5xl mx-auto text-center">
+
+      <h2 class="serif text-5xl mb-6">
+        Empowering Farmers With Technology
+      </h2>
+
+      <p class="text-gray-300 text-lg leading-relaxed mb-8">
+        Join KisanYUG today and access smart services
+        designed to improve farming productivity and farmer safety.
+      </p>
+
+      <button class="bg-[var(--terracotta)] px-8 py-4 rounded-2xl text-lg font-bold hover:scale-105 transition">
+        Get Started
+      </button>
+
+    </div>
+
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-black text-white py-14 px-6">
+
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+
+      <div class="flex items-center gap-2">
+        <iconify-icon icon="lucide:sprout" class="text-3xl text-[var(--moss)]"></iconify-icon>
+        <h2 class="serif text-2xl font-bold">KisanYUG</h2>
+      </div>
+
+      <p class="text-gray-400 text-center">
+        © 2026 KisanYUG. Empowering Indian Farmers Digitally.
+      </p>
+
+      <div class="flex items-center gap-4 text-2xl">
+
+        <iconify-icon icon="mdi:facebook"></iconify-icon>
+        <iconify-icon icon="mdi:instagram"></iconify-icon>
+        <iconify-icon icon="mdi:twitter"></iconify-icon>
+
+      </div>
+
+    </div>
+
+  </footer>
+
+  <script>
+
+  function scrollToServices(){
+
+    document.getElementById(
+      "servicesSection"
+    ).scrollIntoView({
+
+      behavior: "smooth"
+
+    });
+
+  }
+
+</script>
+</body>
+</html>

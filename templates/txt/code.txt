@@ -1,0 +1,4102 @@
+// index.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TerraLink | Smart Farmer Marketplace</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Iconify -->
+  <script src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --moss: #4F5D2F;
+      --forest: #2D3B2D;
+      --cream: #F5F5DC;
+      --terracotta: #E2725B;
+      --sand: #D2B48C;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--cream);
+      color: var(--forest);
+      overflow-x: hidden;
+    }
+
+    .serif {
+      font-family: 'Playfair Display', serif;
+    }
+
+    .glass {
+      background: rgba(255,255,255,0.2);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+
+    .pulse-ai {
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(79,93,47,0.4);
+      }
+      70% {
+        box-shadow: 0 0 0 15px rgba(79,93,47,0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(79,93,47,0);
+      }
+    }
+
+    .hero-bg {
+      background:
+        linear-gradient(to right, rgba(245,245,220,0.9), rgba(245,245,220,0.4)),
+        url('https://images.unsplash.com/photo-1501004318641-b39e6451bec6?q=80&w=1600&auto=format&fit=crop');
+      background-size: cover;
+      background-position: center;
+    }
+
+    .category-card img {
+      transition: 0.6s;
+    }
+
+    .category-card:hover img {
+      transform: scale(1.1);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="fixed top-0 left-0 w-full z-50 glass border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+
+      <!-- Logo -->
+      <div class="flex items-center gap-2">
+        <iconify-icon icon="lucide:sprout" class="text-3xl text-[var(--moss)]"></iconify-icon>
+        <h1 class="serif text-2xl font-bold">KisanYUG</h1>
+      </div>
+
+      <!-- Menu -->
+      <div class="hidden md:flex items-center gap-5 text-sm uppercase tracking-widest font-semibold">
+        <a href="./index.html" class=" font-semibold text-[var(--moss)] border-b-2 border-[var(--moss)]">Home</a>
+        <a href="./market.html" class="font-semibold hover:text-[var(--moss)]">Marketplace</a>
+        <a href="./kisanmarket.html" class="font-semibold hover:text-[var(--moss)]">
+          KisanMarket
+        </a>
+        <a href="./services.html" class="font-semibold hover:text-[var(--moss)]">Services</a>
+        <a href="./farmerpass.html" class="font-semibold hover:text-[var(--moss)]">
+          Farmer Pass
+        </a>
+        <a href="./contact_help.html" class="font-semibold hover:text-[var(--moss)]">Support</a>
+      </div>
+
+      <!-- Buttons -->
+      <div class="flex items-center gap-4">
+        <a href="./auth.html" class="hidden sm:block font-semibold">Sign In</a>
+
+        <a href="./market.html"><button class="bg-[var(--moss)] hover:bg-[var(--forest)] transition text-white px-5 py-2 rounded-full flex items-center gap-2">
+          Start Shopping
+          <iconify-icon icon="lucide:arrow-right"></iconify-icon>
+        </button></a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero-bg min-h-screen flex items-center pt-20 px-6">
+    <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
+
+      <!-- Left -->
+      <div>
+        <div class="inline-flex items-center gap-2 bg-white/60 border border-gray-200 rounded-full px-4 py-2 text-xs uppercase font-bold mb-6">
+          <span class="w-2 h-2 rounded-full bg-[var(--terracotta)] animate-ping"></span>
+          Fresh Harvest 2026
+        </div>
+
+        <h1 class="serif text-5xl md:text-7xl leading-tight mb-6">
+          Trust the
+          <span class="italic text-[var(--moss)]"> Soil</span>,
+          <br>
+          Know the
+          <span class="italic text-[var(--terracotta)]"> Source</span>
+        </h1>
+
+        <p class="text-lg text-gray-700 leading-relaxed max-w-xl mb-8">
+          Buy directly from verified farmers with complete transparency,
+          fresh produce, and sustainable agriculture practices.
+        </p>
+
+        <div class="flex flex-wrap gap-4">
+          <button class="bg-[var(--terracotta)] text-white px-8 py-4 rounded-xl font-bold hover:scale-105 transition">
+            Explore Market
+          </button>
+
+          <button class="bg-white border px-8 py-4 rounded-xl font-bold flex items-center gap-2 hover:bg-gray-50">
+            <iconify-icon icon="lucide:play-circle"></iconify-icon>
+            Watch Story
+          </button>
+        </div>
+      </div>
+
+      <!-- Right -->
+      <div class="relative">
+
+        <img
+          src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6?q=80&w=1200&auto=format&fit=crop"
+          class="rounded-[40px] shadow-2xl"
+          alt="Farm"
+        >
+
+        <!-- Floating Card -->
+        <div class="absolute -bottom-5 -left-5 glass p-5 rounded-2xl shadow-xl w-64">
+          <div class="flex items-center gap-3 mb-3">
+
+            <div class="w-10 h-10 rounded-full bg-[var(--moss)]/20 flex items-center justify-center">
+              <iconify-icon icon="lucide:shield-check" class="text-xl text-[var(--moss)]"></iconify-icon>
+            </div>
+
+            <div>
+              <h4 class="font-bold text-sm">Verified Organic</h4>
+              <p class="text-xs text-gray-500">Blockchain Secure</p>
+            </div>
+          </div>
+
+          <div class="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+            <div class="h-full bg-[var(--moss)] w-[92%]"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="bg-[var(--forest)] text-white py-14">
+    <div class="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+
+      <div>
+        <h2 class="serif text-4xl mb-2">1,240+</h2>
+        <p class="uppercase tracking-widest text-xs text-gray-400">
+          Verified Farmers
+        </p>
+      </div>
+
+      <div>
+        <h2 class="serif text-4xl mb-2">45.2k</h2>
+        <p class="uppercase tracking-widest text-xs text-gray-400">
+          Orders Delivered
+        </p>
+      </div>
+
+      <div>
+        <h2 class="serif text-4xl mb-2">100%</h2>
+        <p class="uppercase tracking-widest text-xs text-gray-400">
+          Organic Quality
+        </p>
+      </div>
+
+      <div>
+        <h2 class="serif text-4xl mb-2">2.4h</h2>
+        <p class="uppercase tracking-widest text-xs text-gray-400">
+          Delivery Time
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CATEGORIES -->
+  <section class="py-24 px-6 bg-white">
+    <div class="max-w-7xl mx-auto">
+
+      <div class="flex justify-between items-end mb-16">
+        <div>
+          <h2 class="serif text-4xl mb-3">Seasonal Categories</h2>
+          <p class="text-gray-500">
+            Fresh and healthy products directly from farms.
+          </p>
+        </div>
+
+        <a href="./market.html" class="text-[var(--moss)] font-bold underline">
+          View All
+        </a>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+
+        <!-- CARD -->
+        <div class="category-card cursor-pointer">
+          <div class="relative rounded-3xl overflow-hidden aspect-[4/5]">
+
+            <img
+              src="https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1200&auto=format&fit=crop"
+              class="w-full h-full object-cover"
+            >
+
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+
+            <div class="absolute bottom-6 left-6 text-white">
+              <p class="text-xs uppercase mb-1">Organic</p>
+              <h3 class="serif text-2xl">Fresh Vegetables</h3>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD -->
+        <div class="category-card cursor-pointer">
+          <div class="relative rounded-3xl overflow-hidden aspect-[4/5]">
+
+            <img
+              src="https://images.unsplash.com/photo-1610832958506-aa56368176cf?q=80&w=1200&auto=format&fit=crop"
+              class="w-full h-full object-cover"
+            >
+
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+
+            <div class="absolute bottom-6 left-6 text-white">
+              <p class="text-xs uppercase mb-1">Fresh</p>
+              <h3 class="serif text-2xl">Seasonal Fruits</h3>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD -->
+        <div class="category-card cursor-pointer">
+          <div class="relative rounded-3xl overflow-hidden aspect-[4/5]">
+
+            <img
+              src="https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=1200&auto=format&fit=crop"
+              class="w-full h-full object-cover"
+            >
+
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+
+            <div class="absolute bottom-6 left-6 text-white">
+              <p class="text-xs uppercase mb-1">Healthy</p>
+              <h3 class="serif text-2xl">Natural Grains</h3>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD -->
+        <div class="category-card cursor-pointer">
+          <div class="relative rounded-3xl overflow-hidden aspect-[4/5]">
+
+            <img
+              src="https://images.unsplash.com/photo-1563636619-e9143da7973b?q=80&w=1200&auto=format&fit=crop"
+              class="w-full h-full object-cover"
+            >
+
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+
+            <div class="absolute bottom-6 left-6 text-white">
+              <p class="text-xs uppercase mb-1">Pure</p>
+              <h3 class="serif text-2xl">Farm Dairy</h3>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-[var(--forest)] text-white py-16 px-6">
+
+    <div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-12">
+
+      <!-- Brand -->
+      <div>
+        <div class="flex items-center gap-2 mb-6">
+          <iconify-icon icon="lucide:sprout" class="text-3xl text-[var(--moss)]"></iconify-icon>
+          <h2 class="serif text-2xl font-bold">TerraLink</h2>
+        </div>
+
+        <p class="text-gray-400 leading-relaxed">
+          Connecting farmers directly with customers using modern smart farming technology.
+        </p>
+      </div>
+
+      <!-- Links -->
+      <div>
+        <h3 class="uppercase text-sm tracking-widest font-bold mb-5">
+          Navigation
+        </h3>
+
+        <ul class="space-y-3 text-gray-400">
+          <li><a href="./index.html">Home</a></li>
+          <li><a href="./market.html">Marketplace</a></li>
+          <li><a href="./auth.html">Farmers</a></li>
+          <li><a href="./contact_help.html">Support</a></li>
+        </ul>
+      </div>
+
+      <!-- Solutions -->
+      <div>
+        <h3 class="uppercase text-sm tracking-widest font-bold mb-5">
+          Services
+        </h3>
+
+        <ul class="space-y-3 text-gray-400">
+          <li>Farmer Support</li>
+          <li>Delivery System</li>
+          <li>Smart Tracking</li>
+          <li>Organic Products</li>
+        </ul>
+      </div>
+
+      <!-- Newsletter -->
+      <div>
+        <h3 class="uppercase text-sm tracking-widest font-bold mb-5">
+          Newsletter
+        </h3>
+
+        <p class="text-gray-400 mb-5">
+          Get updates about fresh harvests.
+        </p>
+
+        <div class="flex gap-2">
+          <input
+            type="email"
+            placeholder="Email Address"
+            class="flex-1 bg-gray-800 rounded-lg px-4 py-3 outline-none"
+          >
+
+          <button class="bg-[var(--moss)] px-4 rounded-lg">
+            <iconify-icon icon="lucide:send"></iconify-icon>
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="border-t border-gray-700 mt-12 pt-6 text-center text-gray-500 text-sm">
+      © 2026 TerraLink. All Rights Reserved.
+    </div>
+  </footer>
+
+  <!-- CHAT BOT -->
+  <div class="fixed bottom-8 right-8 z-50">
+
+    <!-- Toggle -->
+    <button
+      id="chatBtn"
+      class="w-16 h-16 rounded-full bg-[var(--moss)] text-white flex items-center justify-center shadow-2xl pulse-ai hover:scale-110 transition"
+    >
+      <iconify-icon icon="lucide:bot" class="text-3xl"></iconify-icon>
+    </button>
+
+    <!-- Chat Window -->
+    <div
+      id="chatWindow"
+      class="hidden absolute bottom-20 right-0 w-[360px] h-[500px] glass rounded-3xl overflow-hidden shadow-2xl flex flex-col"
+    >
+
+      <!-- Header -->
+      <div class="p-5 border-b flex items-center justify-between">
+
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-[var(--moss)] text-white flex items-center justify-center">
+            <iconify-icon icon="lucide:zap"></iconify-icon>
+          </div>
+
+          <div>
+            <h4 class="font-bold">Terra AI</h4>
+            <p class="text-xs text-green-600">Online</p>
+          </div>
+        </div>
+
+        <button id="closeChat">
+          <iconify-icon icon="lucide:x" class="text-2xl"></iconify-icon>
+        </button>
+
+      </div>
+
+      <!-- Messages -->
+      <div class="flex-1 p-5 overflow-y-auto space-y-5">
+
+        <div class="flex gap-3">
+          <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
+            <iconify-icon icon="lucide:bot"></iconify-icon>
+          </div>
+
+          <div class="bg-white p-4 rounded-2xl rounded-tl-none text-sm shadow">
+            Hello 👋 <br>
+            I can help you find fresh organic products.
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Input -->
+      <div class="p-4 border-t bg-white/40">
+
+        <div class="relative">
+          <input
+            type="text"
+            placeholder="Ask something..."
+            class="w-full rounded-2xl px-4 py-3 pr-12 outline-none"
+          >
+
+          <button class="absolute right-2 top-2 w-8 h-8 rounded-xl bg-[var(--moss)] text-white flex items-center justify-center">
+            <iconify-icon icon="lucide:arrow-up"></iconify-icon>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT -->
+  <script>
+
+    const chatBtn = document.getElementById("chatBtn");
+    const chatWindow = document.getElementById("chatWindow");
+    const closeChat = document.getElementById("closeChat");
+
+    chatBtn.addEventListener("click", () => {
+      chatWindow.classList.toggle("hidden");
+    });
+
+    closeChat.addEventListener("click", () => {
+      chatWindow.classList.add("hidden");
+    });
+
+  </script>
+
+</body>
+</html>
+
+
+
+
+// auth.html
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TerraLink | Login</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Iconify -->
+  <script src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    body{
+      font-family:'Inter',sans-serif;
+      background:#f5f5dc;
+      overflow-x:hidden;
+    }
+
+    .serif{
+      font-family:'Playfair Display', serif;
+    }
+
+    :root{
+      --moss:#4F5D2F;
+      --dark:#2D3B2D;
+      --oatmeal:#F5F5DC;
+      --terracotta:#E2725B;
+    }
+
+    .glass{
+      background:rgba(255,255,255,0.75);
+      backdrop-filter:blur(15px);
+      border:1px solid rgba(255,255,255,0.3);
+    }
+
+    .bg-moss{
+      background:var(--moss);
+    }
+
+    .text-moss{
+      color:var(--moss);
+    }
+
+    .hero-bg{
+      background:
+      linear-gradient(rgba(0,0,0,0.45),rgba(0,0,0,0.45)),
+      url('https://images.unsplash.com/photo-1501004318641-b39e6451bec6?q=80&w=1600&auto=format&fit=crop');
+      background-size:cover;
+      background-position:center;
+    }
+
+    .input-box{
+      transition:0.3s;
+    }
+
+    .input-box:focus{
+      transform:translateY(-2px);
+      box-shadow:0 10px 25px rgba(79,93,47,0.15);
+    }
+
+    .btn-hover{
+      transition:0.3s;
+    }
+
+    .btn-hover:hover{
+      transform:translateY(-2px) scale(1.01);
+    }
+
+    .fade{
+      animation:fadeIn 0.7s ease;
+    }
+
+    @keyframes fadeIn{
+      from{
+        opacity:0;
+        transform:translateY(20px);
+      }
+      to{
+        opacity:1;
+        transform:translateY(0);
+      }
+    }
+  </style>
+</head>
+
+<body class="min-h-screen hero-bg flex items-center justify-center p-5">
+
+  <!-- Back Button -->
+  <a href="./index.html"
+     class="fixed top-6 left-6 z-50 flex items-center gap-2 bg-white/20 hover:bg-white/30 text-white px-5 py-3 rounded-full backdrop-blur-md transition">
+    <iconify-icon icon="lucide:arrow-left"></iconify-icon>
+    Home
+  </a>
+
+  <!-- Main Container -->
+  <div class="w-full max-w-6xl grid lg:grid-cols-2 rounded-[40px] overflow-hidden shadow-2xl glass fade">
+
+    <!-- Left Side -->
+    <div class="hidden lg:flex flex-col justify-between p-16 bg-moss text-white relative overflow-hidden">
+
+      <div class="absolute inset-0 opacity-10">
+        <div class="absolute -top-10 -right-10 w-72 h-72 bg-white rounded-full"></div>
+        <div class="absolute bottom-0 left-0 w-60 h-60 bg-white rounded-full"></div>
+      </div>
+
+      <!-- Logo -->
+      <a href="./index.html" class="flex items-center gap-3 relative z-10">
+        <iconify-icon icon="lucide:sprout" class="text-4xl"></iconify-icon>
+        <span class="serif text-4xl font-bold">KisanYUG</span>
+      </a>
+
+      <!-- Content -->
+      <div class="relative z-10">
+        <h1 class="serif text-6xl leading-tight mb-6">
+          Welcome <br>
+          Back to Your <br>
+          <span class="italic text-[#d6e6b5]">
+            Farm Ecosystem
+          </span>
+        </h1>
+
+        <p class="text-stone-200 text-lg leading-relaxed max-w-md">
+          Login to explore fresh harvests, manage your orders,
+          track farmers, and experience sustainable shopping.
+        </p>
+      </div>
+
+      <!-- Bottom Users -->
+      <div class="relative z-10 flex items-center gap-4">
+
+        <div class="flex -space-x-4">
+          <img src="https://randomuser.me/api/portraits/women/44.jpg"
+               class="w-12 h-12 rounded-full border-2 border-white object-cover">
+
+          <img src="https://randomuser.me/api/portraits/men/32.jpg"
+               class="w-12 h-12 rounded-full border-2 border-white object-cover">
+
+          <img src="https://randomuser.me/api/portraits/women/68.jpg"
+               class="w-12 h-12 rounded-full border-2 border-white object-cover">
+        </div>
+
+        <p class="text-sm text-stone-200">
+          Trusted by 12,000+ families
+        </p>
+      </div>
+    </div>
+
+    <!-- Right Side -->
+    <div class="bg-white p-8 md:p-14 flex flex-col justify-center">
+
+      <!-- Mobile Logo -->
+      <div class="lg:hidden flex items-center justify-center gap-2 mb-8">
+        <iconify-icon icon="lucide:sprout"
+                       class="text-3xl text-moss"></iconify-icon>
+
+        <span class="serif text-3xl font-bold text-moss">
+          KisanYUG
+        </span>
+      </div>
+
+      <div class="mb-10 text-center lg:text-left">
+        <h2 class="serif text-5xl text-gray-800 mb-3">
+          Sign In
+        </h2>
+
+        <p class="text-gray-500">
+          Continue your sustainable shopping journey
+        </p>
+      </div>
+
+      <!-- Social Login -->
+      <div class="grid grid-cols-2 gap-4 mb-8">
+
+        <!-- GOOGLE LOGIN BUTTON -->
+<button
+  id="googleLogin"
+  class="flex items-center justify-center gap-3 py-3 border border-stone-200 rounded-xl hover:bg-stone-50 transition-colors text-sm font-medium"
+>
+  <iconify-icon
+    class="text-lg"
+    icon="logos:google-icon">
+  </iconify-icon>
+
+  Google
+</button>
+
+
+<!-- APPLE LOGIN BUTTON -->
+<button
+  id="appleLogin"
+  class="border border-gray-200 rounded-2xl py-4 flex items-center justify-center gap-3 hover:bg-gray-50 transition btn-hover"
+>
+
+  <iconify-icon
+    icon="logos:apple"
+    class="text-xl">
+  </iconify-icon>
+
+  <span class="font-medium">
+    Apple
+  </span>
+
+</button>
+      </div>
+
+      <!-- Divider -->
+      <div class="relative flex items-center justify-center mb-8">
+        <div class="w-full h-[1px] bg-gray-200"></div>
+
+        <span class="absolute bg-white px-5 text-sm text-gray-400">
+          OR CONTINUE WITH EMAIL
+        </span>
+      </div>
+
+      <!-- Form -->
+      <form id="loginForm" class="space-y-5">
+
+        <!-- Email -->
+        <div>
+          <label class="block text-sm font-semibold text-gray-600 mb-2">
+            Email Address
+          </label>
+
+          <div class="relative">
+            <iconify-icon icon="lucide:mail"
+                           class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg"></iconify-icon>
+
+            <input
+              type="email"
+              id="email"
+              placeholder="you@example.com"
+              class="input-box w-full pl-12 pr-4 py-4 rounded-2xl border border-gray-200 bg-gray-50 outline-none focus:ring-2 focus:ring-[#4F5D2F]"
+              required
+            >
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <label class="text-sm font-semibold text-gray-600">
+              Password
+            </label>
+
+            <a href="#"
+               class="text-sm text-[#E2725B] hover:underline">
+              Forgot Password?
+            </a>
+          </div>
+
+          <div class="relative">
+
+            <iconify-icon icon="lucide:lock"
+                           class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg"></iconify-icon>
+
+            <input
+              type="password"
+              id="password"
+              placeholder="Enter password"
+              class="input-box w-full pl-12 pr-12 py-4 rounded-2xl border border-gray-200 bg-gray-50 outline-none focus:ring-2 focus:ring-[#4F5D2F]"
+              required
+            >
+
+            <button type="button"
+                    id="togglePassword"
+                    class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700">
+
+              <iconify-icon id="eyeIcon"
+                             icon="lucide:eye"></iconify-icon>
+            </button>
+          </div>
+        </div>
+
+        <!-- Remember -->
+        <div class="flex items-center justify-between">
+
+          <label class="flex items-center gap-3 text-sm text-gray-600">
+            <input type="checkbox"
+                   class="accent-[#4F5D2F] w-4 h-4">
+
+            Remember Me
+          </label>
+
+          <p class="text-sm text-gray-400">
+            Secure Login
+          </p>
+        </div>
+
+        <!-- Submit -->
+        <button
+          type="submit"
+          class="w-full bg-moss text-white py-4 rounded-2xl text-lg font-semibold shadow-xl hover:bg-[#2D3B2D] btn-hover">
+          Login to TerraLink
+        </button>
+
+      </form>
+
+      <!-- Signup -->
+      <p class="text-center text-gray-500 mt-8">
+        Don't have an account?
+
+        <a href="#"
+           class="text-moss font-semibold hover:underline">
+          Create Account
+        </a>
+      </p>
+
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script type="module">
+
+// ================= FIREBASE IMPORT =================
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+  getAuth,
+  GoogleAuthProvider,
+  OAuthProvider,
+  signInWithPopup
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+
+// ================= FIREBASE CONFIG =================
+// IMPORTANT:
+// Firebase Console se apna REAL config paste karo
+
+const firebaseConfig = {
+  apiKey: "AIzaSyXXXXXXX",
+  authDomain: "your-project.firebaseapp.com",
+  projectId: "your-project-id",
+  storageBucket: "your-project.appspot.com",
+  messagingSenderId: "123456789",
+  appId: "1:123:web:abc"
+};
+
+
+// ================= INITIALIZE =================
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+
+// ================= GOOGLE LOGIN =================
+
+const googleBtn =
+document.getElementById("googleLogin");
+
+googleBtn.addEventListener("click", async () => {
+
+  const provider =
+  new GoogleAuthProvider();
+
+  try {
+
+    const result =
+    await signInWithPopup(auth, provider);
+
+    const user = result.user;
+
+    alert(
+      "Welcome " + user.displayName
+    );
+
+    // Redirect
+    window.location.href = "./index.html";
+
+  }
+
+  catch(error){
+
+    console.log(error);
+
+    alert(error.message);
+
+  }
+
+});
+
+
+// ================= APPLE LOGIN =================
+
+const appleBtn =
+document.getElementById("appleLogin");
+
+appleBtn.addEventListener("click", async () => {
+
+  const provider =
+  new OAuthProvider("apple.com");
+
+  try {
+
+    const result =
+    await signInWithPopup(auth, provider);
+
+    alert("Apple Login Success");
+
+    window.location.href = "./index.html";
+
+  }
+
+  catch(error){
+
+    console.log(error);
+
+    alert(error.message);
+
+  }
+
+});
+
+
+// ================= PASSWORD TOGGLE =================
+
+const togglePassword =
+document.getElementById("togglePassword");
+
+const password =
+document.getElementById("password");
+
+const eyeIcon =
+document.getElementById("eyeIcon");
+
+togglePassword.addEventListener("click", () => {
+
+  if(password.type === "password"){
+
+    password.type = "text";
+
+    eyeIcon.setAttribute(
+      "icon",
+      "lucide:eye-off"
+    );
+
+  }
+
+  else{
+
+    password.type = "password";
+
+    eyeIcon.setAttribute(
+      "icon",
+      "lucide:eye"
+    );
+
+  }
+
+});
+
+
+// ================= FORM LOGIN =================
+
+const loginForm =
+document.getElementById("loginForm");
+
+loginForm.addEventListener("submit",(e)=>{
+
+  e.preventDefault();
+
+  const email =
+  document.getElementById("email").value;
+
+  const pass =
+  document.getElementById("password").value;
+
+  if(email === "" || pass === ""){
+
+    alert("Please fill all fields");
+
+    return;
+
+  }
+
+  alert("Login Successful ✅");
+
+  window.location.href = "./index.html";
+
+});
+
+</script>
+
+</body>
+</html>
+
+
+
+
+// market.html
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TerraLink Marketplace</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Iconify -->
+  <script src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="./market.css">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
+  <style>
+
+    :root{
+      --moss:#4F5D2F;
+      --forest:#2D3B2D;
+      --cream:#F5F5DC;
+      --terracotta:#E2725B;
+    }
+
+    body{
+      font-family:'Inter',sans-serif;
+      background:var(--cream);
+      overflow-x:hidden;
+    }
+
+    .serif{
+      font-family:'Playfair Display',serif;
+    }
+
+    .glass{
+      background:rgba(255,255,255,0.4);
+      backdrop-filter:blur(10px);
+      -webkit-backdrop-filter:blur(10px);
+      border:1px solid rgba(255,255,255,0.3);
+    }
+
+    .product-card img{
+      transition:0.5s;
+    }
+
+    .product-card:hover img{
+      transform:scale(1.08);
+    }
+
+    .pulse{
+      animation:pulse 2s infinite;
+    }
+
+    @keyframes pulse{
+      0%{
+        box-shadow:0 0 0 0 rgba(79,93,47,0.4);
+      }
+      70%{
+        box-shadow:0 0 0 15px rgba(79,93,47,0);
+      }
+      100%{
+        box-shadow:0 0 0 0 rgba(79,93,47,0);
+      }
+    }
+
+  </style>
+</head>
+
+<body class="pt-20">
+
+  <!-- NAVBAR -->
+  <nav class="fixed top-0 left-0 w-full z-50 glass border-b border-gray-200">
+
+    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+
+      <!-- LOGO -->
+      <a href="./index.html" class="flex items-center gap-2">
+
+        <iconify-icon
+          icon="lucide:sprout"
+          class="text-3xl text-[var(--moss)]"
+        ></iconify-icon>
+
+        <span class="serif text-2xl font-bold">
+          KisanYUG
+        </span>
+
+      </a>
+
+      <!-- SEARCH -->
+      <div class="hidden md:block flex-1 max-w-xl mx-8 relative">
+
+        <input
+          type="text"
+          placeholder="Search vegetables, honey, grains..."
+          class="w-full rounded-full border border-gray-200 bg-white/70 py-3 pl-12 pr-4 outline-none focus:ring-2 focus:ring-[var(--moss)]"
+        >
+
+        <iconify-icon
+          icon="lucide:search"
+          class="absolute left-4 top-3.5 text-gray-400 text-xl"
+        ></iconify-icon>
+
+      </div>
+
+      <!-- MENU -->
+      <div class="flex items-center gap-6">
+
+        <!-- HOME PAGE LINK -->
+        <a
+          href="./index.html"
+          class="font-semibold hover:text-[var(--moss)] transition"
+        >
+          Home
+        </a>
+
+        <!-- MARKET -->
+        <a
+          href="./market.html"
+          class="text-[var(--moss)] border-b-2 border-[var(--moss)]"
+        >
+          Marketplace
+        </a>
+
+        <a href="./kisanmarket.html" class="font-semibold hover:text-[var(--moss)] transition">KisanMarket</a>
+
+        <a href="./services.html" class="font-semibold hover:text-[var(--moss)] transition">Services</a>
+
+        <a href="./farmerpass.html" class="font-semibold hover:text-[var(--moss)] transition">
+          Farmer Pass
+        </a>
+
+        <!-- SUPPORT -->
+        <a
+          href="./contact_help.html"
+          class="font-semibold hover:text-[var(--moss)] transition"
+        >
+          Support
+        </a>
+
+        <!-- CART -->
+        <div class="relative cursor-pointer">
+
+          <iconify-icon
+            icon="lucide:shopping-cart"
+            class="text-3xl text-gray-700"
+          ></iconify-icon>
+
+          <span class="absolute -top-1 -right-1 bg-[var(--terracotta)] text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold">
+            1
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </nav>
+
+  <!-- MAIN -->
+  <div class="max-w-7xl mx-auto px-6 py-8 flex gap-8">
+
+    <!-- SIDEBAR -->
+    <aside class="hidden lg:block w-72 shrink-0">
+
+      <div class="sticky top-28 space-y-8">
+
+        <!-- CATEGORY -->
+        <div>
+
+          <h3 class="font-bold uppercase text-sm tracking-widest mb-4">
+            Categories
+          </h3>
+
+          <div class="space-y-3">
+
+            <label class="flex items-center gap-3 cursor-pointer">
+              <input type="checkbox" checked class="accent-[var(--moss)]">
+              <span>All Products</span>
+            </label>
+
+            <label class="flex items-center gap-3 cursor-pointer">
+              <input type="checkbox" class="accent-[var(--moss)]">
+              <span>Vegetables</span>
+            </label>
+
+            <label class="flex items-center gap-3 cursor-pointer">
+              <input type="checkbox" class="accent-[var(--moss)]">
+              <span>Organic Fruits</span>
+            </label>
+
+            <label class="flex items-center gap-3 cursor-pointer">
+              <input type="checkbox" class="accent-[var(--moss)]">
+              <span>Dairy Products</span>
+            </label>
+
+          </div>
+
+        </div>
+
+        <!-- IMPACT CARD -->
+        <div class="bg-[var(--forest)] text-white rounded-3xl p-6">
+
+          <h4 class="serif text-2xl mb-3">
+            Sustainable Impact
+          </h4>
+
+          <p class="text-sm text-gray-300 mb-5">
+            Your shopping saved 4.2kg CO₂ this week 🌱
+          </p>
+
+          <div class="w-full h-2 rounded-full bg-gray-700 overflow-hidden mb-3">
+            <div class="bg-green-500 h-full w-[70%]"></div>
+          </div>
+
+          <p class="text-xs text-green-400 font-bold">
+            70% Weekly Goal Completed
+          </p>
+
+        </div>
+
+      </div>
+
+    </aside>
+
+    <!-- PRODUCTS -->
+    <main class="flex-1">
+
+      <!-- TOP BAR -->
+      <div class="flex flex-wrap items-center justify-between gap-4 mb-8">
+
+        <h1 class="serif text-4xl">
+          Fresh Marketplace
+        </h1>
+
+        <select
+          class="rounded-xl border border-gray-200 px-4 py-3 bg-white outline-none rounded-full "
+        >
+          <div class="rounded-full bg-green-500">
+          <option class="rounded">Sort by Popularity</option>
+          <option class="">Lowest Price</option>
+          <option>Highest Rating</option>
+          </div></div></div></div>
+        </select>
+
+      </div>
+
+      <!-- PRODUCT GRID -->
+      <div class="grid sm:grid-cols-2 xl:grid-cols-3 gap-8">
+
+        <!-- PRODUCT -->
+       <div class="product-card bg-white rounded-[30px] overflow-hidden shadow hover:shadow-2xl transition">
+
+          <div class="relative aspect-square overflow-hidden">
+
+            <img
+              src="https://images.unsplash.com/photo-1587049352851-8d4e89133924?q=80&w=1200&auto=format&fit=crop"
+              class="w-full h-full object-cover"
+              alt="Honey"
+            >
+
+          </div>
+
+          <div class="p-6">
+
+            <div class="flex justify-between mb-3">
+
+              <div>
+                <h3 class="font-bold text-xl">
+                  Raw Honey
+                </h3>
+
+                <p class="text-sm text-gray-500">
+                  Mountain Bee Farm
+                </p>
+              </div>
+
+              <div class="text-right">
+
+                <h4 class="font-bold text-[var(--moss)]">
+                  $12
+                </h4>
+
+                <p class="text-xs text-gray-400">
+                  500g
+                </p>
+
+              </div>
+
+            </div>
+
+            <button class="w-full bg-[var(--moss)] hover:bg-[var(--forest)] transition text-white py-3 rounded-xl font-bold">
+
+              Add To Cart
+
+            </button>
+
+          </div>
+
+        </div>
+
+        <!-- PRODUCT -->
+        <div class="product-card bg-white rounded-[30px] overflow-hidden shadow hover:shadow-2xl transition">
+
+          <div class="relative aspect-square overflow-hidden">
+
+            <img
+              src="https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=1200&auto=format&fit=crop"
+              class="w-full h-full object-cover"
+              alt="Bread"
+            >
+
+          </div>
+
+          <div class="p-6">
+
+            <div class="flex justify-between mb-3">
+
+              <div>
+                <h3 class="font-bold text-xl">
+                  Sourdough Bread
+                </h3>
+
+                <p class="text-sm text-gray-500">
+                  Fresh Bakery
+                </p>
+              </div>
+
+              <div class="text-right">
+
+                <h4 class="font-bold text-[var(--moss)]">
+                  $8
+                </h4>
+
+              </div>
+
+            </div>
+
+            <button class="w-full bg-[var(--moss)] hover:bg-[var(--forest)] transition text-white py-3 rounded-xl font-bold">
+
+              Add To Cart
+
+            </button>
+
+          </div>
+
+        </div>
+
+        <!-- PRODUCT -->
+        <div class="product-card bg-white rounded-[30px] overflow-hidden shadow hover:shadow-2xl transition">
+
+          <div class="relative aspect-square overflow-hidden">
+
+            <img
+              src="https://images.unsplash.com/photo-1519996529931-28324d5a630e?q=80&w=1200&auto=format&fit=crop"
+              class="w-full h-full object-cover"
+              alt="Eggs"
+            >
+
+          </div>
+
+          <div class="p-6">
+
+            <h3 class="font-bold text-xl mb-2">
+              Organic Eggs
+            </h3>
+
+            <p class="text-sm text-gray-500 mb-5">
+              Sunny Farm
+            </p>
+
+            <button class="w-full bg-[var(--moss)] hover:bg-[var(--forest)] transition text-white py-3 rounded-xl font-bold">
+
+              Add To Cart - $6.50
+
+            </button>
+
+          </div>
+
+        </div>
+
+        <!-- PRODUCT -->
+        <div class="product-card bg-white rounded-[30px] overflow-hidden shadow hover:shadow-2xl transition">
+
+          <div class="relative aspect-square overflow-hidden">
+
+            <img
+              src="https://images.unsplash.com/photo-1464965911861-746a04b4bca6?q=80&w=1200&auto=format&fit=crop"
+              class="w-full h-full object-cover"
+              alt="Strawberry"
+            >
+
+          </div>
+
+          <div class="p-6">
+
+            <h3 class="font-bold text-xl mb-2">
+              Strawberries
+            </h3>
+
+            <p class="text-sm text-gray-500 mb-5">
+              Berry Farm
+            </p>
+
+            <button class="w-full bg-[var(--moss)] hover:bg-[var(--forest)] transition text-white py-3 rounded-xl font-bold">
+
+              Add To Cart - $5.20
+
+            </button>
+
+          </div>
+
+        </div>
+
+        <!-- PRODUCT -->
+        <div class="product-card bg-white rounded-[30px] overflow-hidden shadow hover:shadow-2xl transition">
+
+          <div class="relative aspect-square overflow-hidden">
+
+            <img
+              src="https://images.unsplash.com/photo-1576045057995-568f588f82fb?q=80&w=1200&auto=format&fit=crop"
+              class="w-full h-full object-cover"
+              alt="Kale"
+            >
+
+          </div>
+
+          <div class="p-6">
+
+            <h3 class="font-bold text-xl mb-2">
+              Fresh Kale
+            </h3>
+
+            <p class="text-sm text-gray-500 mb-5">
+              Green Valley
+            </p>
+
+            <button class="w-full bg-[var(--moss)] hover:bg-[var(--forest)] transition text-white py-3 rounded-xl font-bold">
+
+              Add To Cart - $3.75
+
+            </button>
+
+          </div>
+
+        </div>
+
+        <div class="product-card bg-white rounded-[30px] overflow-hidden shadow hover:shadow-2xl transition">
+
+          <div class="relative aspect-square overflow-hidden">
+
+            <img
+              src="https://images.unsplash.com/photo-1587049352851-8d4e89133924?q=80&w=1200&auto=format&fit=crop"
+              class="w-full h-full object-cover"
+              alt="Honey"
+            >
+
+          </div>
+
+          <div class="p-6">
+
+            <div class="flex justify-between mb-3">
+
+              <div>
+                <h3 class="font-bold text-xl">
+                  Raw Honey
+                </h3>
+
+                <p class="text-sm text-gray-500">
+                  Mountain Bee Farm
+                </p>
+              </div>
+
+              <div class="text-right">
+
+                <h4 class="font-bold text-[var(--moss)]">
+                  $12
+                </h4>
+
+                <p class="text-xs text-gray-400">
+                  500g
+                </p>
+
+              </div>
+
+            </div>
+
+            <button class="w-full bg-[var(--moss)] hover:bg-[var(--forest)] transition text-white py-3 rounded-xl font-bold">
+
+              Add To Cart
+
+            </button>
+
+          </div>
+
+        </div>
+
+        <!-- PRODUCT -->
+        <div class="product-card bg-white rounded-[30px] overflow-hidden shadow hover:shadow-2xl transition">
+
+          <div class="relative aspect-square overflow-hidden">
+
+            <img
+              src="https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=1200&auto=format&fit=crop"
+              class="w-full h-full object-cover"
+              alt="Bread"
+            >
+
+          </div>
+
+          <div class="p-6">
+
+            <div class="flex justify-between mb-3">
+
+              <div>
+                <h3 class="font-bold text-xl">
+                  Sourdough Bread
+                </h3>
+
+                <p class="text-sm text-gray-500">
+                  Fresh Bakery
+                </p>
+              </div>
+
+              <div class="text-right">
+
+                <h4 class="font-bold text-[var(--moss)]">
+                  $8
+                </h4>
+
+              </div>
+
+            </div>
+
+            <button class="w-full bg-[var(--moss)] hover:bg-[var(--forest)] transition text-white py-3 rounded-xl font-bold">
+
+              Add To Cart
+
+            </button>
+
+          </div>
+
+        </div>
+
+        <!-- PRODUCT -->
+        <div class="product-card bg-white rounded-[30px] overflow-hidden shadow hover:shadow-2xl transition">
+
+          <div class="relative aspect-square overflow-hidden">
+
+            <img
+              src="https://images.unsplash.com/photo-1519996529931-28324d5a630e?q=80&w=1200&auto=format&fit=crop"
+              class="w-full h-full object-cover"
+              alt="Eggs"
+            >
+
+          </div>
+
+          <div class="p-6">
+
+            <h3 class="font-bold text-xl mb-2">
+              Organic Eggs
+            </h3>
+
+            <p class="text-sm text-gray-500 mb-5">
+              Sunny Farm
+            </p>
+
+            <button class="w-full bg-[var(--moss)] hover:bg-[var(--forest)] transition text-white py-3 rounded-xl font-bold">
+
+              Add To Cart - $6.50
+
+            </button>
+
+          </div>
+
+        </div>
+
+        <!-- PRODUCT -->
+        <div class="product-card bg-white rounded-[30px] overflow-hidden shadow hover:shadow-2xl transition">
+
+          <div class="relative aspect-square overflow-hidden">
+
+            <img
+              src="https://images.unsplash.com/photo-1464965911861-746a04b4bca6?q=80&w=1200&auto=format&fit=crop"
+              class="w-full h-full object-cover"
+              alt="Strawberry"
+            >
+
+          </div>
+
+          <div class="p-6">
+
+            <h3 class="font-bold text-xl mb-2">
+              Strawberries
+            </h3>
+
+            <p class="text-sm text-gray-500 mb-5">
+              Berry Farm
+            </p>
+
+            <button class="w-full bg-[var(--moss)] hover:bg-[var(--forest)] transition text-white py-3 rounded-xl font-bold">
+
+              Add To Cart - $5.20
+
+            </button>
+
+          </div>
+
+        </div>
+
+        <!-- PRODUCT -->
+        <div class="product-card bg-white rounded-[30px] overflow-hidden shadow hover:shadow-2xl transition">
+
+          <div class="relative aspect-square overflow-hidden">
+
+            <img
+              src="https://images.unsplash.com/photo-1576045057995-568f588f82fb?q=80&w=1200&auto=format&fit=crop"
+              class="w-full h-full object-cover"
+              alt="Kale"
+            >
+
+          </div>
+
+          <div class="p-6">
+
+            <h3 class="font-bold text-xl mb-2">
+              Fresh Kale
+            </h3>
+
+            <p class="text-sm text-gray-500 mb-5">
+              Green Valley
+            </p>
+
+            <button class="w-full bg-[var(--moss)] hover:bg-[var(--forest)] transition text-white py-3 rounded-xl font-bold">
+
+              Add To Cart - $3.75
+
+            </button>
+
+          </div>
+
+        </div>
+
+        <!-- PRODUCT -->
+        <div class="product-card bg-white rounded-[30px] overflow-hidden shadow hover:shadow-2xl transition">
+
+          <div class="relative aspect-square overflow-hidden">
+
+            <img
+              src="https://images.unsplash.com/photo-1519996529931-28324d5a630e?q=80&w=1200&auto=format&fit=crop"
+              class="w-full h-full object-cover"
+              alt="Eggs"
+            >
+
+          </div>
+
+          <div class="p-6">
+
+            <h3 class="font-bold text-xl mb-2">
+              Organic Eggs
+            </h3>
+
+            <p class="text-sm text-gray-500 mb-5">
+              Sunny Farm
+            </p>
+
+            <button class="w-full bg-[var(--moss)] hover:bg-[var(--forest)] transition text-white py-3 rounded-xl font-bold">
+
+              Add To Cart - $6.50
+
+            </button>
+
+          </div>
+
+        </div>
+
+        <!-- PRODUCT -->
+        <div class="product-card bg-white rounded-[30px] overflow-hidden shadow hover:shadow-2xl transition">
+
+          <div class="relative aspect-square overflow-hidden">
+
+            <img
+              src="https://images.unsplash.com/photo-1464965911861-746a04b4bca6?q=80&w=1200&auto=format&fit=crop"
+              class="w-full h-full object-cover"
+              alt="Strawberry"
+            >
+
+          </div>
+
+          <div class="p-6">
+
+            <h3 class="font-bold text-xl mb-2">
+              Strawberries
+            </h3>
+
+            <p class="text-sm text-gray-500 mb-5">
+              Berry Farm
+            </p>
+
+            <button class="w-full bg-[var(--moss)] hover:bg-[var(--forest)] transition text-white py-3 rounded-xl font-bold">
+
+              Add To Cart - $5.20
+
+            </button>
+
+          </div>
+
+        </div>
+
+        <!-- PRODUCT -->
+        <div class="product-card bg-white rounded-[30px] overflow-hidden shadow hover:shadow-2xl transition">
+
+          <div class="relative aspect-square overflow-hidden">
+
+            <img
+              src="https://images.unsplash.com/photo-1576045057995-568f588f82fb?q=80&w=1200&auto=format&fit=crop"
+              class="w-full h-full object-cover"
+              alt="Kale"
+            >
+
+          </div>
+
+          <div class="p-6">
+
+            <h3 class="font-bold text-xl mb-2">
+              Fresh Kale
+            </h3>
+
+            <p class="text-sm text-gray-500 mb-5">
+              Green Valley
+            </p>
+
+            <button class="w-full bg-[var(--moss)] hover:bg-[var(--forest)] transition text-white py-3 rounded-xl font-bold">
+
+              Add To Cart - $3.75
+
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <div class="product-card bg-white rounded-[30px] overflow-hidden shadow hover:shadow-2xl transition">
+
+          <div class="relative aspect-square overflow-hidden">
+
+            <img
+              src="https://images.unsplash.com/photo-1587049352851-8d4e89133924?q=80&w=1200&auto=format&fit=crop"
+              class="w-full h-full object-cover"
+              alt="Honey"
+            >
+
+          </div>
+
+          <div class="p-6">
+
+            <div class="flex justify-between mb-3">
+
+              <div>
+                <h3 class="font-bold text-xl">
+                  Raw Honey
+                </h3>
+
+                <p class="text-sm text-gray-500">
+                  Mountain Bee Farm
+                </p>
+              </div>
+
+              <div class="text-right">
+
+                <h4 class="font-bold text-[var(--moss)]">
+                  $12
+                </h4>
+
+                <p class="text-xs text-gray-400">
+                  500g
+                </p>
+
+              </div>
+
+            </div>
+
+            <button class="w-full bg-[var(--moss)] hover:bg-[var(--forest)] transition text-white py-3 rounded-xl font-bold">
+
+              Add To Cart
+
+            </button>
+
+          </div>
+
+        </div>
+
+        <!-- PRODUCT -->
+        <div class="product-card bg-white rounded-[30px] overflow-hidden shadow hover:shadow-2xl transition">
+
+          <div class="relative aspect-square overflow-hidden">
+
+            <img
+              src="https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=1200&auto=format&fit=crop"
+              class="w-full h-full object-cover"
+              alt="Bread"
+            >
+
+          </div>
+
+          <div class="p-6">
+
+            <div class="flex justify-between mb-3">
+
+              <div>
+                <h3 class="font-bold text-xl">
+                  Sourdough Bread
+                </h3>
+
+                <p class="text-sm text-gray-500">
+                  Fresh Bakery
+                </p>
+              </div>
+
+              <div class="text-right">
+
+                <h4 class="font-bold text-[var(--moss)]">
+                  $8
+                </h4>
+
+              </div>
+
+            </div>
+
+            <button class="w-full bg-[var(--moss)] hover:bg-[var(--forest)] transition text-white py-3 rounded-xl font-bold">
+
+              Add To Cart
+
+            </button>
+
+          </div>
+
+        </div>
+
+        <!-- PRODUCT -->
+        <div class="product-card bg-white rounded-[30px] overflow-hidden shadow hover:shadow-2xl transition">
+
+          <div class="relative aspect-square overflow-hidden">
+
+            <img
+              src="https://images.unsplash.com/photo-1519996529931-28324d5a630e?q=80&w=1200&auto=format&fit=crop"
+              class="w-full h-full object-cover"
+              alt="Eggs"
+            >
+
+          </div>
+
+          <div class="p-6">
+
+            <h3 class="font-bold text-xl mb-2">
+              Organic Eggs
+            </h3>
+
+            <p class="text-sm text-gray-500 mb-5">
+              Sunny Farm
+            </p>
+
+            <button class="w-full bg-[var(--moss)] hover:bg-[var(--forest)] transition text-white py-3 rounded-xl font-bold">
+
+              Add To Cart - $6.50
+
+            </button>
+
+          </div>
+
+        </div>
+
+        <!-- PRODUCT -->
+        <div class="product-card bg-white rounded-[30px] overflow-hidden shadow hover:shadow-2xl transition">
+
+          <div class="relative aspect-square overflow-hidden">
+
+            <img
+              src="https://images.unsplash.com/photo-1464965911861-746a04b4bca6?q=80&w=1200&auto=format&fit=crop"
+              class="w-full h-full object-cover"
+              alt="Strawberry"
+            >
+
+          </div>
+
+          <div class="p-6">
+
+            <h3 class="font-bold text-xl mb-2">
+              Strawberries
+            </h3>
+
+            <p class="text-sm text-gray-500 mb-5">
+              Berry Farm
+            </p>
+
+            <button class="w-full bg-[var(--moss)] hover:bg-[var(--forest)] transition text-white py-3 rounded-xl font-bold">
+
+              Add To Cart - $5.20
+
+            </button>
+
+          </div>
+
+        </div>
+
+        <!-- PRODUCT -->
+        <div class="product-card bg-white rounded-[30px] overflow-hidden shadow hover:shadow-2xl transition">
+
+          <div class="relative aspect-square overflow-hidden">
+
+            <img
+              src="https://images.unsplash.com/photo-1576045057995-568f588f82fb?q=80&w=1200&auto=format&fit=crop"
+              class="w-full h-full object-cover"
+              alt="Kale"
+            >
+
+          </div>
+
+          <div class="p-6">
+
+            <h3 class="font-bold text-xl mb-2">
+              Fresh Kale
+            </h3>
+
+            <p class="text-sm text-gray-500 mb-5">
+              Green Valley
+            </p>
+
+            <button class="w-full bg-[var(--moss)] hover:bg-[var(--forest)] transition text-white py-3 rounded-xl font-bold">
+
+              Add To Cart - $3.75
+
+            </button>
+
+          </div>
+
+        </div>
+
+        
+
+      </div>
+
+    </main>
+
+  </div>
+
+
+  
+  <!-- FLOATING CHAT BUTTON -->
+  <button
+    id="chatBtn"
+    class="fixed bottom-8 right-8 w-16 h-16 rounded-full bg-[var(--moss)] text-white flex items-center justify-center shadow-2xl pulse hover:scale-110 transition z-50"
+  >
+
+    <iconify-icon
+      icon="lucide:bot"
+      class="text-3xl"
+    ></iconify-icon>
+
+  </button>
+
+  <!-- CHAT BOX -->
+  <div
+    id="chatBox"
+    class="hidden fixed bottom-28 right-8 w-80 bg-white rounded-3xl shadow-2xl overflow-hidden z-50"
+  >
+
+    <div class="bg-[var(--moss)] text-white p-4 flex items-center justify-between">
+
+      <div class="flex items-center gap-2">
+
+        <iconify-icon icon="lucide:bot"></iconify-icon>
+
+        <span class="font-bold">
+          Terra AI
+        </span>
+
+      </div>
+
+      <button id="closeChat">
+
+        <iconify-icon icon="lucide:x"></iconify-icon>
+
+      </button>
+
+    </div>
+
+    <div class="p-5 h-72 overflow-y-auto">
+
+      <div class="bg-gray-100 rounded-2xl p-4 text-sm">
+        Hello 👋 <br>
+        Welcome to TerraLink Marketplace.
+      </div>
+
+    </div>
+
+    <div class="border-t p-4 flex gap-2">
+
+      <input
+        type="text"
+        placeholder="Ask something..."
+        class="flex-1 border rounded-xl px-4 py-3 outline-none"
+      >
+
+      <button class="bg-[var(--moss)] text-white px-4 rounded-xl">
+
+        <iconify-icon icon="lucide:send"></iconify-icon>
+
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- JAVASCRIPT -->
+
+
+  
+  <script>
+
+    const chatBtn = document.getElementById("chatBtn");
+    const chatBox = document.getElementById("chatBox");
+    const closeChat = document.getElementById("closeChat");
+
+    chatBtn.addEventListener("click", () => {
+      chatBox.classList.toggle("hidden");
+    });
+
+    closeChat.addEventListener("click", () => {
+      chatBox.classList.add("hidden");
+    });
+
+  </script>
+
+</body>
+</html>
+
+
+
+
+
+// CreateAccount.html
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>KisanYUG | Create Account</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Iconify -->
+  <script src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    body{
+      font-family:'Inter',sans-serif;
+      background:#f5f5dc;
+      overflow-x:hidden;
+    }
+
+    .serif{
+      font-family:'Playfair Display', serif;
+    }
+
+    :root{
+      --moss:#4F5D2F;
+      --dark:#2D3B2D;
+      --oatmeal:#F5F5DC;
+      --terracotta:#E2725B;
+    }
+
+    .glass{
+      background:rgba(255,255,255,0.75);
+      backdrop-filter:blur(15px);
+      border:1px solid rgba(255,255,255,0.3);
+    }
+
+    .bg-moss{
+      background:var(--moss);
+    }
+
+    .text-moss{
+      color:var(--moss);
+    }
+
+    .hero-bg{
+      background:
+      linear-gradient(rgba(0,0,0,0.45),rgba(0,0,0,0.45)),
+      url('https://images.unsplash.com/photo-1501004318641-b39e6451bec6?q=80&w=1600&auto=format&fit=crop');
+      background-size:cover;
+      background-position:center;
+    }
+
+    .input-box{
+      transition:0.3s;
+    }
+
+    .input-box:focus{
+      transform:translateY(-2px);
+      box-shadow:0 10px 25px rgba(79,93,47,0.15);
+    }
+
+    .btn-hover{
+      transition:0.3s;
+    }
+
+    .btn-hover:hover{
+      transform:translateY(-2px) scale(1.01);
+    }
+
+    .fade{
+      animation:fadeIn 0.7s ease;
+    }
+
+    @keyframes fadeIn{
+      from{
+        opacity:0;
+        transform:translateY(20px);
+      }
+      to{
+        opacity:1;
+        transform:translateY(0);
+      }
+    }
+
+  </style>
+</head>
+
+<body class="min-h-screen hero-bg flex items-center justify-center p-5">
+
+  <!-- Back Button -->
+  <a href="./index.html"
+     class="fixed top-6 left-6 z-50 flex items-center gap-2 bg-white/20 hover:bg-white/30 text-white px-5 py-3 rounded-full backdrop-blur-md transition">
+
+    <iconify-icon icon="lucide:arrow-left"></iconify-icon>
+
+    Home
+
+  </a>
+
+  <!-- Main Container -->
+  <div class="w-full max-w-6xl grid lg:grid-cols-2 rounded-[40px] overflow-hidden shadow-2xl glass fade">
+
+    <!-- LEFT SIDE -->
+    <div class="hidden lg:flex flex-col justify-between p-16 bg-moss text-white relative overflow-hidden">
+
+      <div class="absolute inset-0 opacity-10">
+
+        <div class="absolute -top-10 -right-10 w-72 h-72 bg-white rounded-full"></div>
+
+        <div class="absolute bottom-0 left-0 w-60 h-60 bg-white rounded-full"></div>
+
+      </div>
+
+      <!-- Logo -->
+      <a href="./index.html" class="flex items-center gap-3 relative z-10">
+
+        <iconify-icon icon="lucide:sprout" class="text-4xl"></iconify-icon>
+
+        <span class="serif text-4xl font-bold">
+          KisanYUG
+        </span>
+
+      </a>
+
+      <!-- Content -->
+      <div class="relative z-10">
+
+        <h1 class="serif text-6xl leading-tight mb-6">
+
+          Create Your <br>
+
+          Smart Farmer <br>
+
+          <span class="italic text-[#d6e6b5]">
+            Account Today
+          </span>
+
+        </h1>
+
+        <p class="text-stone-200 text-lg leading-relaxed max-w-md">
+
+          Join KisanYUG and connect directly with buyers,
+          upload crops, create farmer passes,
+          and grow your digital farming business.
+
+        </p>
+
+      </div>
+
+      <!-- Bottom Users -->
+      <div class="relative z-10 flex items-center gap-4">
+
+        <div class="flex -space-x-4">
+
+          <img src="https://randomuser.me/api/portraits/women/44.jpg"
+               class="w-12 h-12 rounded-full border-2 border-white object-cover">
+
+          <img src="https://randomuser.me/api/portraits/men/32.jpg"
+               class="w-12 h-12 rounded-full border-2 border-white object-cover">
+
+          <img src="https://randomuser.me/api/portraits/women/68.jpg"
+               class="w-12 h-12 rounded-full border-2 border-white object-cover">
+
+        </div>
+
+        <p class="text-sm text-stone-200">
+          Trusted by 20,000+ farmers
+        </p>
+
+      </div>
+
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="bg-white p-8 md:p-14 flex flex-col justify-center">
+
+      <!-- Mobile Logo -->
+      <div class="lg:hidden flex items-center justify-center gap-2 mb-8">
+
+        <iconify-icon icon="lucide:sprout"
+                       class="text-3xl text-moss"></iconify-icon>
+
+        <span class="serif text-3xl font-bold text-moss">
+          KisanYUG
+        </span>
+
+      </div>
+
+      <!-- Heading -->
+      <div class="mb-10 text-center lg:text-left">
+
+        <h2 class="serif text-5xl text-gray-800 mb-3">
+          Create Account
+        </h2>
+
+        <p class="text-gray-500">
+          Start your smart agriculture journey
+        </p>
+
+      </div>
+
+      <!-- FORM -->
+      <form id="signupForm" class="space-y-5">
+
+        <!-- Full Name -->
+        <div>
+
+          <label class="block text-sm font-semibold text-gray-600 mb-2">
+            Full Name
+          </label>
+
+          <div class="relative">
+
+            <iconify-icon
+              icon="lucide:user"
+              class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg">
+            </iconify-icon>
+
+            <input
+              type="text"
+              id="name"
+              placeholder="Enter your full name"
+              class="input-box w-full pl-12 pr-4 py-4 rounded-2xl border border-gray-200 bg-gray-50 outline-none focus:ring-2 focus:ring-[#4F5D2F]"
+              required
+            >
+
+          </div>
+
+        </div>
+
+        <!-- Email -->
+        <div>
+
+          <label class="block text-sm font-semibold text-gray-600 mb-2">
+            Email Address
+          </label>
+
+          <div class="relative">
+
+            <iconify-icon
+              icon="lucide:mail"
+              class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg">
+            </iconify-icon>
+
+            <input
+              type="email"
+              id="email"
+              placeholder="you@example.com"
+              class="input-box w-full pl-12 pr-4 py-4 rounded-2xl border border-gray-200 bg-gray-50 outline-none focus:ring-2 focus:ring-[#4F5D2F]"
+              required
+            >
+
+          </div>
+
+        </div>
+
+        <!-- Phone -->
+        <div>
+
+          <label class="block text-sm font-semibold text-gray-600 mb-2">
+            Mobile Number
+          </label>
+
+          <div class="relative">
+
+            <iconify-icon
+              icon="lucide:phone"
+              class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg">
+            </iconify-icon>
+
+            <input
+              type="tel"
+              id="phone"
+              placeholder="9876543210"
+              class="input-box w-full pl-12 pr-4 py-4 rounded-2xl border border-gray-200 bg-gray-50 outline-none focus:ring-2 focus:ring-[#4F5D2F]"
+              required
+            >
+
+          </div>
+
+        </div>
+
+        <!-- Password -->
+        <div>
+
+          <label class="block text-sm font-semibold text-gray-600 mb-2">
+            Password
+          </label>
+
+          <div class="relative">
+
+            <iconify-icon
+              icon="lucide:lock"
+              class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg">
+            </iconify-icon>
+
+            <input
+              type="password"
+              id="password"
+              placeholder="Create password"
+              class="input-box w-full pl-12 pr-12 py-4 rounded-2xl border border-gray-200 bg-gray-50 outline-none focus:ring-2 focus:ring-[#4F5D2F]"
+              required
+            >
+
+            <button
+              type="button"
+              id="togglePassword"
+              class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700">
+
+              <iconify-icon
+                id="eyeIcon"
+                icon="lucide:eye">
+              </iconify-icon>
+
+            </button>
+
+          </div>
+
+        </div>
+
+        <!-- Confirm Password -->
+        <div>
+
+          <label class="block text-sm font-semibold text-gray-600 mb-2">
+            Confirm Password
+          </label>
+
+          <div class="relative">
+
+            <iconify-icon
+              icon="lucide:shield-check"
+              class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg">
+            </iconify-icon>
+
+            <input
+              type="password"
+              id="confirmPassword"
+              placeholder="Confirm password"
+              class="input-box w-full pl-12 pr-4 py-4 rounded-2xl border border-gray-200 bg-gray-50 outline-none focus:ring-2 focus:ring-[#4F5D2F]"
+              required
+            >
+
+          </div>
+
+        </div>
+
+        <!-- Terms -->
+        <label class="flex items-center gap-3 text-sm text-gray-600">
+
+          <input
+            type="checkbox"
+            required
+            class="accent-[#4F5D2F] w-4 h-4">
+
+          I agree to Terms & Conditions
+
+        </label>
+
+        <!-- Submit -->
+        <button
+          type="submit"
+          class="w-full bg-moss text-white py-4 rounded-2xl text-lg font-semibold shadow-xl hover:bg-[#2D3B2D] btn-hover">
+
+          Create Account
+
+        </button>
+
+      </form>
+
+      <!-- Login -->
+      <p class="text-center text-gray-500 mt-8">
+
+        Already have an account?
+
+        <a href="./auth.html"
+           class="text-moss font-semibold hover:underline">
+
+          Sign In
+
+        </a>
+
+      </p>
+
+    </div>
+
+  </div>
+
+  <!-- JAVASCRIPT -->
+  <script>
+
+    // PASSWORD TOGGLE
+
+    const togglePassword =
+    document.getElementById("togglePassword");
+
+    const password =
+    document.getElementById("password");
+
+    const eyeIcon =
+    document.getElementById("eyeIcon");
+
+    togglePassword.addEventListener("click", () => {
+
+      if(password.type === "password"){
+
+        password.type = "text";
+
+        eyeIcon.setAttribute(
+          "icon",
+          "lucide:eye-off"
+        );
+
+      }
+
+      else{
+
+        password.type = "password";
+
+        eyeIcon.setAttribute(
+          "icon",
+          "lucide:eye"
+        );
+
+      }
+
+    });
+
+
+
+
+    // SIGNUP FORM
+
+    const signupForm =
+    document.getElementById("signupForm");
+
+    signupForm.addEventListener("submit", async (e) => {
+
+      e.preventDefault();
+
+      const name =
+      document.getElementById("name").value;
+
+      const email =
+      document.getElementById("email").value;
+
+      const phone =
+      document.getElementById("phone").value;
+
+      const password =
+      document.getElementById("password").value;
+
+      const confirmPassword =
+      document.getElementById("confirmPassword").value;
+
+
+      // PASSWORD MATCH CHECK
+
+      if(password !== confirmPassword){
+
+        alert("Passwords do not match ❌");
+
+        return;
+
+      }
+
+
+      const userData = {
+
+        name:name,
+        email:email,
+        phone:phone,
+        password:password
+
+      };
+
+
+      try{
+
+        const response = await fetch(
+          "http://127.0.0.1:5000/register",
+          {
+
+            method:"POST",
+
+            headers:{
+              "Content-Type":"application/json"
+            },
+
+            body:JSON.stringify(userData)
+
+          }
+        );
+
+        const data =
+        await response.json();
+
+        if(data.success){
+
+          alert("Account Created Successfully ✅");
+
+          window.location.href =
+          "./login.html";
+
+        }
+
+        else{
+
+          alert(data.message);
+
+        }
+
+      }
+
+      catch(error){
+
+        console.log(error);
+
+        alert("Backend Server Error");
+
+      }
+
+    });
+
+  </script>
+
+</body>
+</html>
+
+
+
+
+// kisanmarket.html
+
+
+
+<!-- =========================================
+KISANMARKET - FARMER PASS VERIFICATION VERSION
+Only Farmer Pass holders can sell crops
+========================================= -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>KisanYUG | KisanMarket</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Iconify -->
+  <script src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+
+    :root{
+      --moss:#4F5D2F;
+      --forest:#2D3B2D;
+      --cream:#F5F5DC;
+      --terracotta:#E2725B;
+    }
+
+    body{
+      font-family:'Inter',sans-serif;
+      background:var(--cream);
+      overflow-x:hidden;
+      color:var(--forest);
+    }
+
+    .serif{
+      font-family:'Playfair Display',serif;
+    }
+
+    .glass{
+      background:rgba(255,255,255,0.4);
+      backdrop-filter:blur(10px);
+      -webkit-backdrop-filter:blur(10px);
+      border:1px solid rgba(255,255,255,0.3);
+    }
+
+    .card-hover{
+      transition:0.4s;
+    }
+
+    .card-hover:hover{
+      transform:translateY(-8px);
+      box-shadow:0 20px 40px rgba(0,0,0,0.12);
+    }
+
+    .crop-image{
+      transition:0.5s;
+    }
+
+    .card-hover:hover .crop-image{
+      transform:scale(1.08);
+    }
+
+    .input-style{
+      width:100%;
+      padding:14px 18px;
+      border-radius:18px;
+      border:1px solid #d1d5db;
+      outline:none;
+      background:white;
+    }
+
+    .input-style:focus{
+      border-color:var(--moss);
+      box-shadow:0 0 0 4px rgba(79,93,47,0.15);
+    }
+
+    .btn-main{
+      background:var(--moss);
+      color:white;
+      padding:14px 24px;
+      border-radius:18px;
+      font-weight:700;
+      transition:0.3s;
+    }
+
+    .btn-main:hover{
+      background:var(--forest);
+      transform:translateY(-2px);
+    }
+
+  </style>
+
+</head>
+
+<body class="pt-20">
+
+  <!-- NAVBAR -->
+  <nav class="fixed top-0 left-0 w-full z-50 glass border-b border-gray-200">
+
+    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+
+      <!-- LOGO -->
+      <a href="./index.html" class="flex items-center gap-2">
+
+        <iconify-icon
+          icon="lucide:sprout"
+          class="text-3xl text-[var(--moss)]"
+        ></iconify-icon>
+
+        <span class="serif text-2xl font-bold">
+          KisanYUG
+        </span>
+
+      </a>
+
+      <!-- MENU -->
+      <div class="hidden md:flex items-center gap-8 text-sm uppercase tracking-widest font-semibold">
+
+        <a href="./index.html" class="hover:text-[var(--moss)]">
+          Home
+        </a>
+
+        <a href="./market.html" class="hover:text-[var(--moss)]">
+          Marketplace
+        </a>
+
+        <a href="./kisanmarket.html" class="text-[var(--moss)] border-b-2 border-[var(--moss)]">
+          KisanMarket
+        </a>
+
+        <a href="./services.html" class="hover:text-[var(--moss)]">Services</a>
+        <a href="./farmerpass.html" class="hover:text-[var(--moss)]">
+          Farmer Pass
+        </a>
+        <a href="./contact_help.html" class="hover:text-[var(--moss)]">Support</a>
+
+      </div>
+
+    </div>
+
+  </nav>
+
+  <!-- HERO -->
+  <section class="py-16 px-6">
+
+    <div class="max-w-7xl mx-auto text-center">
+
+      <div class="inline-flex items-center gap-2 bg-white border border-gray-200 rounded-full px-4 py-2 text-xs uppercase font-bold mb-6">
+
+        <span class="w-2 h-2 rounded-full bg-[var(--terracotta)] animate-ping"></span>
+
+        Verified Farmers Marketplace
+
+      </div>
+
+      <h1 class="serif text-5xl md:text-7xl mb-6 leading-tight">
+
+        Sell Crops
+        <span class="italic text-[var(--moss)]">
+          Directly
+        </span>
+
+      </h1>
+
+      <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+
+        Only verified Farmer Pass holders can upload and sell crops on KisanMarket.
+
+      </p>
+
+    </div>
+
+  </section>
+
+  <!-- MAIN -->
+  <section class="px-6 pb-20">
+
+    <div class="max-w-7xl mx-auto grid lg:grid-cols-3 gap-10">
+
+      <!-- LEFT FORM -->
+      <div class="lg:col-span-1">
+
+        <div class="bg-white rounded-[35px] shadow-xl p-8 sticky top-28">
+
+          <div class="flex items-center gap-3 mb-6">
+
+            <div class="w-14 h-14 rounded-2xl bg-[var(--moss)]/10 flex items-center justify-center">
+
+              <iconify-icon icon="lucide:tractor" class="text-3xl text-[var(--moss)]"></iconify-icon>
+
+            </div>
+
+            <div>
+
+              <h2 class="serif text-3xl">
+                Upload Crop
+              </h2>
+
+              <p class="text-sm text-gray-500">
+                Farmer Pass Required
+              </p>
+
+            </div>
+
+          </div>
+
+          <!-- FORM -->
+          <form id="cropForm" class="space-y-5">
+
+            <!-- Farmer ID -->
+            <div>
+
+              <label class="block mb-2 font-semibold">
+                Farmer Pass ID
+              </label>
+
+              <input
+                type="text"
+                id="farmerPass"
+                class="input-style"
+                placeholder="e.g. MP-2026-001"
+                required
+              >
+
+            </div>
+
+            <!-- Farmer Name -->
+            <div>
+
+              <label class="block mb-2 font-semibold">
+                Farmer Name
+              </label>
+
+              <input
+                type="text"
+                id="farmerName"
+                class="input-style"
+                placeholder="Enter your name"
+                required
+              >
+
+            </div>
+
+            <!-- Crop -->
+            <div>
+
+              <label class="block mb-2 font-semibold">
+                Crop Name
+              </label>
+
+              <input
+                type="text"
+                id="cropName"
+                class="input-style"
+                placeholder="e.g. Wheat"
+                required
+              >
+
+            </div>
+
+            <!-- Quantity -->
+            <div>
+
+              <label class="block mb-2 font-semibold">
+                Quantity
+              </label>
+
+              <input
+                type="text"
+                id="cropQty"
+                class="input-style"
+                placeholder="e.g. 120 KG"
+                required
+              >
+
+            </div>
+
+            <!-- Price -->
+            <div>
+
+              <label class="block mb-2 font-semibold">
+                Price
+              </label>
+
+              <input
+                type="text"
+                id="cropPrice"
+                class="input-style"
+                placeholder="e.g. ₹2400"
+                required
+              >
+
+            </div>
+
+            <!-- Village -->
+            <div>
+
+              <label class="block mb-2 font-semibold">
+                Village
+              </label>
+
+              <input
+                type="text"
+                id="cropVillage"
+                class="input-style"
+                placeholder="Village name"
+                required
+              >
+
+            </div>
+
+            <!-- Image -->
+            <div>
+
+              <label class="block mb-2 font-semibold">
+                Crop Image URL
+              </label>
+
+              <input
+                type="text"
+                id="cropImage"
+                class="input-style"
+                placeholder="Paste image URL"
+                required
+              >
+
+            </div>
+
+            <!-- BUTTON -->
+            <button
+              type="submit"
+              class="btn-main w-full"
+            >
+
+              Upload Crop
+
+            </button>
+
+          </form>
+
+        </div>
+
+      </div>
+
+      <!-- RIGHT -->
+      <div class="lg:col-span-2">
+
+        <div class="flex items-center justify-between mb-8">
+
+          <div>
+
+            <h2 class="serif text-4xl mb-2">
+              Available Crops
+            </h2>
+
+            <p class="text-gray-500">
+              Crops uploaded by verified farmers.
+            </p>
+
+          </div>
+
+        </div>
+
+        <!-- CARDS -->
+        <div
+          id="cropContainer"
+          class="grid sm:grid-cols-2 xl:grid-cols-3 gap-8"
+        >
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- JAVASCRIPT -->
+  <script>
+
+    const cropForm = document.getElementById("cropForm");
+    const cropContainer = document.getElementById("cropContainer");
+
+    cropForm.addEventListener("submit", function(e){
+
+      e.preventDefault();
+
+      // Farmer Pass Check
+      const farmerPass =
+        document.getElementById("farmerPass").value;
+
+      // PASS VALIDATION
+      if(
+        farmerPass.trim() === "" ||
+        !farmerPass.includes("MP") &&
+        !farmerPass.includes("AGP")
+      ){
+
+        alert("❌ Only verified Farmer Pass holders can sell crops.");
+
+        return;
+
+      }
+
+      // FORM VALUES
+      const farmerName =
+        document.getElementById("farmerName").value;
+
+      const cropName =
+        document.getElementById("cropName").value;
+
+      const cropQty =
+        document.getElementById("cropQty").value;
+
+      const cropPrice =
+        document.getElementById("cropPrice").value;
+
+      const cropVillage =
+        document.getElementById("cropVillage").value;
+
+      const cropImage =
+        document.getElementById("cropImage").value;
+
+      // CREATE CARD
+      const card = document.createElement("div");
+
+      card.className =
+        "bg-white rounded-[30px] overflow-hidden shadow-xl card-hover";
+
+      card.innerHTML = `
+
+        <div class="relative aspect-square overflow-hidden">
+
+          <img
+            src="${cropImage}"
+            class="w-full h-full object-cover crop-image"
+          >
+
+          <div class="absolute top-4 right-4 bg-green-500 text-white text-xs px-3 py-1 rounded-full font-bold">
+
+            VERIFIED
+
+          </div>
+
+        </div>
+
+        <div class="p-6">
+
+          <div class="flex items-start justify-between gap-4 mb-4">
+
+            <div>
+
+              <h3 class="font-bold text-2xl mb-1">
+                ${cropName}
+              </h3>
+
+              <p class="text-sm text-gray-500">
+                Farmer : ${farmerName}
+              </p>
+
+            </div>
+
+            <div class="text-right">
+
+              <h4 class="font-bold text-xl text-[var(--moss)]">
+                ${cropPrice}
+              </h4>
+
+            </div>
+
+          </div>
+
+          <div class="space-y-2 text-sm text-gray-600 mb-6">
+
+            <p>
+              🌾 Quantity : ${cropQty}
+            </p>
+
+            <p>
+              📍 Village : ${cropVillage}
+            </p>
+
+            <p>
+              🪪 Pass ID : ${farmerPass}
+            </p>
+
+          </div>
+
+          <button class="w-full bg-[var(--moss)] hover:bg-[var(--forest)] transition text-white py-3 rounded-2xl font-bold">
+
+            Buy Crop
+
+          </button>
+
+        </div>
+
+      `;
+
+      // ADD CARD
+      cropContainer.prepend(card);
+
+      // RESET
+      cropForm.reset();
+
+      // SUCCESS
+      alert("✅ Crop uploaded successfully!");
+
+    });
+
+  </script>
+
+</body>
+</html>
+
+
+
+// services.html
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>KisanYUG | Services</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Iconify -->
+  <script src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+
+    :root{
+      --moss:#4F5D2F;
+      --forest:#2D3B2D;
+      --cream:#F5F5DC;
+      --terracotta:#E2725B;
+      --sand:#D2B48C;
+    }
+
+    body{
+      font-family:'Inter',sans-serif;
+      background:var(--cream);
+      color:var(--forest);
+      overflow-x:hidden;
+    }
+
+    .serif{
+      font-family:'Playfair Display',serif;
+    }
+
+    .glass{
+      background:rgba(255,255,255,0.2);
+      backdrop-filter:blur(12px);
+      -webkit-backdrop-filter:blur(12px);
+      border:1px solid rgba(255,255,255,0.3);
+    }
+
+    .hero-bg{
+      background:
+      linear-gradient(to right, rgba(245,245,220,0.92), rgba(245,245,220,0.4)),
+      url('https://images.unsplash.com/photo-1500937386664-56d1dfef3854?q=80&w=1600&auto=format&fit=crop');
+
+      background-size:cover;
+      background-position:center;
+    }
+
+    .service-card{
+      transition:0.4s;
+    }
+
+    .service-card:hover{
+      transform:translateY(-10px);
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="fixed top-0 left-0 w-full z-50 glass border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+
+      <!-- Logo -->
+      <div class="flex items-center gap-2">
+        <iconify-icon icon="lucide:sprout" class="text-3xl text-[var(--moss)]"></iconify-icon>
+        <h1 class="serif text-2xl font-bold">KisanYUG</h1>
+      </div>
+
+      <!-- Menu -->
+      <div class="hidden md:flex items-center gap-5  text-sm uppercase tracking-widest font-semibold">
+        <a href="./index.html" class="hover:text-[var(--moss)]">Home</a>
+        <a href="./market.html" class="hover:text-[var(--moss)]">Marketplace</a>
+        <a href="./kisanmarket.html" class="hover:text-[var(--moss)]">
+          KisanMarket
+        </a>
+        <a href="./services.html" class="text-[var(--moss)] border-b-2 border-[var(--moss)]">Services</a>
+        <a href="./farmerpass.html" class="hover:text-[var(--moss)]">
+          Farmer Pass
+        </a>
+        <a href="./contact_help.html" class="hover:text-[var(--moss)]">Support</a>
+        
+      </div>
+
+      <!-- Button -->
+      <a href="./market.html">
+        <button class="bg-[var(--moss)] hover:bg-[var(--forest)] transition text-white px-5 py-2 rounded-full flex items-center gap-2">
+          Explore
+          <iconify-icon icon="lucide:arrow-right"></iconify-icon>
+        </button>
+      </a>
+
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero-bg min-h-screen flex items-center pt-20 px-6">
+
+    <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
+
+      <!-- LEFT -->
+      <div>
+
+        <div class="inline-flex items-center gap-2 bg-white/60 border border-gray-200 rounded-full px-4 py-2 text-xs uppercase font-bold mb-6">
+          <span class="w-2 h-2 rounded-full bg-[var(--terracotta)] animate-ping"></span>
+          Smart Agriculture Services
+        </div>
+
+        <h1 class="serif text-5xl md:text-7xl leading-tight mb-6">
+          Helping
+          <span class="italic text-[var(--moss)]"> Farmers</span>
+          Grow Better
+        </h1>
+
+        <p class="text-lg text-gray-700 leading-relaxed max-w-xl mb-8">
+          We provide modern agriculture solutions like crop insurance,
+          farmer health insurance, soil testing, and smart farming support
+          for every किसान.
+        </p>
+
+        <div class="flex flex-wrap gap-4">
+
+          <button class="bg-[var(--terracotta)] text-white px-8 py-4 rounded-xl font-bold hover:scale-105 transition">
+            Explore Services
+          </button>
+
+          <button class="bg-white border px-8 py-4 rounded-xl font-bold hover:bg-gray-50">
+            Learn More
+          </button>
+
+        </div>
+
+      </div>
+
+      <!-- RIGHT -->
+      <div class="relative">
+
+        <img 
+          src="https://images.unsplash.com/photo-1523741543316-beb7fc7023d8?q=80&w=1200&auto=format&fit=crop"
+          class="rounded-[40px] shadow-2xl"
+          alt="Farmer"
+        >
+
+        <!-- Floating Card -->
+        <div class="absolute -bottom-5 -left-5 glass p-5 rounded-2xl shadow-xl w-64">
+
+          <div class="flex items-center gap-3 mb-3">
+
+            <div class="w-10 h-10 rounded-full bg-[var(--moss)]/20 flex items-center justify-center">
+              <iconify-icon icon="lucide:shield-check" class="text-xl text-[var(--moss)]"></iconify-icon>
+            </div>
+
+            <div>
+              <h4 class="font-bold text-sm">Farmer Protection</h4>
+              <p class="text-xs text-gray-500">Insurance & Support</p>
+            </div>
+
+          </div>
+
+          <div class="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+            <div class="h-full bg-[var(--moss)] w-[95%]"></div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- SERVICES -->
+  <section class="py-24 px-6 bg-white">
+
+    <div class="max-w-7xl mx-auto">
+
+      <!-- Heading -->
+      <div class="text-center mb-16">
+
+        <h2 class="serif text-5xl mb-4">
+          Our Services
+        </h2>
+
+        <p class="text-gray-500 max-w-2xl mx-auto">
+          Advanced and trusted agricultural services designed specially
+          for Indian farmers.
+        </p>
+
+      </div>
+
+      <!-- Cards -->
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+        <!-- CARD 1 -->
+        <div class="service-card bg-[var(--cream)] rounded-3xl p-8 shadow-lg">
+
+          <div class="w-16 h-16 rounded-2xl bg-[var(--moss)] text-white flex items-center justify-center mb-6">
+            <iconify-icon icon="lucide:heart-pulse" class="text-3xl"></iconify-icon>
+          </div>
+
+          <h3 class="serif text-3xl mb-4">
+            Kisan Health Insurance
+          </h3>
+
+          <p class="text-gray-600 leading-relaxed">
+            Affordable healthcare and medical insurance support
+            specially designed for farmers and their families.
+          </p>
+
+        </div>
+
+        <!-- CARD 2 -->
+        <div class="service-card bg-[var(--cream)] rounded-3xl p-8 shadow-lg">
+
+          <div class="w-16 h-16 rounded-2xl bg-[var(--terracotta)] text-white flex items-center justify-center mb-6">
+            <iconify-icon icon="lucide:wheat" class="text-3xl"></iconify-icon>
+          </div>
+
+          <h3 class="serif text-3xl mb-4">
+            Kisan Fasal Bima
+          </h3>
+
+          <p class="text-gray-600 leading-relaxed">
+            Protect your crops against natural disasters,
+            heavy rain, drought, and unexpected farming losses.
+          </p>
+
+        </div>
+
+        <!-- CARD 3 -->
+        <div class="service-card bg-[var(--cream)] rounded-3xl p-8 shadow-lg">
+
+          <div class="w-16 h-16 rounded-2xl bg-[var(--forest)] text-white flex items-center justify-center mb-6">
+            <iconify-icon icon="lucide:flask-conical" class="text-3xl"></iconify-icon>
+          </div>
+
+          <h3 class="serif text-3xl mb-4">
+            Soil Testing
+          </h3>
+
+          <p class="text-gray-600 leading-relaxed">
+            Get detailed soil reports and recommendations
+            to improve crop quality and productivity.
+          </p>
+
+        </div>
+
+        <!-- CARD 4 -->
+        <div class="service-card bg-[var(--cream)] rounded-3xl p-8 shadow-lg">
+
+          <div class="w-16 h-16 rounded-2xl bg-[var(--moss)] text-white flex items-center justify-center mb-6">
+            <iconify-icon icon="lucide:cloud-rain" class="text-3xl"></iconify-icon>
+          </div>
+
+          <h3 class="serif text-3xl mb-4">
+            Weather Forecast
+          </h3>
+
+          <p class="text-gray-600 leading-relaxed">
+            Real-time weather updates and alerts
+            to help farmers plan farming activities better.
+          </p>
+
+        </div>
+
+        <!-- CARD 5 -->
+        <div class="service-card bg-[var(--cream)] rounded-3xl p-8 shadow-lg">
+
+          <div class="w-16 h-16 rounded-2xl bg-[var(--terracotta)] text-white flex items-center justify-center mb-6">
+            <iconify-icon icon="lucide:tractor" class="text-3xl"></iconify-icon>
+          </div>
+
+          <h3 class="serif text-3xl mb-4">
+            Smart Farming Support
+          </h3>
+
+          <p class="text-gray-600 leading-relaxed">
+            Modern farming guidance with smart technology,
+            irrigation support, and AI recommendations.
+          </p>
+
+        </div>
+
+        <!-- CARD 6 -->
+        <div class="service-card bg-[var(--cream)] rounded-3xl p-8 shadow-lg">
+
+          <div class="w-16 h-16 rounded-2xl bg-[var(--forest)] text-white flex items-center justify-center mb-6">
+            <iconify-icon icon="lucide:truck" class="text-3xl"></iconify-icon>
+          </div>
+
+          <h3 class="serif text-3xl mb-4">
+            Farm Delivery Network
+          </h3>
+
+          <p class="text-gray-600 leading-relaxed">
+            Fast and secure logistics support
+            for delivering farm products directly to customers.
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- CTA -->
+  <section class="py-24 px-6 bg-[var(--forest)] text-white">
+
+    <div class="max-w-5xl mx-auto text-center">
+
+      <h2 class="serif text-5xl mb-6">
+        Empowering Farmers With Technology
+      </h2>
+
+      <p class="text-gray-300 text-lg leading-relaxed mb-8">
+        Join KisanYUG today and access smart services
+        designed to improve farming productivity and farmer safety.
+      </p>
+
+      <button class="bg-[var(--terracotta)] px-8 py-4 rounded-2xl text-lg font-bold hover:scale-105 transition">
+        Get Started
+      </button>
+
+    </div>
+
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-black text-white py-14 px-6">
+
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+
+      <div class="flex items-center gap-2">
+        <iconify-icon icon="lucide:sprout" class="text-3xl text-[var(--moss)]"></iconify-icon>
+        <h2 class="serif text-2xl font-bold">KisanYUG</h2>
+      </div>
+
+      <p class="text-gray-400 text-center">
+        © 2026 KisanYUG. Empowering Indian Farmers Digitally.
+      </p>
+
+      <div class="flex items-center gap-4 text-2xl">
+
+        <iconify-icon icon="mdi:facebook"></iconify-icon>
+        <iconify-icon icon="mdi:instagram"></iconify-icon>
+        <iconify-icon icon="mdi:twitter"></iconify-icon>
+
+      </div>
+
+    </div>
+
+  </footer>
+
+</body>
+</html>
+
+
+
+// farmerpass.html
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>KisanYUG | Farmer Pass</title>
+
+  <link rel="stylesheet" href="kisan.css">
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Iconify -->
+  <script src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+
+    :root{
+      --moss:#4F5D2F;
+      --forest:#2D3B2D;
+      --cream:#F5F5DC;
+      --terracotta:#E2725B;
+      --sand:#D2B48C;
+    }
+
+    body{
+      font-family:'Inter',sans-serif;
+      background:var(--cream);
+      color:var(--forest);
+      overflow-x:hidden;
+    }
+
+    .serif{
+      font-family:'Playfair Display',serif;
+    }
+
+    .glass{
+      background:rgba(255,255,255,0.2);
+      backdrop-filter:blur(12px);
+      -webkit-backdrop-filter:blur(12px);
+      border:1px solid rgba(255,255,255,0.3);
+    }
+
+    .hero-bg{
+
+      background:
+      linear-gradient(to right, rgba(245,245,220,0.92), rgba(245,245,220,0.4)),
+      url('https://images.unsplash.com/photo-1500937386664-56d1dfef3854?q=80&w=1600&auto=format&fit=crop');
+
+      background: size 100%;;
+      background-position:center;
+      background-attachment:fixed;
+
+    }
+
+    .input-style{
+      width:100%;
+      padding:14px 18px;
+      border-radius:18px;
+      border:1px solid #d1d5db;
+      outline:none;
+      background:white;
+      transition:0.3s;
+    }
+
+    .input-style:focus{
+      border-color:var(--moss);
+      box-shadow:0 0 0 4px rgba(79,93,47,0.15);
+    }
+
+    .pass-card{
+      background:white;
+      border-radius:40px;
+      overflow:hidden;
+      box-shadow:0 20px 50px rgba(0,0,0,0.12);
+    }
+
+    .btn-main{
+      background:var(--moss);
+      color:white;
+      padding:14px 24px;
+      border-radius:18px;
+      font-weight:700;
+      transition:0.3s;
+    }
+
+    .btn-main:hover{
+      background:var(--forest);
+      transform:translateY(-2px);
+    }
+
+    .btn-outline{
+      border:1px solid #d1d5db;
+      padding:14px 24px;
+      border-radius:18px;
+      font-weight:600;
+      background:white;
+    }
+
+    .btn-outline:hover{
+      background:#f3f4f6;
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <header class="fixed top-0 left-0 w-full z-50 glass border-b border-gray-200">
+
+    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+
+      <!-- Logo -->
+      <div class="flex items-center gap-2">
+
+        <iconify-icon icon="lucide:sprout" class="text-3xl text-[var(--moss)]"></iconify-icon>
+
+        <h1 class="serif text-2xl font-bold">
+          KisanYUG
+        </h1>
+
+      </div>
+
+      <!-- Menu -->
+      <nav class="hidden md:flex items-center gap-8 text-sm uppercase tracking-widest font-semibold">
+
+        <a href="./index.html" class="hover:text-[var(--moss)]">Home</a>
+
+        <a href="./market.html" class="hover:text-[var(--moss)]">Marketplace</a>
+ 
+        <a href="./kisanmarket.html" class="text-[var(--moss)]">
+          KisanMarket
+        </a>
+        
+        <a href="./services.html" class="hover:text-[var(--moss)]">Services</a>
+
+
+        <a href="./farmerpass.html" class="text-[var(--moss)] border-b-2 border-[var(--moss)]">
+          Farmer Pass
+        </a>
+
+        <a href="./contact_help.html" class="hover:text-[var(--moss)]">Support</a>
+
+      </nav>
+
+      <!-- Button -->
+      <button class="btn-main hidden md:block">
+        Generate Pass
+      </button>
+
+    </div>
+
+  </header>
+
+  <!-- HERO -->
+  <section class="hero-bg min-h-screen flex items-center pt-24 px-6">
+
+    <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-start">
+
+      <!-- LEFT -->
+      <div>
+
+        <div class="inline-flex items-center gap-2 bg-white/60 border border-gray-200 rounded-full px-4 py-2 text-xs uppercase font-bold mb-6">
+
+          <span class="w-2 h-2 rounded-full bg-[var(--terracotta)] animate-ping"></span>
+
+          Verified Smart Farmer Identity
+
+        </div>
+
+        <h1 class="serif text-5xl md:text-7xl leading-tight mb-6">
+
+          Digital
+          <span class="italic text-[var(--moss)]">Farmer Pass</span>
+
+        </h1>
+
+        <p class="text-lg text-gray-700 leading-relaxed max-w-xl mb-10">
+
+          Generate a secure and verified digital farmer pass
+          with crop details, land information, QR identity,
+          and government support access.
+
+        </p>
+
+        <!-- PASS PREVIEW -->
+        <div class="pass-card">
+
+          <!-- TOP -->
+          <div class="bg-[var(--forest)] text-white p-8">
+
+            <div class="flex items-center justify-between mb-8">
+
+              <div>
+
+                <div class="text-sm uppercase tracking-widest text-gray-300 mb-2">
+                  Smart Agriculture Identity
+                </div>
+
+                <h2 class="serif text-4xl">
+                  AgriPass
+                </h2>
+
+              </div>
+
+              <iconify-icon icon="lucide:shield-check" class="text-5xl text-green-400"></iconify-icon>
+
+            </div>
+
+            <div class="flex items-center gap-5">
+
+              <div class="w-24 h-24 rounded-3xl bg-white/10 border border-white/20 flex items-center justify-center">
+
+                <iconify-icon icon="lucide:user" class="text-5xl text-white"></iconify-icon>
+
+              </div>
+
+              <div>
+
+                <h3 class="text-3xl font-bold" id="pName">
+                  Farmer: —
+                </h3>
+
+                <p class="text-gray-300 mt-2" id="pVillage">
+                  Village: —
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- DETAILS -->
+          <div class="p-8 grid grid-cols-2 gap-6">
+
+            <div>
+              <p class="text-gray-500 text-sm mb-1">
+                Primary Crop
+              </p>
+
+              <h4 class="font-bold text-lg" id="pCrop">
+                —
+              </h4>
+            </div>
+
+            <div>
+              <p class="text-gray-500 text-sm mb-1">
+                Season
+              </p>
+
+              <h4 class="font-bold text-lg" id="pSeason">
+                —
+              </h4>
+            </div>
+
+            <div>
+              <p class="text-gray-500 text-sm mb-1">
+                Land Area
+              </p>
+
+              <h4 class="font-bold text-lg" id="pArea">
+                —
+              </h4>
+            </div>
+
+            <div>
+              <p class="text-gray-500 text-sm mb-1">
+                Valid Till
+              </p>
+
+              <h4 class="font-bold text-lg" id="pValid">
+                —
+              </h4>
+            </div>
+
+          </div>
+
+          <!-- FOOTER -->
+          <div class="px-8 pb-8 flex items-center justify-between">
+
+            <div class="w-20 h-20 rounded-2xl bg-gray-100 flex items-center justify-center font-bold text-sm">
+              QR
+            </div>
+
+            <div class="bg-[var(--cream)] px-5 py-3 rounded-2xl font-bold">
+              ID : <span id="pId">AGP-000000</span>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- RIGHT -->
+      <div class="bg-white rounded-[40px] shadow-2xl p-10">
+
+        <div class="mb-8">
+
+          <h2 class="serif text-5xl mb-4">
+            Generate Pass
+          </h2>
+
+          <p class="text-gray-500">
+            Fill all details to create your smart digital farmer identity.
+          </p>
+
+        </div>
+
+        <!-- FORM -->
+        <form id="passForm" class="space-y-6 pt-5" onsubmit="event.preventDefault(); createFarmerPass();">
+
+          <div class="grid md:grid-cols-2 gap-5">
+
+            <div>
+              <label class="block mb-2 font-semibold">
+                Full Name
+              </label>
+
+              <input
+                type="text"
+                id="name"
+                class="input-style"
+                placeholder="Enter farmer name"
+                required
+              >
+            </div>
+
+            <div>
+              <label class="block mb-2 font-semibold">
+                Village / City
+              </label>
+
+              <input
+                type="text"
+                id="village"
+                class="input-style"
+                placeholder="Enter village"
+                required
+              >
+            </div>
+
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-5">
+
+            <div>
+              <label class="block mb-2 font-semibold">
+                Primary Crop
+              </label>
+
+              <select id="crop" class="input-style" required>
+
+                <option value="">Select Crop</option>
+
+                <option>Wheat</option>
+
+                <option>Rice</option>
+
+                <option>Cotton</option>
+
+                <option>Soybean</option>
+
+                <option>Vegetables</option>
+
+              </select>
+            </div>
+
+            <div>
+              <label class="block mb-2 font-semibold">
+                Season
+              </label>
+
+              <select id="season" class="input-style" required>
+
+                <option value="">Select Season</option>
+
+                <option>Kharif</option>
+
+                <option>Rabi</option>
+
+                <option>Zaid</option>
+
+              </select>
+            </div>
+
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-5">
+
+            <div>
+              <label class="block mb-2 font-semibold">
+                Land Area (Acres)
+              </label>
+
+              <input
+                type="number"
+                id="area"
+                class="input-style"
+                placeholder="e.g. 4.5"
+                required
+              >
+            </div>
+
+            <div>
+              <label class="block mb-2 font-semibold">
+                Valid Till
+              </label>
+
+              <input
+                type="date"
+                id="valid"
+                class="input-style"
+                required
+              >
+            </div>
+
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-5">
+
+            <div>
+              <label class="block mb-2 font-semibold">
+                Custom ID
+              </label>
+
+              <input
+                type="text"
+                id="id"
+                class="input-style"
+                placeholder="e.g. MP-2026-001"
+              >
+            </div>
+
+            <div>
+              <label class="block mb-2 font-semibold">
+                QR Text
+              </label>
+
+              <input
+                type="text"
+                id="qrtext"
+                class="input-style"
+                placeholder="QR Information"
+                required
+              >
+            </div>
+
+          </div>
+
+          <!-- BUTTONS -->
+          <div class="flex flex-wrap gap-4 pt-4">
+
+            <button type="submit" class="btn-main">
+              Generate Pass
+            </button>
+
+            <button type="button" class="btn-outline" onclick="window.print()">
+              Print Pass
+            </button>
+
+            <button type="reset" class="btn-outline">
+              Clear
+            </button>
+
+          </div>
+
+        </form>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-[var(--forest)] text-white py-16 px-6 mt-4">
+
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+
+      <div class="flex items-center gap-2">
+
+        <iconify-icon icon="lucide:sprout" class="text-3xl text-[var(--moss)]"></iconify-icon>
+
+        <h2 class="serif text-2xl font-bold">
+          KisanYUG
+        </h2>
+
+      </div>
+
+      <p class="text-gray-400 text-center">
+        © 2026 KisanYUG. Smart Digital Farming Platform.
+      </p>
+
+      <div class="flex items-center gap-4 text-2xl">
+
+        <iconify-icon icon="mdi:facebook"></iconify-icon>
+
+        <iconify-icon icon="mdi:instagram"></iconify-icon>
+
+        <iconify-icon icon="mdi:twitter"></iconify-icon>
+
+      </div>
+
+    </div>
+
+  </footer>
+
+  <!-- JAVASCRIPT -->
+  <script>
+
+    async function createFarmerPass(){
+
+      const farmerData = {
+
+        name: document.getElementById("name").value,
+        village: document.getElementById("village").value,
+        crop: document.getElementById("crop").value,
+        season: document.getElementById("season").value,
+        area: document.getElementById("area").value,
+        valid_till: document.getElementById("valid").value,
+        custom_id: document.getElementById("id").value || "AGP-" + Math.floor(Math.random()*100000),
+        qr_text: document.getElementById("qrtext").value
+
+      };
+
+      // LIVE PREVIEW
+      document.getElementById("pName").innerText =
+        "Farmer: " + farmerData.name;
+
+      document.getElementById("pVillage").innerText =
+        "Village: " + farmerData.village;
+
+      document.getElementById("pCrop").innerText =
+        farmerData.crop;
+
+      document.getElementById("pSeason").innerText =
+        farmerData.season;
+
+      document.getElementById("pArea").innerText =
+        farmerData.area + " Acres";
+
+      document.getElementById("pValid").innerText =
+        farmerData.valid_till;
+
+      document.getElementById("pId").innerText =
+        farmerData.custom_id;
+
+      try{
+
+        const response = await fetch(
+          "http://127.0.0.1:5000/api/farmerpass",
+          {
+            method:"POST",
+            headers:{
+              "Content-Type":"application/json"
+            },
+            body:JSON.stringify(farmerData),
+            credentials:"include"
+          }
+        );
+
+        const data = await response.json();
+
+        alert(data.message || data.error);
+
+      }catch(err){
+
+        console.error("Backend Error:", err);
+
+        alert("Backend से connect नहीं हो पाया");
+
+      }
+
+    }
+
+  </script>
+
+</body>
+</html>
+
+
+
+
+
+
+iski backend likho isme jo user sign ho jaye sign button hat jaye or ushi jagah logout button aajae beckend python and database Mongodb is pure code ka beckend and database do sab sahi se work hona chahiye or tume jo backend di h index.html  ,  market.html , kisanmarkit.html  usi backend me add kr dena   

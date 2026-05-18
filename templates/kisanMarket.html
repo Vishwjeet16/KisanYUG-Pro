@@ -1,0 +1,343 @@
+<!-- =========================================
+KISANMARKET - FARMER PASS VERIFICATION VERSION
+Only Farmer Pass holders can sell crops
+========================================= -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>KisanYUG | KisanMarket</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Iconify -->
+  <script src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+
+    :root{
+      --moss:#4F5D2F;
+      --forest:#2D3B2D;
+      --cream:#F5F5DC;
+      --terracotta:#E2725B;
+    }
+
+    body{
+      font-family:'Inter',sans-serif;
+      background:var(--cream);
+      overflow-x:hidden;
+      color:var(--forest);
+    }
+
+    .serif{
+      font-family:'Playfair Display',serif;
+    }
+
+    .glass{
+      background:rgba(255,255,255,0.4);
+      backdrop-filter:blur(10px);
+      -webkit-backdrop-filter:blur(10px);
+      border:1px solid rgba(255,255,255,0.3);
+    }
+
+    .card-hover{
+      transition:0.4s;
+    }
+
+    .card-hover:hover{
+      transform:translateY(-8px);
+      box-shadow:0 20px 40px rgba(0,0,0,0.12);
+    }
+
+    .crop-image{
+      transition:0.5s;
+    }
+
+    .card-hover:hover .crop-image{
+      transform:scale(1.08);
+    }
+
+    .input-style{
+      width:100%;
+      padding:14px 18px;
+      border-radius:18px;
+      border:1px solid #d1d5db;
+      outline:none;
+      background:white;
+    }
+
+    .input-style:focus{
+      border-color:var(--moss);
+      box-shadow:0 0 0 4px rgba(79,93,47,0.15);
+    }
+
+    .btn-main{
+      background:var(--moss);
+      color:white;
+      padding:14px 24px;
+      border-radius:18px;
+      font-weight:700;
+      transition:0.3s;
+    }
+
+    .btn-main:hover{
+      background:var(--forest);
+      transform:translateY(-2px);
+    }
+
+  </style>
+
+</head>
+
+<body class="pt-20">
+
+  <!-- NAVBAR -->
+  <nav class="fixed top-0 left-0 w-full z-50 glass border-b border-gray-200">
+
+    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+
+      <!-- LOGO -->
+      <a href="./index.html" class="flex items-center gap-2">
+
+        <iconify-icon
+          icon="lucide:sprout"
+          class="text-3xl text-[var(--moss)]"
+        ></iconify-icon>
+
+        <span class="serif text-2xl font-bold">
+          KisanYUG
+        </span>
+
+      </a>
+
+      <!-- MENU -->
+      <div class="hidden md:flex items-center gap-8 text-sm uppercase tracking-widest font-semibold">
+
+        <a href="./index.html" class="hover:text-[var(--moss)]">
+          Home
+        </a>
+
+        <a href="./market.html" class="hover:text-[var(--moss)]">
+          Marketplace
+        </a>
+
+
+        <a href="./services.html" class="hover:text-[var(--moss)]">Services</a>
+        <a href="./kisanmarket.html" class="text-[var(--moss)] border-b-2 border-[var(--moss)]">
+          KisanMarket
+        </a>
+        <a href="./farmerpass.html" class="hover:text-[var(--moss)]">
+          Farmer Pass
+        </a>
+        <a href="./contact_help.html" class="hover:text-[var(--moss)]">Support</a>
+
+      </div>
+
+    </div>
+
+  </nav>
+
+  <!-- HERO -->
+  <section class="py-16 px-6">
+
+    <div class="max-w-7xl mx-auto text-center">
+
+      <div class="inline-flex items-center gap-2 bg-white border border-gray-200 rounded-full px-4 py-2 text-xs uppercase font-bold mb-6">
+
+        <span class="w-2 h-2 rounded-full bg-[var(--terracotta)] animate-ping"></span>
+
+        Verified Farmers Marketplace
+
+      </div>
+
+      <h1 class="serif text-5xl md:text-7xl mb-6 leading-tight">
+
+        My Crops
+        <span class="italic text-[var(--moss)]">
+          Directly
+        </span>
+
+      </h1>
+
+      <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+
+        Sell page se upload ki hui apni crops yahan dekhein.
+
+      </p>
+
+    </div>
+
+  </section>
+
+  <!-- MAIN -->
+  <section class="px-6 pb-20">
+
+    <div class="max-w-7xl mx-auto">
+      <div>
+
+        <div class="flex items-center justify-between mb-8">
+
+          <div>
+
+            <h2 class="serif text-4xl mb-2">
+              My Uploaded Crops
+            </h2>
+
+            <p class="text-gray-500">
+              Sirf aapke Sell page se uploaded crops yahan dikhenge.
+            </p>
+
+          </div>
+
+        </div>
+
+        <!-- CARDS -->
+        <div
+          id="cropContainer"
+          class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8"
+        >
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- JAVASCRIPT -->
+  <script>
+
+const cropContainer =
+document.getElementById("cropContainer");
+
+const apiBase = location.port === "5000" ? "" : "http://127.0.0.1:5000";
+
+// LOAD CROPS
+async function loadCrops(){
+
+    const response = await fetch(`${apiBase}/api/my-crops`, {
+        credentials:"include"
+    });
+
+    const data = await response.json();
+
+    cropContainer.innerHTML = "";
+
+    if(!data.success){
+
+        cropContainer.innerHTML = `
+          <div class="sm:col-span-2 lg:col-span-3 bg-white rounded-[30px] shadow-xl p-8 text-center text-gray-600">
+            ${data.message || "Crops load nahi ho payi."}
+          </div>
+        `;
+        return;
+
+    }
+
+    if(!data.crops.length){
+
+        cropContainer.innerHTML = `
+          <div class="sm:col-span-2 lg:col-span-3 bg-white rounded-[30px] shadow-xl p-8 text-center">
+            <h3 class="serif text-3xl mb-2">No crops uploaded yet</h3>
+            <p class="text-gray-500 mb-5">Sell page se crop upload karne ke baad yahan dikh jayegi.</p>
+            <a href="./sell.html" class="inline-flex bg-[var(--moss)] hover:bg-[var(--forest)] text-white px-6 py-3 rounded-xl font-bold transition">
+              Go To Sell
+            </a>
+          </div>
+        `;
+        return;
+
+    }
+
+    data.crops.forEach((crop)=>{
+
+        const card =
+        document.createElement("div");
+
+        card.className =
+        "bg-white rounded-[30px] overflow-hidden shadow-xl";
+
+        card.innerHTML = `
+
+        <div class="relative aspect-square overflow-hidden">
+
+          <img
+            src="${crop.cropImage}"
+            class="w-full h-full object-cover"
+          >
+
+        </div>
+
+        <div class="p-6">
+
+          <h3 class="font-bold text-2xl mb-2">
+            ${crop.cropName}
+          </h3>
+
+          <p class="text-gray-500 mb-3">
+            Farmer : ${crop.farmerName}
+          </p>
+
+          <p>🌾 ${crop.cropQty}</p>
+
+          <p>📍 ${crop.cropVillage}</p>
+
+          <p>🪪 ${crop.farmerPass}</p>
+
+          <h4 class="font-bold text-xl mt-3 text-green-700">
+            ${crop.cropPrice}
+          </h4>
+
+        </div>
+
+        `;
+
+        cropContainer.appendChild(card);
+
+    });
+
+}
+
+loadCrops();
+
+</script>
+
+
+  <script>
+async function updateFarmerOnlyLinks(){
+  const apiBase = location.port === "5000" ? "" : "http://127.0.0.1:5000";
+
+  try{
+    const response = await fetch(`${apiBase}/check-login`, {
+      credentials:"include"
+    });
+
+    const data = await response.json();
+
+    if(data.loggedIn && data.hasFarmerPass){
+      document.querySelectorAll(".farmer-only").forEach(link => {
+        link.classList.remove("hidden");
+      });
+    }
+  }
+  catch(error){
+    console.log("Farmer status check failed", error);
+  }
+}
+
+updateFarmerOnlyLinks();
+  </script>
+</body>
+</html>
