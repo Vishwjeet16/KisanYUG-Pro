@@ -10,6 +10,7 @@ from bson.objectid import ObjectId
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime, timedelta
 import random
+import os
 
 # =========================================
 # FLASK APP
@@ -17,7 +18,7 @@ import random
 
 app = Flask(__name__)
 
-app.secret_key = "KISANYUG_SECRET_KEY_2026"
+app.secret_key = os.getenv("SECRET_KEY", "KISANYUG_SECRET_KEY_2026")
 
 # CORS
 CORS(
@@ -29,7 +30,7 @@ CORS(
 # MONGODB CONNECTION
 # =========================================
 
-client = MongoClient("mongodb://localhost:27017/")
+client = MongoClient(os.getenv("MONGO_URI", "mongodb://localhost:27017/"))
 
 db = client["KisanYUG"]
 
