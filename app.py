@@ -8,7 +8,7 @@ from flask_cors import CORS
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 from werkzeug.security import generate_password_hash, check_password_hash
-from datetime import datetime
+from datetime import datetime, timedelta
 import random
 
 # =========================================
@@ -42,6 +42,14 @@ crops_collection = db["crops"]
 support_collection = db["support_messages"]
 
 orders_collection = db["orders"]
+
+mandi_listings_collection = db["mandi_listings"]
+
+mandi_bids_collection = db["mandi_bids"]
+
+mandi_buyers_collection = db["mandi_buyers"]
+
+mandi_live_rooms_collection = db["mandi_live_rooms"]
 
 CHATBOT_ANSWERS = [
     {
@@ -124,6 +132,20 @@ def current_user_has_farmer_pass():
     return bool(farmer_pass)
 
 
+def current_user_has_mandi_buyer_pass():
+
+    if "user_id" not in session:
+
+        return False
+
+    buyer_pass = mandi_buyers_collection.find_one({
+        "user_id": session["user_id"],
+        "status": "active"
+    })
+
+    return bool(buyer_pass)
+
+
 @app.route("/<page_name>.html")
 def html_page(page_name):
 
@@ -139,7 +161,9 @@ def html_page(page_name):
         "CreateAccount",
         "forgotpassword",
         "contact_help",
-        "services"
+        "services",
+        "mandi_sell",
+        "mandi_buyer"
     }
 
     if page_name not in allowed_pages:
@@ -153,15 +177,25 @@ def html_page(page_name):
 
         page_name = "kisanMarket"
 
-    if page_name in ["sell", "kisanMarket"]:
+    if page_name in ["sell", "kisanMarket", "mandi_sell"]:
 
         if "user_id" not in session:
 
             return redirect("/auth.html")
 
+        if current_user_has_mandi_buyer_pass():
+
+            return redirect("/mandi_buyer.html")
+
         if not current_user_has_farmer_pass():
 
             return redirect("/farmerpass.html")
+
+    if page_name == "farmerpass":
+
+        if current_user_has_mandi_buyer_pass():
+
+            return redirect("/mandi_buyer.html")
 
     return render_template(
         f"{page_name}.html",
@@ -262,6 +296,13 @@ def login():
                 "message": "User not found"
             })
 
+        if not user.get("password"):
+
+            return jsonify({
+                "success": False,
+                "message": "This account uses Google login. Please continue with Google."
+            })
+
         # PASSWORD CHECK
         if not check_password_hash(
             user["password"],
@@ -311,17 +352,21 @@ def check_login():
     if "user_id" in session:
 
         has_farmer_pass = current_user_has_farmer_pass()
+        has_mandi_buyer_pass = current_user_has_mandi_buyer_pass()
 
         return jsonify({
 
             "loggedIn": True,
             "hasFarmerPass": has_farmer_pass,
+            "hasMandiBuyerPass": has_mandi_buyer_pass,
+            "role": "farmer" if has_farmer_pass else "mandi_buyer" if has_mandi_buyer_pass else "customer",
 
             "user": {
 
                 "name": session.get("user_name"),
                 "email": session.get("user_email"),
-                "has_farmer_pass": has_farmer_pass
+                "has_farmer_pass": has_farmer_pass,
+                "has_mandi_buyer_pass": has_mandi_buyer_pass
 
             }
 
@@ -329,7 +374,9 @@ def check_login():
 
     return jsonify({
         "loggedIn": False,
-        "hasFarmerPass": False
+        "hasFarmerPass": False,
+        "hasMandiBuyerPass": False,
+        "role": "guest"
     })
 
 
@@ -364,6 +411,13 @@ def create_farmer_pass():
                 "success": False,
                 "error": "Please login first"
             })
+
+        if current_user_has_mandi_buyer_pass():
+
+            return jsonify({
+                "success": False,
+                "error": "Is account par Mandi Buyer Pass active hai. Buyer account se Kisan/Farmer Pass nahi ban sakta."
+            }), 403
 
         # REQUEST DATA
         data = request.json
@@ -542,6 +596,13 @@ def upload_crop():
                 "success": False,
                 "message": "Please login first"
             })
+
+        if current_user_has_mandi_buyer_pass():
+
+            return jsonify({
+                "success": False,
+                "message": "Mandi Buyer account se crop upload nahi ho sakti. Crop sell karne ke liye alag Kisan/Farmer account use karein."
+            }), 403
 
         data = request.json
 
@@ -851,6 +912,74 @@ def create_purchase():
         })
 
 
+@app.route("/google-login", methods=["POST"])
+def google_login():
+
+    try:
+
+        data = request.json or {}
+
+        name = data.get("name")
+        email = data.get("email")
+
+        if not email:
+
+            return jsonify({
+                "success": False,
+                "message": "Google account email not found"
+            }), 400
+
+        user = users_collection.find_one({
+            "email": email
+        })
+
+        if not user:
+
+            user_data = {
+
+                "name": name or email.split("@")[0],
+                "email": email,
+                "phone": "",
+                "password": "",
+                "auth_provider": "google",
+                "has_farmer_pass": False,
+                "created_at": datetime.now()
+
+            }
+
+            result = users_collection.insert_one(user_data)
+
+            user_data["_id"] = result.inserted_id
+
+            user = user_data
+
+        session["user_id"] = str(user["_id"])
+        session["user_name"] = user.get("name") or name or email.split("@")[0]
+        session["user_email"] = user["email"]
+
+        return jsonify({
+
+            "success": True,
+            "message": "Google Login Successful",
+
+            "user": {
+
+                "name": session["user_name"],
+                "email": session["user_email"],
+                "phone": user.get("phone", "")
+
+            }
+
+        })
+
+    except Exception as e:
+
+        return jsonify({
+            "success": False,
+            "message": str(e)
+        }), 500
+
+
 # =========================================
 # GET CURRENT USER ORDERS
 # =========================================
@@ -940,6 +1069,919 @@ def delete_crop(crop_id):
         return jsonify({
             "success": True,
             "message": "Crop Deleted"
+        })
+
+    except Exception as e:
+
+        return jsonify({
+            "success": False,
+            "message": str(e)
+        })
+
+
+# =========================================
+# MANDI SELLING AND LIVE BIDDING
+# =========================================
+
+def clean_crop_key(crop_name):
+
+    return " ".join(str(crop_name or "").lower().strip().split())
+
+
+def finalize_expired_mandi_listing(listing):
+
+    if not listing or listing.get("status") != "open":
+
+        return listing
+
+    auction_ends_at = listing.get("auction_ends_at")
+
+    if (
+        auction_ends_at and
+        datetime.now() >= auction_ends_at and
+        listing.get("highest_bid") and
+        listing.get("highest_buyer_token")
+    ):
+
+        mandi_listings_collection.update_one({
+            "_id": listing["_id"]
+        }, {
+            "$set": {
+                "status": "sold",
+                "sold_at": datetime.now(),
+                "sold_to": listing.get("highest_buyer"),
+                "sold_to_token": listing.get("highest_buyer_token"),
+                "sold_amount": listing.get("highest_bid")
+            }
+        })
+
+        listing["status"] = "sold"
+        listing["sold_at"] = datetime.now()
+        listing["sold_to"] = listing.get("highest_buyer")
+        listing["sold_to_token"] = listing.get("highest_buyer_token")
+        listing["sold_amount"] = listing.get("highest_bid")
+
+    return listing
+
+
+def serialize_mandi_listing(listing, include_bids=False):
+
+    listing = finalize_expired_mandi_listing(listing)
+    highest_bid = listing.get("highest_bid")
+    rejected_until = listing.get("rejected_until")
+    auction_ends_at = listing.get("auction_ends_at")
+    remaining_seconds = 0
+
+    if listing.get("status") == "open" and auction_ends_at:
+
+        remaining_seconds = max(
+            0,
+            int((auction_ends_at - datetime.now()).total_seconds())
+        )
+
+    data = {
+        "_id": str(listing["_id"]),
+        "user_id": listing.get("user_id"),
+        "farmerPass": listing.get("farmerPass"),
+        "farmerName": listing.get("farmerName"),
+        "cropName": listing.get("cropName"),
+        "cropKey": listing.get("cropKey"),
+        "cropPhoto": listing.get("cropPhoto", ""),
+        "quantity": listing.get("quantity"),
+        "quality": listing.get("quality"),
+        "expectedPrice": listing.get("expectedPrice"),
+        "mandiArea": listing.get("mandiArea"),
+        "mandiName": listing.get("mandiName"),
+        "village": listing.get("village"),
+        "address": listing.get("address"),
+        "mapLat": listing.get("mapLat"),
+        "mapLng": listing.get("mapLng"),
+        "tokenNumber": listing.get("tokenNumber"),
+        "tokenDate": listing.get("tokenDate"),
+        "status": listing.get("status", "open"),
+        "highestBid": highest_bid,
+        "highestBuyer": listing.get("highest_buyer"),
+        "highestBuyerToken": listing.get("highest_buyer_token"),
+        "bidCount": listing.get("bid_count", 0),
+        "auctionEndsAt": auction_ends_at.isoformat() if auction_ends_at else "",
+        "auctionRemainingSeconds": remaining_seconds,
+        "auctionStarted": bool(auction_ends_at),
+        "soldTo": listing.get("sold_to"),
+        "soldToToken": listing.get("sold_to_token"),
+        "soldAmount": listing.get("sold_amount"),
+        "serverNow": datetime.now().isoformat(),
+        "created_at": listing.get("created_at").strftime("%d %b %Y, %I:%M %p")
+        if listing.get("created_at") else "",
+        "rejected_until": rejected_until.strftime("%d %b %Y")
+        if rejected_until else ""
+    }
+
+    if include_bids:
+
+        bids = []
+        listing_bids = mandi_bids_collection.find({
+            "listing_id": str(listing["_id"])
+        }).sort("created_at", -1)
+
+        for bid in listing_bids:
+
+            bids.append({
+                "_id": str(bid["_id"]),
+                "buyerName": bid.get("buyerName"),
+                "buyerToken": bid.get("buyerToken"),
+                "buyerPhone": bid.get("buyerPhone"),
+                "amount": bid.get("amount"),
+                "message": bid.get("message"),
+                "created_at": bid.get("created_at").strftime("%d %b %Y, %I:%M %p")
+                if bid.get("created_at") else ""
+            })
+
+        data["bids"] = bids
+
+    return data
+
+
+def serialize_buyer_pass(buyer_pass):
+
+    return {
+        "_id": str(buyer_pass["_id"]),
+        "buyerName": buyer_pass.get("buyerName"),
+        "buyerPhone": buyer_pass.get("buyerPhone"),
+        "mandiArea": buyer_pass.get("mandiArea"),
+        "mandiName": buyer_pass.get("mandiName"),
+        "licenseNumber": buyer_pass.get("licenseNumber"),
+        "custom_id": buyer_pass.get("custom_id"),
+        "status": buyer_pass.get("status", "active"),
+        "created_at": buyer_pass.get("created_at").strftime("%d %b %Y, %I:%M %p")
+        if buyer_pass.get("created_at") else ""
+    }
+
+
+def get_room_buyer_count(listing_id):
+
+    bids = mandi_bids_collection.find({
+        "listing_id": listing_id
+    })
+
+    buyer_tokens = set()
+
+    for bid in bids:
+
+        if bid.get("buyerToken"):
+
+            buyer_tokens.add(bid.get("buyerToken"))
+
+    room = mandi_live_rooms_collection.find_one({
+        "listing_id": listing_id
+    })
+
+    if room:
+
+        for buyer in room.get("buyers", []):
+
+            if buyer.get("buyerToken"):
+
+                buyer_tokens.add(buyer.get("buyerToken"))
+
+    return len(buyer_tokens)
+
+
+@app.route("/api/mandi-buyer-pass", methods=["POST"])
+def create_mandi_buyer_pass():
+
+    try:
+
+        if "user_id" not in session:
+
+            return jsonify({
+                "success": False,
+                "message": "Mandi Buyer Pass banane ke liye pehle buyer account se login karein."
+            }), 401
+
+        if "user_id" in session and current_user_has_farmer_pass():
+
+            return jsonify({
+                "success": False,
+                "message": "Jis account par Kisan/Farmer Pass active hai, us account se Mandi Buyer Pass nahi ban sakta."
+            }), 403
+
+        data = request.json or {}
+        buyer_name = data.get("buyerName")
+        buyer_phone = data.get("buyerPhone")
+        mandi_area = data.get("mandiArea")
+        mandi_name = data.get("mandiName")
+        license_number = data.get("licenseNumber")
+
+        if not all([buyer_name, buyer_phone, mandi_area, mandi_name]):
+
+            return jsonify({
+                "success": False,
+                "message": "Buyer name, phone, mandi area aur mandi name required hai."
+            })
+
+        existing_pass = mandi_buyers_collection.find_one({
+            "user_id": session["user_id"],
+            "status": "active"
+        })
+
+        if existing_pass:
+
+            return jsonify({
+                "success": True,
+                "message": "Is phone par buyer pass already active hai.",
+                "buyerPass": serialize_buyer_pass(existing_pass)
+            })
+
+        buyer_pass = {
+            "user_id": session["user_id"],
+            "user_email": session.get("user_email"),
+            "buyerName": buyer_name,
+            "buyerPhone": buyer_phone,
+            "mandiArea": mandi_area,
+            "mandiName": mandi_name,
+            "licenseNumber": license_number or "",
+            "custom_id": data.get("custom_id") or f"MBP-{random.randint(100000,999999)}",
+            "status": "active",
+            "created_at": datetime.now()
+        }
+
+        result = mandi_buyers_collection.insert_one(buyer_pass)
+        buyer_pass["_id"] = result.inserted_id
+
+        return jsonify({
+            "success": True,
+            "message": "Mandi Buyer Pass ban gaya. Ab aap live room join karke bid kar sakte hain.",
+            "buyerPass": serialize_buyer_pass(buyer_pass)
+        })
+
+    except Exception as e:
+
+        return jsonify({
+            "success": False,
+            "message": str(e)
+        })
+
+
+@app.route("/api/mandi-buyer-pass/<pass_id>", methods=["GET"])
+def get_mandi_buyer_pass(pass_id):
+
+    buyer_pass = mandi_buyers_collection.find_one({
+        "custom_id": pass_id,
+        "status": "active"
+    })
+
+    if not buyer_pass:
+
+        return jsonify({
+            "success": False,
+            "message": "Buyer Pass nahi mila."
+        }), 404
+
+    return jsonify({
+        "success": True,
+        "buyerPass": serialize_buyer_pass(buyer_pass)
+    })
+
+
+@app.route("/api/my-mandi-buyer-pass", methods=["GET"])
+def get_my_mandi_buyer_pass():
+
+    if "user_id" not in session:
+
+        return jsonify({
+            "success": False,
+            "message": "Please login first"
+        }), 401
+
+    buyer_pass = mandi_buyers_collection.find_one({
+        "user_id": session["user_id"],
+        "status": "active"
+    })
+
+    if not buyer_pass:
+
+        return jsonify({
+            "success": False,
+            "message": "No Mandi Buyer Pass found"
+        })
+
+    return jsonify({
+        "success": True,
+        "buyerPass": serialize_buyer_pass(buyer_pass)
+    })
+
+
+@app.route("/api/mandi-listings/<listing_id>/live-room", methods=["GET"])
+def get_mandi_live_room(listing_id):
+
+    try:
+
+        listing = mandi_listings_collection.find_one({
+            "_id": ObjectId(listing_id)
+        })
+
+        listing = finalize_expired_mandi_listing(listing)
+
+        if not listing:
+
+            return jsonify({
+                "success": False,
+                "message": "Listing not found"
+            }), 404
+
+        room = mandi_live_rooms_collection.find_one({
+            "listing_id": listing_id
+        }) or {}
+
+        buyers = room.get("buyers", [])
+
+        return jsonify({
+            "success": True,
+            "listing": serialize_mandi_listing(listing, include_bids=True),
+            "room": {
+                "listing_id": listing_id,
+                "farmerLive": bool(room.get("farmerLive")),
+                "buyers": buyers,
+                "buyerCount": len(buyers),
+                "minBuyers": 4,
+                "maxBuyers": 8
+            }
+        })
+
+    except Exception as e:
+
+        return jsonify({
+            "success": False,
+            "message": str(e)
+        })
+
+
+@app.route("/api/mandi-listings/<listing_id>/live-room/join", methods=["POST"])
+def join_mandi_live_room(listing_id):
+
+    try:
+
+        data = request.json or {}
+        role = data.get("role")
+
+        listing = mandi_listings_collection.find_one({
+            "_id": ObjectId(listing_id),
+            "status": "open"
+        })
+
+        listing = finalize_expired_mandi_listing(listing)
+
+        if not listing or listing.get("status") != "open":
+
+            return jsonify({
+                "success": False,
+                "message": "Live room ab available nahi hai."
+            })
+
+        if role == "farmer":
+
+            if "user_id" not in session or listing.get("user_id") != session["user_id"]:
+
+                return jsonify({
+                    "success": False,
+                    "message": "Sirf crop owner farmer camera room start kar sakta hai."
+                }), 401
+
+            mandi_live_rooms_collection.update_one({
+                "listing_id": listing_id
+            }, {
+                "$set": {
+                    "listing_id": listing_id,
+                    "farmerLive": True,
+                    "farmerName": listing.get("farmerName"),
+                    "updated_at": datetime.now()
+                },
+                "$setOnInsert": {
+                    "buyers": [],
+                    "created_at": datetime.now()
+                }
+            }, upsert=True)
+
+            return jsonify({
+                "success": True,
+                "message": "Farmer live camera room active ho gaya."
+            })
+
+        if role == "buyer":
+
+            if "user_id" not in session:
+
+                return jsonify({
+                    "success": False,
+                    "message": "Live room join karne ke liye Mandi Buyer account se login karein."
+                }), 401
+
+            buyer_token = data.get("buyerToken")
+            buyer_pass = mandi_buyers_collection.find_one({
+                "custom_id": buyer_token,
+                "user_id": session["user_id"],
+                "status": "active"
+            })
+
+            if not buyer_pass:
+
+                return jsonify({
+                    "success": False,
+                    "message": "Valid Mandi Buyer Pass required hai."
+                })
+
+            if buyer_pass.get("mandiArea") != listing.get("mandiArea"):
+
+                return jsonify({
+                    "success": False,
+                    "message": "Buyer pass isi mandi area ka hona chahiye."
+                })
+
+            current_count = get_room_buyer_count(listing_id)
+            already_joined = mandi_live_rooms_collection.find_one({
+                "listing_id": listing_id,
+                "buyers.buyerToken": buyer_token
+            })
+
+            if current_count >= 8 and not already_joined:
+
+                return jsonify({
+                    "success": False,
+                    "message": "Is live room me 8 buyers already join ho chuke hain."
+                })
+
+            buyer_room_data = {
+                "buyerName": buyer_pass.get("buyerName"),
+                "buyerToken": buyer_pass.get("custom_id"),
+                "mandiName": buyer_pass.get("mandiName"),
+                "joined_at": datetime.now().strftime("%d %b %Y, %I:%M %p")
+            }
+
+            mandi_live_rooms_collection.update_one({
+                "listing_id": listing_id
+            }, {
+                "$set": {
+                    "listing_id": listing_id,
+                    "updated_at": datetime.now()
+                },
+                "$addToSet": {
+                    "buyers": buyer_room_data
+                },
+                "$setOnInsert": {
+                    "farmerLive": False,
+                    "created_at": datetime.now()
+                }
+            }, upsert=True)
+
+            return jsonify({
+                "success": True,
+                "message": "Buyer live bidding room me join ho gaya."
+            })
+
+        return jsonify({
+            "success": False,
+            "message": "Role farmer ya buyer hona chahiye."
+        })
+
+    except Exception as e:
+
+        return jsonify({
+            "success": False,
+            "message": str(e)
+        })
+
+
+@app.route("/api/mandi-listings", methods=["POST"])
+def create_mandi_listing():
+
+    try:
+
+        if "user_id" not in session:
+
+            return jsonify({
+                "success": False,
+                "message": "Please login first"
+            }), 401
+
+        if current_user_has_mandi_buyer_pass():
+
+            return jsonify({
+                "success": False,
+                "message": "Mandi Buyer account se crop sell nahi ho sakti. Crop sell karne ke liye alag Kisan/Farmer account use karein."
+            }), 403
+
+        data = request.json or {}
+        farmer_pass_id = data.get("farmerPass")
+        crop_name = data.get("cropName")
+        mandi_area = data.get("mandiArea")
+        crop_key = clean_crop_key(crop_name)
+
+        required_fields = [
+            farmer_pass_id,
+            data.get("farmerName"),
+            crop_name,
+            data.get("quantity"),
+            data.get("expectedPrice"),
+            mandi_area,
+            data.get("mandiName")
+        ]
+
+        if not all(required_fields):
+
+            return jsonify({
+                "success": False,
+                "message": "All required fields fill karein"
+            })
+
+        farmer = farmerpass_collection.find_one({
+            "custom_id": farmer_pass_id,
+            "user_id": session["user_id"]
+        })
+
+        if not farmer:
+
+            return jsonify({
+                "success": False,
+                "message": "Invalid Farmer Pass"
+            })
+
+        now = datetime.now()
+
+        active_crop = mandi_listings_collection.find_one({
+            "user_id": session["user_id"],
+            "cropKey": crop_key,
+            "status": {
+                "$in": ["open", "accepted"]
+            }
+        })
+
+        if active_crop:
+
+            return jsonify({
+                "success": False,
+                "message": "Ye crop already ek mandi/area me active hai. Same crop dusre area me upload nahi ho sakti."
+            })
+
+        rejected_crop = mandi_listings_collection.find_one({
+            "user_id": session["user_id"],
+            "cropKey": crop_key,
+            "status": "rejected",
+            "rejected_until": {
+                "$gt": now
+            }
+        })
+
+        if rejected_crop:
+
+            return jsonify({
+                "success": False,
+                "message": "Offer reject hone ke baad is crop ka token 8 din ke liye hold par hai.",
+                "rejected_until": rejected_crop["rejected_until"].strftime("%d %b %Y")
+            })
+
+        token_date = now.strftime("%Y-%m-%d")
+        used_tokens = mandi_listings_collection.count_documents({
+            "mandiArea": mandi_area,
+            "tokenDate": token_date
+        })
+
+        if used_tokens >= 50:
+
+            return jsonify({
+                "success": False,
+                "message": "Is area ki aaj ki 50 token limit complete ho gayi hai."
+            })
+
+        token_number = used_tokens + 1
+        listing = {
+            "user_id": session["user_id"],
+            "farmerPass": farmer_pass_id,
+            "farmerName": data.get("farmerName"),
+            "cropName": crop_name,
+            "cropKey": crop_key,
+            "cropPhoto": data.get("cropPhoto", ""),
+            "quantity": data.get("quantity"),
+            "quality": data.get("quality", ""),
+            "expectedPrice": data.get("expectedPrice"),
+            "mandiArea": mandi_area,
+            "mandiName": data.get("mandiName"),
+            "village": data.get("village", ""),
+            "address": data.get("address", ""),
+            "mapLat": data.get("mapLat", ""),
+            "mapLng": data.get("mapLng", ""),
+            "tokenNumber": token_number,
+            "tokenDate": token_date,
+            "status": "open",
+            "highest_bid": 0,
+            "highest_buyer": "",
+            "highest_buyer_token": "",
+            "auction_ends_at": None,
+            "bid_count": 0,
+            "created_at": now
+        }
+
+        result = mandi_listings_collection.insert_one(listing)
+        listing["_id"] = result.inserted_id
+
+        return jsonify({
+            "success": True,
+            "message": f"Crop mandi bidding ke liye live ho gayi. Token #{token_number}",
+            "listing": serialize_mandi_listing(listing)
+        })
+
+    except Exception as e:
+
+        return jsonify({
+            "success": False,
+            "message": str(e)
+        })
+
+
+@app.route("/api/mandi-listings", methods=["GET"])
+def get_mandi_listings():
+
+    listings = []
+    query = {
+        "status": "open"
+    }
+
+    mandi_area = request.args.get("area")
+
+    if mandi_area:
+
+        query["mandiArea"] = mandi_area
+
+    for listing in mandi_listings_collection.find(query).sort([
+        ("tokenDate", -1),
+        ("mandiArea", 1),
+        ("tokenNumber", 1)
+    ]):
+
+        listing = finalize_expired_mandi_listing(listing)
+
+        if listing.get("status") == "open":
+
+            listings.append(serialize_mandi_listing(listing))
+
+    return jsonify({
+        "success": True,
+        "listings": listings
+    })
+
+
+@app.route("/api/my-mandi-listings", methods=["GET"])
+def get_my_mandi_listings():
+
+    if "user_id" not in session:
+
+        return jsonify({
+            "success": False,
+            "message": "Please login first",
+            "listings": []
+        }), 401
+
+    listings = []
+
+    for listing in mandi_listings_collection.find({
+        "user_id": session["user_id"]
+    }).sort("created_at", -1):
+
+        listings.append(serialize_mandi_listing(listing, include_bids=True))
+
+    return jsonify({
+        "success": True,
+        "listings": listings
+    })
+
+
+@app.route("/api/mandi-listings/<listing_id>/bid", methods=["POST"])
+def create_mandi_bid(listing_id):
+
+    try:
+
+        if "user_id" not in session:
+
+            return jsonify({
+                "success": False,
+                "message": "Bid karne ke liye Mandi Buyer account se login karein."
+            }), 401
+
+        if current_user_has_farmer_pass():
+
+            return jsonify({
+                "success": False,
+                "message": "Kisan/Farmer account se bidding nahi ho sakti. Mandi Buyer ke liye alag account use karein."
+            }), 403
+
+        data = request.json or {}
+        buyer_name = data.get("buyerName")
+        buyer_token = data.get("buyerToken")
+        buyer_phone = data.get("buyerPhone")
+        amount = float(data.get("amount") or 0)
+
+        if not all([buyer_name, buyer_token, buyer_phone]) or amount <= 0:
+
+            return jsonify({
+                "success": False,
+                "message": "Buyer name, mandi token, phone aur bid amount required hai."
+            })
+
+        listing = mandi_listings_collection.find_one({
+            "_id": ObjectId(listing_id),
+            "status": "open"
+        })
+
+        listing = finalize_expired_mandi_listing(listing)
+
+        if not listing or listing.get("status") != "open":
+
+            return jsonify({
+                "success": False,
+                "message": "Auction complete ho chuki hai ya listing live nahi hai."
+            })
+
+        buyer_pass = mandi_buyers_collection.find_one({
+            "custom_id": buyer_token,
+            "user_id": session["user_id"],
+            "status": "active"
+        })
+
+        if not buyer_pass:
+
+            return jsonify({
+                "success": False,
+                "message": "Valid Mandi Buyer Pass required hai."
+            })
+
+        if buyer_pass.get("buyerPhone") != buyer_phone:
+
+            return jsonify({
+                "success": False,
+                "message": "Buyer Pass phone number match nahi ho raha."
+            })
+
+        if buyer_pass.get("mandiArea") != listing.get("mandiArea"):
+
+            return jsonify({
+                "success": False,
+                "message": "Buyer Pass isi mandi area ka hona chahiye."
+            })
+
+        room_joined = mandi_live_rooms_collection.find_one({
+            "listing_id": listing_id,
+            "buyers.buyerToken": buyer_token
+        })
+
+        if not room_joined:
+
+            return jsonify({
+                "success": False,
+                "message": "Bid sirf live room join karne ke baad hi submit hogi."
+            })
+
+        already_bidded = mandi_bids_collection.find_one({
+            "listing_id": listing_id,
+            "buyerToken": buyer_token
+        })
+
+        if get_room_buyer_count(listing_id) >= 8 and not already_bidded:
+
+            return jsonify({
+                "success": False,
+                "message": "Is crop ke live room me 8 buyers already active hain."
+            })
+
+        current_highest = float(listing.get("highest_bid") or 0)
+
+        if amount <= current_highest:
+
+            return jsonify({
+                "success": False,
+                "message": "Bid current highest bid se zyada honi chahiye."
+            })
+
+        bid = {
+            "listing_id": listing_id,
+            "buyerName": buyer_pass.get("buyerName") or buyer_name,
+            "buyerToken": buyer_token,
+            "buyerPhone": buyer_pass.get("buyerPhone") or buyer_phone,
+            "amount": amount,
+            "message": data.get("message", ""),
+            "created_at": datetime.now()
+        }
+
+        auction_ends_at = datetime.now() + timedelta(seconds=10)
+
+        mandi_bids_collection.insert_one(bid)
+        mandi_listings_collection.update_one({
+            "_id": ObjectId(listing_id)
+        }, {
+            "$set": {
+                "highest_bid": amount,
+                "highest_buyer": buyer_pass.get("buyerName") or buyer_name,
+                "highest_buyer_token": buyer_token,
+                "auction_ends_at": auction_ends_at,
+                "auction_started_at": listing.get("auction_started_at") or datetime.now()
+            },
+            "$inc": {
+                "bid_count": 1
+            }
+        })
+
+        return jsonify({
+            "success": True,
+            "message": "Live bid submit ho gayi. 10 second auction timer reset ho gaya.",
+            "auctionEndsAt": auction_ends_at.isoformat(),
+            "auctionRemainingSeconds": 10
+        })
+
+    except Exception as e:
+
+        return jsonify({
+            "success": False,
+            "message": str(e)
+        })
+
+
+@app.route("/api/mandi-listings/<listing_id>/decision", methods=["POST"])
+def decide_mandi_offer(listing_id):
+
+    try:
+
+        if "user_id" not in session:
+
+            return jsonify({
+                "success": False,
+                "message": "Please login first"
+            }), 401
+
+        data = request.json or {}
+        decision = data.get("decision")
+
+        listing = mandi_listings_collection.find_one({
+            "_id": ObjectId(listing_id),
+            "user_id": session["user_id"]
+        })
+
+        if not listing:
+
+            return jsonify({
+                "success": False,
+                "message": "Listing not found"
+            })
+
+        if listing.get("status") != "open":
+
+            return jsonify({
+                "success": False,
+                "message": "Is listing par decision already ho chuka hai."
+            })
+
+        if decision == "accept":
+
+            if not listing.get("highest_bid"):
+
+                return jsonify({
+                    "success": False,
+                    "message": "Accept karne ke liye pehle buyer bid chahiye."
+                })
+
+            mandi_listings_collection.update_one({
+                "_id": ObjectId(listing_id)
+            }, {
+                "$set": {
+                    "status": "accepted",
+                    "accepted_at": datetime.now()
+                }
+            })
+
+            return jsonify({
+                "success": True,
+                "message": "Offer accept ho gaya. Ab crop selected mandi/buyer ke paas le kar jani hogi."
+            })
+
+        if decision == "reject":
+
+            rejected_until = datetime.now() + timedelta(days=8)
+
+            mandi_listings_collection.update_one({
+                "_id": ObjectId(listing_id)
+            }, {
+                "$set": {
+                    "status": "rejected",
+                    "rejected_at": datetime.now(),
+                    "rejected_until": rejected_until
+                }
+            })
+
+            return jsonify({
+                "success": True,
+                "message": "Offer reject ho gaya. Crop buyer/mandi page se remove ho gayi aur token 8 din ke liye hold par hai."
+            })
+
+        return jsonify({
+            "success": False,
+            "message": "Decision accept ya reject hona chahiye."
         })
 
     except Exception as e:

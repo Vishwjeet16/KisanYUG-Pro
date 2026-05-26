@@ -117,7 +117,7 @@ async function updateFarmerOnlyLinks(){
 }
 
 function money(value){
-  return `$${Number(value || 0).toFixed(2)}`;
+  return `Rs ${Math.round(Number(value) || 0)}`;
 }
 
 function renderEmpty(message){

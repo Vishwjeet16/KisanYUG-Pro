@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KisanYUG | Mandi Crop Sell</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <style>
+    :root{--moss:#4F5D2F;--forest:#2D3B2D;--cream:#F5F5DC;--terracotta:#E2725B}
+    body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--forest)}
+    .serif{font-family:'Playfair Display',serif}
+    .glass{background:rgba(255,255,255,.45);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.35)}
+    .input-style{width:100%;padding:14px 18px;border-radius:16px;border:1px solid #d1d5db;background:#fff;outline:none}
+    .input-style:focus{border-color:var(--moss);box-shadow:0 0 0 4px rgba(79,93,47,.15)}
+    .area-card.active{border-color:var(--moss);background:#f7faef;box-shadow:0 12px 30px rgba(79,93,47,.12)}
+    .video-tile{background:#172018;color:#fff;border-radius:20px;min-height:190px;overflow:hidden;position:relative}
+    .video-tile video{width:100%;height:100%;object-fit:cover;min-height:190px}
+    .video-label{position:absolute;left:12px;bottom:12px;background:rgba(0,0,0,.55);border-radius:999px;padding:5px 10px;font-size:12px;font-weight:700}
+    .crop-photo-preview{width:100%;height:190px;object-fit:cover;border-radius:20px;border:1px solid #e5e7eb;background:#f9fafb}
+  </style>
+</head>
+<body class="pt-20">
+  <nav class="fixed top-0 left-0 w-full z-50 glass border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+      <a href="./index.html" class="flex items-center gap-2">
+        <iconify-icon icon="lucide:sprout" class="text-3xl text-[var(--moss)]"></iconify-icon>
+        <span class="serif text-2xl font-bold">KisanYUG</span>
+      </a>
+      <div class="hidden md:flex items-center gap-7 text-sm font-semibold">
+        <a href="./market.html" class="hover:text-[var(--moss)]">Marketplace</a>
+        <a href="./sell.html" class="hover:text-[var(--moss)]">Sell</a>
+        <a href="./mandi_sell.html" class="text-[var(--moss)] border-b-2 border-[var(--moss)]">Mandi Sell</a>
+        <a href="./mandi_buyer.html" class="hover:text-[var(--moss)]">Buyer Bidding</a>
+        <a href="./farmerpass.html" class="hover:text-[var(--moss)]">Farmer Pass</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="max-w-7xl mx-auto px-6 py-10">
+    <section class="grid lg:grid-cols-[.85fr_1.15fr] gap-10 items-start">
+      <div>
+        <div class="inline-flex items-center gap-2 bg-white border border-gray-200 rounded-full px-4 py-2 text-xs uppercase font-bold mb-6">
+          <span class="w-2 h-2 rounded-full bg-[var(--terracotta)]"></span>
+          50 Tokens Per Area Daily
+        </div>
+        <h1 class="serif text-5xl md:text-6xl leading-tight mb-5">
+          Sell Crop To
+          <span class="text-[var(--moss)]">Mandi Buyers</span>
+        </h1>
+        <p class="text-gray-600 text-lg leading-relaxed mb-7">
+          Kisan ek crop ko sirf ek selected mandi/area me live kar sakta hai. Token line-by-line milega, buyers live bidding karenge, aur final offer farmer accept ya reject karega.
+        </p>
+        <div class="bg-white rounded-[28px] p-5 shadow">
+          <h2 class="font-bold mb-3 flex items-center gap-2">
+            <iconify-icon icon="lucide:map-pinned" class="text-2xl text-[var(--moss)]"></iconify-icon>
+            Selected Mandi Map
+          </h2>
+          <iframe id="mapFrame" class="w-full h-72 rounded-2xl border" loading="lazy" src="https://www.openstreetmap.org/export/embed.html?bbox=76.4%2C22.6%2C76.9%2C23.1&layer=mapnik"></iframe>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-[32px] shadow-xl p-7 md:p-9">
+        <div class="flex items-center gap-3 mb-7">
+          <div class="w-12 h-12 rounded-2xl bg-[var(--forest)] text-white flex items-center justify-center">
+            <iconify-icon icon="lucide:gavel" class="text-3xl"></iconify-icon>
+          </div>
+          <div>
+            <h2 class="serif text-3xl">Apply For Mandi Bidding</h2>
+            <p class="text-sm text-gray-500">Choose only one area for one crop</p>
+          </div>
+        </div>
+
+        <form id="mandiForm" class="space-y-5">
+          <div class="grid md:grid-cols-2 gap-5">
+            <div>
+              <label class="block mb-2 font-semibold">Farmer Pass ID</label>
+              <input id="farmerPass" class="input-style" placeholder="AGP-123456" required>
+            </div>
+            <div>
+              <label class="block mb-2 font-semibold">Farmer Name</label>
+              <input id="farmerName" class="input-style" placeholder="Your name" required>
+            </div>
+          </div>
+
+          <div class="grid md:grid-cols-3 gap-5">
+            <div>
+              <label class="block mb-2 font-semibold">Crop Name</label>
+              <input id="cropName" class="input-style" placeholder="Wheat / Onion" required>
+            </div>
+            <div>
+              <label class="block mb-2 font-semibold">Quantity</label>
+              <input id="quantity" class="input-style" placeholder="80 Quintal" required>
+            </div>
+            <div>
+              <label class="block mb-2 font-semibold">Expected Price</label>
+              <input id="expectedPrice" class="input-style" placeholder="Rs 2400 / qtl" required>
+            </div>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-5">
+            <div>
+              <label class="block mb-2 font-semibold">Quality Grade</label>
+              <input id="quality" class="input-style" placeholder="A Grade / Organic">
+            </div>
+            <div>
+              <label class="block mb-2 font-semibold">Village</label>
+              <input id="village" class="input-style" placeholder="Village name">
+            </div>
+          </div>
+
+          <div>
+            <label class="block mb-3 font-semibold">Choose Mandi Area</label>
+            <div id="areaGrid" class="grid sm:grid-cols-2 gap-4"></div>
+          </div>
+
+          <input id="mandiArea" type="hidden" required>
+          <input id="mandiName" type="hidden" required>
+          <input id="mapLat" type="hidden">
+          <input id="mapLng" type="hidden">
+
+          <div>
+            <label class="block mb-2 font-semibold">Pickup / Farm Address</label>
+            <textarea id="address" class="input-style min-h-24" placeholder="Address for mandi buyer contact"></textarea>
+          </div>
+
+          <div class="grid md:grid-cols-[.9fr_1.1fr] gap-5 items-start">
+            <div>
+              <label class="block mb-2 font-semibold">Crop Photo</label>
+              <input id="cropPhotoInput" type="file" accept="image/*" class="input-style">
+              <p class="text-xs text-gray-500 mt-2">Photo buyer bidding page aur live room me dikhegi.</p>
+            </div>
+            <img id="cropPhotoPreview" class="crop-photo-preview hidden" alt="Crop photo preview">
+          </div>
+
+          <div id="messageBox" class="hidden rounded-2xl p-4 text-sm font-semibold"></div>
+
+          <div class="flex flex-wrap gap-3 pt-2">
+            <button class="bg-[var(--moss)] hover:bg-[var(--forest)] text-white px-6 py-3 rounded-xl font-bold transition">
+              Get Token & Start Bidding
+            </button>
+            <a href="./mandi_buyer.html" class="border-2 border-[var(--moss)] text-[var(--moss)] hover:bg-[var(--moss)] hover:text-white px-6 py-3 rounded-xl font-bold transition">
+              View Buyer Page
+            </a>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <section class="mt-12">
+      <div class="flex items-center justify-between gap-4 mb-5">
+        <h2 class="serif text-4xl">My Mandi Tokens</h2>
+        <button id="refreshMyListings" class="bg-white border px-4 py-2 rounded-xl font-bold">Refresh</button>
+      </div>
+      <div id="myListings" class="grid lg:grid-cols-2 gap-6"></div>
+    </section>
+  </main>
+
+  <div id="farmerLiveModal" class="hidden fixed inset-0 z-[80] bg-black/70 p-4 overflow-auto">
+    <div class="max-w-6xl mx-auto bg-white rounded-[28px] overflow-hidden shadow-2xl">
+      <div class="flex flex-wrap items-center justify-between gap-4 p-5 border-b">
+        <div>
+          <p id="farmerRoomMeta" class="text-xs uppercase tracking-widest text-gray-400 font-bold">Farmer Live Room</p>
+          <h2 id="farmerRoomTitle" class="serif text-3xl">Crop Live Camera</h2>
+        </div>
+        <div class="flex gap-2">
+          <button id="startFarmerCamera" class="bg-[var(--moss)] text-white px-4 py-2 rounded-xl font-bold">Camera On</button>
+          <button id="closeFarmerRoom" class="border px-4 py-2 rounded-xl font-bold">Close</button>
+        </div>
+      </div>
+      <div class="p-5 grid lg:grid-cols-[1.05fr_.95fr] gap-5">
+        <div class="space-y-4">
+          <img id="farmerRoomCropPhoto" class="w-full h-52 object-cover rounded-2xl border hidden" alt="Live crop photo">
+          <div class="video-tile">
+            <video id="farmerVideo" autoplay muted playsinline class="hidden"></video>
+            <div id="farmerVideoEmpty" class="h-full min-h-[190px] flex items-center justify-center text-white/70">Farmer camera off</div>
+            <span class="video-label">Your Farmer Camera</span>
+          </div>
+        </div>
+        <div>
+          <div class="grid sm:grid-cols-2 gap-3 mb-4">
+            <div class="bg-gray-50 rounded-2xl p-4">
+              <p class="text-sm text-gray-500">Buyer Slots</p>
+              <p id="farmerBuyerSlotText" class="font-bold text-[var(--moss)]">0 / 8 joined</p>
+            </div>
+            <div class="bg-gray-50 rounded-2xl p-4">
+              <p class="text-sm text-gray-500">Minimum Needed</p>
+              <p class="font-bold">4 buyers</p>
+            </div>
+          </div>
+          <div id="farmerRoomBuyers" class="grid sm:grid-cols-2 gap-3 mb-4"></div>
+          <div id="farmerRoomBids" class="space-y-2 max-h-44 overflow-auto"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+let apiBase = location.protocol.startsWith("http") ? "" : "http://127.0.0.1:5001";
+const mandis = [
+  {area:"Indore", name:"Indore Anaj Mandi", lat:"22.7196", lng:"75.8577", tokens:"50"},
+  {area:"Ujjain", name:"Ujjain Sabji Mandi", lat:"23.1765", lng:"75.7885", tokens:"50"},
+  {area:"Bhopal", name:"Bhopal Karond Mandi", lat:"23.3000", lng:"77.4100", tokens:"50"},
+  {area:"Dewas", name:"Dewas Krishi Upaj Mandi", lat:"22.9676", lng:"76.0534", tokens:"50"}
+];
+const areaGrid = document.getElementById("areaGrid");
+const messageBox = document.getElementById("messageBox");
+let farmerCameraStream = null;
+let activeFarmerRoomId = "";
+let cropPhotoData = "";
+
+async function fetchApi(path, options = {}){
+  const bases = [];
+  const currentBase = location.protocol.startsWith("http") ? "" : null;
+
+  if(currentBase !== null){
+    bases.push(currentBase);
+  }
+
+  bases.push("http://127.0.0.1:5001", "http://127.0.0.1:5000");
+
+  let lastError;
+
+  for(const base of [...new Set(bases)]){
+    try{
+      const response = await fetch(`${base}${path}`, options);
+
+      if(response.status === 404){
+        lastError = new Error("API route not found");
+        continue;
+      }
+
+      apiBase = base;
+      return response;
+    }catch(error){
+      lastError = error;
+    }
+  }
+
+  throw lastError || new Error("Backend se connect nahi ho paya.");
+}
+
+function showMessage(message, success){
+  messageBox.textContent = message;
+  messageBox.className = success
+    ? "rounded-2xl p-4 text-sm font-semibold bg-green-50 text-green-700 border border-green-200"
+    : "rounded-2xl p-4 text-sm font-semibold bg-red-50 text-red-700 border border-red-200";
+}
+
+function selectMandi(mandi){
+  document.querySelectorAll(".area-card").forEach(card => card.classList.remove("active"));
+  document.querySelector(`[data-area="${mandi.area}"]`).classList.add("active");
+  document.getElementById("mandiArea").value = mandi.area;
+  document.getElementById("mandiName").value = mandi.name;
+  document.getElementById("mapLat").value = mandi.lat;
+  document.getElementById("mapLng").value = mandi.lng;
+  document.getElementById("mapFrame").src = `https://www.openstreetmap.org/export/embed.html?bbox=${Number(mandi.lng)-.08}%2C${Number(mandi.lat)-.08}%2C${Number(mandi.lng)+.08}%2C${Number(mandi.lat)+.08}&layer=mapnik&marker=${mandi.lat}%2C${mandi.lng}`;
+}
+
+areaGrid.innerHTML = mandis.map(mandi => `
+  <button type="button" data-area="${mandi.area}" class="area-card text-left rounded-2xl border border-gray-200 p-4 transition">
+    <div class="flex items-start justify-between gap-3">
+      <div>
+        <h3 class="font-bold">${mandi.name}</h3>
+        <p class="text-sm text-gray-500">${mandi.area} Area</p>
+      </div>
+      <span class="bg-[var(--moss)]/10 text-[var(--moss)] px-3 py-1 rounded-full text-xs font-bold">${mandi.tokens} tokens</span>
+    </div>
+    <p class="text-xs text-gray-500 mt-3">Map location available</p>
+  </button>
+`).join("");
+
+mandis.forEach(mandi => {
+  document.querySelector(`[data-area="${mandi.area}"]`).addEventListener("click", () => selectMandi(mandi));
+});
+selectMandi(mandis[0]);
+
+async function loadMyPass(){
+  try{
+    const response = await fetchApi(`/api/my-pass`, {credentials:"include"});
+    const data = await response.json();
+    if(data.success){
+      document.getElementById("farmerPass").value = data.pass.custom_id;
+      document.getElementById("farmerName").value = data.pass.name || "";
+      document.getElementById("farmerPass").readOnly = true;
+      document.getElementById("farmerName").readOnly = true;
+    }
+  }catch(error){}
+}
+
+function listingCard(listing){
+  const bids = listing.bids || [];
+  const statusClass = listing.status === "open" ? "bg-green-50 text-green-700" : listing.status === "sold" ? "bg-emerald-50 text-emerald-700" : listing.status === "accepted" ? "bg-blue-50 text-blue-700" : "bg-red-50 text-red-700";
+  const auctionText = listing.status === "sold"
+    ? `Sold to ${listing.soldTo || listing.highestBuyer} for Rs ${listing.soldAmount || listing.highestBid}`
+    : listing.auctionStarted
+      ? `${listing.auctionRemainingSeconds || 0}s left`
+      : "First bid starts 10s timer";
+
+  return `
+    <article class="bg-white rounded-[28px] p-6 shadow">
+      ${listing.cropPhoto ? `<img src="${listing.cropPhoto}" class="w-full h-52 object-cover rounded-2xl border mb-5" alt="${listing.cropName} photo">` : ""}
+      <div class="flex items-start justify-between gap-4 mb-4">
+        <div>
+          <p class="text-xs uppercase tracking-widest text-gray-400 font-bold">${listing.mandiArea} | Token #${listing.tokenNumber}</p>
+          <h3 class="serif text-3xl">${listing.cropName}</h3>
+          <p class="text-gray-500">${listing.quantity} | ${listing.expectedPrice}</p>
+        </div>
+        <span class="${statusClass} px-3 py-1 rounded-full text-xs font-bold">${listing.status}</span>
+      </div>
+      <div class="grid sm:grid-cols-3 gap-3 mb-4">
+        <div class="bg-gray-50 rounded-2xl p-3"><p class="text-xs text-gray-500">Highest Bid</p><p class="font-bold">Rs ${listing.highestBid || 0}</p></div>
+        <div class="bg-gray-50 rounded-2xl p-3"><p class="text-xs text-gray-500">Buyer</p><p class="font-bold">${listing.highestBuyer || "Waiting"}</p></div>
+        <div class="bg-gray-50 rounded-2xl p-3"><p class="text-xs text-gray-500">Bids</p><p class="font-bold">${listing.bidCount || 0}</p></div>
+      </div>
+      <div class="rounded-2xl bg-green-50 border border-green-200 p-3 mb-4">
+        <p class="text-xs uppercase tracking-widest text-green-700 font-bold">Auction</p>
+        <p class="font-bold text-[var(--forest)]">${auctionText}</p>
+      </div>
+      <div class="space-y-2 max-h-36 overflow-auto mb-4">
+        ${bids.length ? bids.map(bid => `<div class="flex justify-between gap-3 border rounded-xl p-3 text-sm"><span>${bid.buyerName} (${bid.buyerToken})</span><b>Rs ${bid.amount}</b></div>`).join("") : `<p class="text-sm text-gray-500">Abhi koi live bid nahi aayi.</p>`}
+      </div>
+      ${listing.status === "open" ? `
+        <div class="flex flex-wrap gap-3">
+          <button data-id="${listing._id}" class="farmer-live bg-[var(--forest)] text-white px-4 py-2 rounded-xl font-bold">Start Live Camera</button>
+          <button data-id="${listing._id}" data-decision="accept" class="decision bg-[var(--moss)] text-white px-4 py-2 rounded-xl font-bold">Accept Offer</button>
+          <button data-id="${listing._id}" data-decision="reject" class="decision border-2 border-red-500 text-red-600 px-4 py-2 rounded-xl font-bold">Reject Offer</button>
+        </div>
+      ` : listing.status === "sold" ? `<p class="text-sm text-emerald-700 font-semibold">Auction complete. Crop ${listing.soldTo || listing.highestBuyer} ne buy kar li.</p>` : listing.status === "rejected" ? `<p class="text-sm text-red-600 font-semibold">Token hold till ${listing.rejected_until}</p>` : `<p class="text-sm text-blue-700 font-semibold">Crop selected buyer/mandi ke paas le kar jani hogi.</p>`}
+    </article>
+  `;
+}
+
+async function openFarmerLiveRoom(listingId){
+  const joinResponse = await fetchApi(`/api/mandi-listings/${listingId}/live-room/join`, {
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    credentials:"include",
+    body:JSON.stringify({role:"farmer"})
+  });
+  const joinData = await joinResponse.json();
+  showMessage(joinData.message || "Live room updated", joinData.success);
+  if(!joinData.success){return;}
+  activeFarmerRoomId = listingId;
+  await refreshFarmerLiveRoom(listingId);
+  document.getElementById("farmerLiveModal").classList.remove("hidden");
+}
+
+async function refreshFarmerLiveRoom(listingId){
+  const response = await fetchApi(`/api/mandi-listings/${listingId}/live-room`);
+  const data = await response.json();
+  if(!data.success){return;}
+  const listing = data.listing;
+  const room = data.room;
+  document.getElementById("farmerRoomTitle").textContent = `${listing.cropName} Live Bidding`;
+  document.getElementById("farmerRoomMeta").textContent = `${listing.mandiName} | Token #${listing.tokenNumber}`;
+  const farmerPhoto = document.getElementById("farmerRoomCropPhoto");
+  if(farmerPhoto){
+    farmerPhoto.src = listing.cropPhoto || "";
+    farmerPhoto.classList.toggle("hidden", !listing.cropPhoto);
+  }
+  document.getElementById("farmerBuyerSlotText").textContent = `${room.buyerCount} / ${room.maxBuyers} joined`;
+  const buyers = room.buyers || [];
+  const buyerCards = [];
+  for(let index = 0; index < 8; index++){
+    const buyer = buyers[index];
+    buyerCards.push(`
+      <div class="border rounded-2xl p-3 ${buyer ? "bg-green-50 border-green-200" : "bg-gray-50 border-gray-200"}">
+        <p class="text-xs text-gray-500">Buyer ${index + 1}</p>
+        <p class="font-bold">${buyer ? buyer.buyerName : "Waiting"}</p>
+        <p class="text-xs text-gray-500">${buyer ? buyer.buyerToken : "Slot open"}</p>
+      </div>
+    `);
+  }
+  document.getElementById("farmerRoomBuyers").innerHTML = buyerCards.join("");
+  document.getElementById("farmerRoomBids").innerHTML = (listing.bids || []).length
+    ? listing.bids.map(bid => `<div class="flex justify-between gap-3 border rounded-xl p-3 text-sm"><span>${bid.buyerName} (${bid.buyerToken})</span><b>Rs ${bid.amount}</b></div>`).join("")
+    : `<p class="text-sm text-gray-500">Abhi live bid waiting hai.</p>`;
+}
+
+async function startFarmerCamera(){
+  try{
+    farmerCameraStream = await navigator.mediaDevices.getUserMedia({video:true, audio:false});
+    const video = document.getElementById("farmerVideo");
+    video.srcObject = farmerCameraStream;
+    video.classList.remove("hidden");
+    document.getElementById("farmerVideoEmpty").classList.add("hidden");
+  }catch(error){
+    showMessage("Camera permission nahi mili ya camera available nahi hai.", false);
+  }
+}
+
+async function loadMyListings(){
+  const box = document.getElementById("myListings");
+  box.innerHTML = `<div class="bg-white rounded-2xl p-6 text-gray-500">Loading...</div>`;
+  try{
+    const response = await fetchApi(`/api/my-mandi-listings`, {credentials:"include"});
+    const data = await response.json();
+    box.innerHTML = data.success && data.listings.length
+      ? data.listings.map(listingCard).join("")
+      : `<div class="bg-white rounded-2xl p-6 text-gray-500">No mandi tokens yet.</div>`;
+  }catch(error){
+    box.innerHTML = `<div class="bg-white rounded-2xl p-6 text-red-600">Backend se connect nahi ho paya.</div>`;
+  }
+}
+
+document.getElementById("mandiForm").addEventListener("submit", async event => {
+  event.preventDefault();
+  const cropData = {
+    farmerPass: document.getElementById("farmerPass").value.trim(),
+    farmerName: document.getElementById("farmerName").value.trim(),
+    cropName: document.getElementById("cropName").value.trim(),
+    quantity: document.getElementById("quantity").value.trim(),
+    quality: document.getElementById("quality").value.trim(),
+    cropPhoto: cropPhotoData,
+    expectedPrice: document.getElementById("expectedPrice").value.trim(),
+    mandiArea: document.getElementById("mandiArea").value,
+    mandiName: document.getElementById("mandiName").value,
+    village: document.getElementById("village").value.trim(),
+    address: document.getElementById("address").value.trim(),
+    mapLat: document.getElementById("mapLat").value,
+    mapLng: document.getElementById("mapLng").value
+  };
+  try{
+    const response = await fetchApi(`/api/mandi-listings`, {
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      credentials:"include",
+      body:JSON.stringify(cropData)
+    });
+    const data = await response.json();
+    showMessage(data.message || "Done", data.success);
+    if(data.success){
+      document.getElementById("mandiForm").reset();
+      cropPhotoData = "";
+      document.getElementById("cropPhotoPreview").classList.add("hidden");
+      selectMandi(mandis[0]);
+      loadMyPass();
+      loadMyListings();
+    }
+  }catch(error){
+    showMessage("Backend se connect nahi ho paya.", false);
+  }
+});
+
+document.getElementById("cropPhotoInput").addEventListener("change", event => {
+  const file = event.target.files && event.target.files[0];
+  const preview = document.getElementById("cropPhotoPreview");
+
+  if(!file){
+    cropPhotoData = "";
+    preview.classList.add("hidden");
+    return;
+  }
+
+  if(file.size > 900000){
+    showMessage("Crop photo 900KB se chhoti rakhein.", false);
+    event.target.value = "";
+    cropPhotoData = "";
+    preview.classList.add("hidden");
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = () => {
+    cropPhotoData = reader.result;
+    preview.src = cropPhotoData;
+    preview.classList.remove("hidden");
+  };
+  reader.readAsDataURL(file);
+});
+
+document.getElementById("myListings").addEventListener("click", async event => {
+  const liveButton = event.target.closest(".farmer-live");
+  if(liveButton){
+    openFarmerLiveRoom(liveButton.dataset.id);
+    return;
+  }
+  const button = event.target.closest(".decision");
+  if(!button){return;}
+  const response = await fetchApi(`/api/mandi-listings/${button.dataset.id}/decision`, {
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    credentials:"include",
+    body:JSON.stringify({decision:button.dataset.decision})
+  });
+  const data = await response.json();
+  showMessage(data.message || "Updated", data.success);
+  loadMyListings();
+});
+
+document.getElementById("refreshMyListings").addEventListener("click", loadMyListings);
+document.getElementById("startFarmerCamera").addEventListener("click", startFarmerCamera);
+document.getElementById("closeFarmerRoom").addEventListener("click", () => {
+  document.getElementById("farmerLiveModal").classList.add("hidden");
+});
+loadMyPass();
+loadMyListings();
+setInterval(() => {
+  if(activeFarmerRoomId && !document.getElementById("farmerLiveModal").classList.contains("hidden")){
+    refreshFarmerLiveRoom(activeFarmerRoomId);
+  }
+}, 10000);
+  </script>
+</body>
+</html>

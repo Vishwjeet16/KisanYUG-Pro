@@ -304,7 +304,7 @@
         <button
           type="submit"
           class="w-full bg-moss text-white py-4 rounded-2xl text-lg font-semibold shadow-xl hover:bg-[#2D3B2D] btn-hover">
-          Login to TerraLink
+          Login to kisanYUG
         </button>
 
       </form>
@@ -328,15 +328,17 @@
 // ================= FIREBASE IMPORT =================
 
 import { initializeApp }
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
 
 import {
   getAuth,
   GoogleAuthProvider,
   OAuthProvider,
-  signInWithPopup
+  getRedirectResult,
+  signInWithPopup,
+  signInWithRedirect
 }
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
 
 
 // ================= FIREBASE CONFIG =================
@@ -344,14 +346,14 @@ from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 // Firebase Console se apna REAL config paste karo
 
 const firebaseConfig = {
-  apiKey: "AIzaSyXXXXXXX",
-  authDomain: "your-project.firebaseapp.com",
-  projectId: "your-project-id",
-  storageBucket: "your-project.appspot.com",
-  messagingSenderId: "123456789",
-  appId: "1:123:web:abc"
-};
-
+    apiKey: "AIzaSyDy7AkD79uOyS6vy7ETe_ruPW180So7Sco",
+    authDomain: "kisanyug-7c48b.firebaseapp.com",
+    projectId: "kisanyug-7c48b",
+    storageBucket: "kisanyug-7c48b.firebasestorage.app",
+    messagingSenderId: "582765411110",
+    appId: "1:582765411110:web:808e541be1c3c227501fe7",
+    measurementId: "G-V59EWMKJFD"
+  };
 
 // ================= INITIALIZE =================
 
@@ -365,40 +367,144 @@ const auth = getAuth(app);
 const googleBtn =
 document.getElementById("googleLogin");
 
-googleBtn.addEventListener("click", async () => {
+const googleProvider =
+new GoogleAuthProvider();
 
-  const provider =
-  new GoogleAuthProvider();
+async function readJsonResponse(response){
+
+  const text =
+  await response.text();
+
+  if(!response.ok){
+
+    throw new Error(
+      "Google login server error: " + response.status + " " + (text || response.statusText)
+    );
+
+  }
+
+  if(!text){
+
+    throw new Error(
+      "Server se empty response mila. Flask app ko http://127.0.0.1:5000 par run karke auth page wahi se open karo."
+    );
+
+  }
+
+  try{
+
+    return JSON.parse(text);
+
+  }
+
+  catch(error){
+
+    console.log(text);
+
+    throw new Error(
+      "Server ne JSON nahi bheja. Flask app restart karo aur /google-login route check karo."
+    );
+
+  }
+
+}
+
+function getBackendUrl(path){
+
+  const isFlaskServer =
+  window.location.hostname === "127.0.0.1" &&
+  window.location.port === "5000";
+
+  if(isFlaskServer){
+
+    return path;
+
+  }
+
+  return "http://127.0.0.1:5000" + path;
+
+}
+
+async function completeGoogleLogin(user){
+
+  const response =
+  await fetch(getBackendUrl("/google-login"),{
+
+    method:"POST",
+
+    headers:{
+      "Content-Type":"application/json"
+    },
+
+    credentials:"include",
+
+    body:JSON.stringify({
+
+      name:user.displayName,
+      email:user.email
+
+    })
+
+  });
+
+  const data =
+  await readJsonResponse(response);
+
+  if(!data.success){
+
+    alert(data.message || "Google login failed");
+
+    return;
+
+  }
+
+  localStorage.setItem(
+    "user",
+    JSON.stringify(data.user)
+  );
+
+  alert(
+    "Welcome " + (user.displayName || data.user.name)
+  );
+
+  window.location.href =
+  getBackendUrl("/");
+
+}
+
+try{
+
+  const redirectResult =
+  await getRedirectResult(auth);
+
+  if(redirectResult && redirectResult.user){
+
+    await completeGoogleLogin(redirectResult.user);
+
+  }
+
+}
+
+catch(error){
+
+  console.log(error);
+
+  alert(error.message);
+
+}
+
+googleBtn.addEventListener("click", async () => {
 
   try {
 
+    googleBtn.disabled = true;
+
     const result =
-    await signInWithPopup(auth, provider);
+    await signInWithPopup(auth, googleProvider);
 
     const user = result.user;
 
-    await fetch("/login",{
-
-  method:"POST",
-
-  headers:{
-    "Content-Type":"application/json"
-  },
-
-  body:JSON.stringify({
-
-    name:user.displayName,
-    email:user.email
-
-  })
-
-});
-
-alert(
-  "Welcome " + user.displayName
-);
-
-window.location.href = "/";
+    await completeGoogleLogin(user);
 
   }
 
@@ -406,7 +512,41 @@ window.location.href = "/";
 
     console.log(error);
 
+    if(error.code === "auth/configuration-not-found"){
+
+      alert("Firebase Console me Authentication > Sign-in method me Google provider enable karo, aur isi project ka web app config use karo.");
+
+      return;
+
+    }
+
+    if(error.code === "auth/unauthorized-domain"){
+
+      alert("Firebase Console me Authentication > Settings > Authorized domains me current domain add karo. Local ke liye localhost aur 127.0.0.1 add karo.");
+
+      return;
+
+    }
+
+    if(
+      error.code === "auth/popup-closed-by-user" ||
+      error.code === "auth/popup-blocked" ||
+      error.code === "auth/cancelled-popup-request"
+    ){
+
+      await signInWithRedirect(auth, googleProvider);
+
+      return;
+
+    }
+
     alert(error.message);
+
+  }
+
+  finally{
+
+    googleBtn.disabled = false;
 
   }
 

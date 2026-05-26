@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KisanYUG | Mandi Buyer Bidding</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <style>
+    :root{--moss:#4F5D2F;--forest:#2D3B2D;--cream:#F5F5DC;--terracotta:#E2725B}
+    body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--forest)}
+    .serif{font-family:'Playfair Display',serif}
+    .glass{background:rgba(255,255,255,.45);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.35)}
+    .input-style{width:100%;padding:13px 16px;border-radius:14px;border:1px solid #d1d5db;background:#fff;outline:none}
+    .input-style:focus{border-color:var(--moss);box-shadow:0 0 0 4px rgba(79,93,47,.15)}
+    .video-tile{background:#172018;color:#fff;border-radius:20px;min-height:180px;overflow:hidden;position:relative}
+    .video-tile video{width:100%;height:100%;object-fit:cover;min-height:180px}
+    .video-label{position:absolute;left:12px;bottom:12px;background:rgba(0,0,0,.55);border-radius:999px;padding:5px 10px;font-size:12px;font-weight:700}
+    .live-panel{border:1px solid #e5e7eb;border-radius:22px;background:#fff;padding:16px}
+  </style>
+</head>
+<body class="pt-20">
+  <nav class="fixed top-0 left-0 w-full z-50 glass border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+      <a href="./index.html" class="flex items-center gap-2">
+        <iconify-icon icon="lucide:sprout" class="text-3xl text-[var(--moss)]"></iconify-icon>
+        <span class="serif text-2xl font-bold">KisanYUG</span>
+      </a>
+      <div class="hidden md:flex items-center gap-7 text-sm font-semibold">
+        <a href="./market.html" class="hover:text-[var(--moss)]">Marketplace</a>
+        <a href="./mandi_sell.html" class="hover:text-[var(--moss)]">Mandi Sell</a>
+        <a href="./mandi_buyer.html" class="text-[var(--moss)] border-b-2 border-[var(--moss)]">Buyer Bidding</a>
+        <a href="./contact_help.html" class="hover:text-[var(--moss)]">Support</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="max-w-7xl mx-auto px-6 py-10">
+    <section class="flex flex-wrap items-end justify-between gap-6 mb-8">
+      <div>
+        <div class="inline-flex items-center gap-2 bg-white border border-gray-200 rounded-full px-4 py-2 text-xs uppercase font-bold mb-5">
+          <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+          4 To 8 Buyers Per Live Room
+        </div>
+        <h1 class="serif text-5xl md:text-6xl leading-tight">
+          Buyer & Dealer
+          <span class="text-[var(--moss)]">Live Offers</span>
+        </h1>
+        <p class="text-gray-600 text-lg mt-4 max-w-2xl">
+          Sirf live tokens wali farmer crops yahan dikhengi. Bid submit karne ke liye buyer/mandi token required hai.
+        </p>
+      </div>
+      <div class="flex flex-wrap gap-3">
+        <select id="areaFilter" class="input-style min-w-52">
+          <option value="">All Areas</option>
+          <option value="Indore">Indore</option>
+          <option value="Ujjain">Ujjain</option>
+          <option value="Bhopal">Bhopal</option>
+          <option value="Dewas">Dewas</option>
+        </select>
+        <button id="refreshListings" class="bg-[var(--moss)] text-white px-5 py-3 rounded-xl font-bold">Refresh Live</button>
+      </div>
+    </section>
+
+    <div id="statusBox" class="hidden rounded-2xl p-4 text-sm font-semibold mb-6"></div>
+
+    <section class="grid lg:grid-cols-[.9fr_1.1fr] gap-7 mb-8">
+      <div class="bg-white rounded-[28px] p-6 shadow">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="w-11 h-11 rounded-2xl bg-[var(--moss)] text-white flex items-center justify-center">
+            <iconify-icon icon="lucide:badge-check" class="text-2xl"></iconify-icon>
+          </div>
+          <div>
+            <h2 class="serif text-3xl">Mandi Buyer Pass</h2>
+            <p class="text-sm text-gray-500">Pass ke bina live room join aur bid submit nahi hogi.</p>
+          </div>
+        </div>
+
+        <form id="buyerPassForm" class="grid md:grid-cols-2 gap-4">
+          <input id="passBuyerName" class="input-style" placeholder="Buyer / Dealer Name" required>
+          <input id="passBuyerPhone" class="input-style" placeholder="Phone Number" required>
+          <select id="passMandiArea" class="input-style" required>
+            <option value="">Select Area</option>
+            <option value="Indore">Indore</option>
+            <option value="Ujjain">Ujjain</option>
+            <option value="Bhopal">Bhopal</option>
+            <option value="Dewas">Dewas</option>
+          </select>
+          <input id="passMandiName" class="input-style" placeholder="Mandi Name" required>
+          <input id="licenseNumber" class="input-style md:col-span-2" placeholder="License / Shop Number (optional)">
+          <button class="md:col-span-2 bg-[var(--moss)] text-white py-3 rounded-xl font-bold">Create / Load Buyer Pass</button>
+        </form>
+      </div>
+
+      <div class="bg-[var(--forest)] text-white rounded-[28px] p-6 shadow">
+        <p class="text-xs uppercase tracking-widest text-white/60 font-bold mb-2">Active Buyer Pass</p>
+        <div id="activePassBox" class="text-white/70">Abhi buyer pass create nahi hua.</div>
+      </div>
+    </section>
+
+    <section id="listingGrid" class="grid lg:grid-cols-2 gap-7"></section>
+  </main>
+
+  <div id="liveRoomModal" class="hidden fixed inset-0 z-[80] bg-black/70 p-4 overflow-auto">
+    <div class="max-w-6xl mx-auto bg-white rounded-[28px] overflow-hidden shadow-2xl">
+      <div class="flex flex-wrap items-center justify-between gap-4 p-5 border-b">
+        <div>
+          <p id="roomMeta" class="text-xs uppercase tracking-widest text-gray-400 font-bold">Live Room</p>
+          <h2 id="roomTitle" class="serif text-3xl">Mandi Live Camera</h2>
+        </div>
+        <div class="flex gap-2">
+          <button id="startBuyerCamera" class="bg-[var(--moss)] text-white px-4 py-2 rounded-xl font-bold">Camera On</button>
+          <button id="closeLiveRoom" class="border px-4 py-2 rounded-xl font-bold">Close</button>
+        </div>
+      </div>
+      <div class="p-5 grid xl:grid-cols-[1.05fr_.95fr] gap-5">
+        <div class="space-y-4">
+          <img id="buyerRoomCropPhoto" class="w-full h-56 object-cover rounded-2xl border hidden" alt="Live crop photo">
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div class="video-tile">
+              <div id="farmerLiveStatus" class="h-full min-h-[180px] flex items-center justify-center text-center px-5 text-white/70">Farmer live camera waiting</div>
+              <span id="farmerVideoLabel" class="video-label">Farmer Camera</span>
+            </div>
+            <div class="video-tile">
+              <video id="buyerVideo" autoplay muted playsinline class="hidden"></video>
+              <div id="buyerVideoEmpty" class="h-full min-h-[180px] flex items-center justify-center text-white/70">Your camera off</div>
+              <span class="video-label">Your Camera</span>
+            </div>
+          </div>
+          <div class="live-panel">
+            <div class="flex items-center justify-between gap-3 mb-3">
+              <div>
+                <p class="text-xs uppercase tracking-widest text-gray-400 font-bold">Joined Buyers</p>
+                <p id="buyerSlotText" class="font-bold text-[var(--moss)]">0 / 8 joined</p>
+              </div>
+              <span class="bg-green-50 text-green-700 px-3 py-2 rounded-xl text-sm font-bold">Live bidding room</span>
+            </div>
+            <div id="roomBuyers" class="grid sm:grid-cols-2 gap-3"></div>
+          </div>
+        </div>
+        <div class="live-panel">
+          <p class="text-xs uppercase tracking-widest text-gray-400 font-bold mb-2">Bid In Front Of Camera</p>
+          <h3 id="roomBidTitle" class="serif text-3xl mb-4">Submit Live Bid</h3>
+          <div class="grid grid-cols-2 gap-3 mb-4">
+            <div class="bg-gray-50 rounded-2xl p-3"><p class="text-xs text-gray-500">Highest</p><p id="roomHighestBid" class="font-bold text-[var(--moss)]">Rs 0</p></div>
+            <div class="bg-gray-50 rounded-2xl p-3"><p class="text-xs text-gray-500">Timer</p><p id="roomAuctionTimer" class="font-bold">Waiting</p></div>
+          </div>
+          <form id="roomBidForm" class="space-y-4">
+            <input id="roomBidListingId" type="hidden">
+            <input name="buyerName" class="input-style" placeholder="Buyer / Dealer Name" required>
+            <input name="buyerToken" class="input-style" placeholder="Mandi Buyer Pass ID" required>
+            <input name="buyerPhone" class="input-style" placeholder="Phone Number" required>
+            <input name="amount" type="number" min="1" class="input-style" placeholder="Bid Amount Rs" required>
+            <textarea name="message" class="input-style min-h-20" placeholder="Offer note, pickup timing, quality condition"></textarea>
+            <button class="w-full bg-[var(--moss)] hover:bg-[var(--forest)] text-white py-3 rounded-xl font-bold transition">
+              Submit Camera Room Bid
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+let apiBase = location.protocol.startsWith("http") ? "" : "http://127.0.0.1:5001";
+const listingGrid = document.getElementById("listingGrid");
+const statusBox = document.getElementById("statusBox");
+let activeBuyerPass = JSON.parse(localStorage.getItem("mandiBuyerPass") || "null");
+let activeRoomId = "";
+let buyerCameraStream = null;
+let listingsRequestInFlight = false;
+let lastListingsMarkup = "";
+
+function showStatus(message, success){
+  statusBox.textContent = message;
+  statusBox.className = success
+    ? "rounded-2xl p-4 text-sm font-semibold mb-6 bg-green-50 text-green-700 border border-green-200"
+    : "rounded-2xl p-4 text-sm font-semibold mb-6 bg-red-50 text-red-700 border border-red-200";
+}
+
+async function fetchApi(path, options = {}){
+  const bases = [];
+  const currentBase = location.protocol.startsWith("http") ? "" : null;
+
+  if(currentBase !== null){
+    bases.push(currentBase);
+  }
+
+  bases.push("http://127.0.0.1:5002", "http://127.0.0.1:5001", "http://127.0.0.1:5000");
+
+  let lastError;
+
+  for(const base of [...new Set(bases)]){
+    try{
+      const response = await fetch(`${base}${path}`, options);
+
+      if(response.status === 404 || response.status === 405){
+        lastError = new Error("Buyer Pass API is not available on this server/port. Flask backend latest code se restart karein.");
+        continue;
+      }
+
+      const contentType = response.headers.get("content-type") || "";
+
+      if(!contentType.includes("application/json")){
+        lastError = new Error("Is server ne JSON response nahi diya. Next backend port try kar rahe hain.");
+        continue;
+      }
+
+      apiBase = base;
+      return response;
+    }catch(error){
+      lastError = error;
+    }
+  }
+
+  throw lastError || new Error("Backend se connect nahi ho paya.");
+}
+
+async function readJsonResponse(response){
+  const text = await response.text();
+
+  if(!text){
+    throw new Error(`Server se empty response mila (${response.status}). Flask backend restart karke page refresh karein.`);
+  }
+
+  try{
+    return JSON.parse(text);
+  }catch(error){
+    throw new Error(`Server ne JSON nahi bheja (${response.status}). Flask backend latest code se restart karein.`);
+  }
+}
+
+function renderActivePass(){
+  const box = document.getElementById("activePassBox");
+  if(!activeBuyerPass){
+    box.textContent = "Abhi buyer pass create nahi hua.";
+    return;
+  }
+  box.innerHTML = `
+    <div class="grid sm:grid-cols-2 gap-4">
+      <div><p class="text-white/50 text-xs">Pass ID</p><p class="text-2xl font-bold">${activeBuyerPass.custom_id}</p></div>
+      <div><p class="text-white/50 text-xs">Buyer</p><p class="font-bold">${activeBuyerPass.buyerName}</p></div>
+      <div><p class="text-white/50 text-xs">Phone</p><p class="font-bold">${activeBuyerPass.buyerPhone}</p></div>
+      <div><p class="text-white/50 text-xs">Mandi</p><p class="font-bold">${activeBuyerPass.mandiName}, ${activeBuyerPass.mandiArea}</p></div>
+    </div>
+  `;
+  document.getElementById("passBuyerName").value = activeBuyerPass.buyerName || "";
+  document.getElementById("passBuyerPhone").value = activeBuyerPass.buyerPhone || "";
+  document.getElementById("passMandiArea").value = activeBuyerPass.mandiArea || "";
+  document.getElementById("passMandiName").value = activeBuyerPass.mandiName || "";
+  document.getElementById("licenseNumber").value = activeBuyerPass.licenseNumber || "";
+}
+
+async function blockFarmerPassAccounts(){
+  try{
+    const response = await fetchApi(`/check-login`, {
+      credentials:"include"
+    });
+    const data = await readJsonResponse(response);
+
+    if(data.loggedIn && data.hasFarmerPass){
+      const form = document.getElementById("buyerPassForm");
+      form.querySelectorAll("input, select, button").forEach(field => {
+        field.disabled = true;
+      });
+      showStatus("Is account par Kisan/Farmer Pass active hai, isliye Mandi Buyer Pass nahi ban sakta.", false);
+    }
+  }catch(error){}
+}
+
+async function loadMyBuyerPass(){
+  try{
+    const response = await fetchApi(`/api/my-mandi-buyer-pass`, {
+      credentials:"include"
+    });
+    const data = await readJsonResponse(response);
+
+    if(data.success){
+      activeBuyerPass = data.buyerPass;
+      localStorage.setItem("mandiBuyerPass", JSON.stringify(activeBuyerPass));
+      renderActivePass();
+    }
+  }catch(error){}
+}
+
+function mapSrc(listing){
+  if(!listing.mapLat || !listing.mapLng){
+    return "https://www.openstreetmap.org/export/embed.html?bbox=76.4%2C22.6%2C76.9%2C23.1&layer=mapnik";
+  }
+  const lat = Number(listing.mapLat);
+  const lng = Number(listing.mapLng);
+  return `https://www.openstreetmap.org/export/embed.html?bbox=${lng-.06}%2C${lat-.06}%2C${lng+.06}%2C${lat+.06}&layer=mapnik&marker=${lat}%2C${lng}`;
+}
+
+function listingCard(listing){
+  const auctionText = listing.auctionStarted
+    ? `${listing.auctionRemainingSeconds || 0}s left`
+    : "First bid starts 10s timer";
+
+  return `
+    <article class="bg-white rounded-[30px] shadow overflow-hidden">
+      ${listing.cropPhoto ? `<img src="${listing.cropPhoto}" class="w-full h-56 object-cover" alt="${listing.cropName} photo">` : ""}
+      <div class="p-6 md:p-7">
+        <div class="flex items-start justify-between gap-4 mb-5">
+          <div>
+            <p class="text-xs uppercase tracking-widest text-gray-400 font-bold">${listing.mandiName}</p>
+            <h2 class="serif text-4xl">${listing.cropName}</h2>
+            <p class="text-gray-500">${listing.farmerName} | ${listing.village || "Village not added"}</p>
+          </div>
+          <div class="text-right">
+            <span class="inline-flex bg-[var(--terracotta)] text-white text-xs font-bold px-3 py-1 rounded-full">Token #${listing.tokenNumber}</span>
+            <p class="text-xs text-gray-500 mt-2">${listing.tokenDate}</p>
+          </div>
+        </div>
+
+        <div class="grid sm:grid-cols-4 gap-3 mb-5">
+          <div class="bg-gray-50 rounded-2xl p-3"><p class="text-xs text-gray-500">Area</p><p class="font-bold">${listing.mandiArea}</p></div>
+          <div class="bg-gray-50 rounded-2xl p-3"><p class="text-xs text-gray-500">Quantity</p><p class="font-bold">${listing.quantity}</p></div>
+          <div class="bg-gray-50 rounded-2xl p-3"><p class="text-xs text-gray-500">Expected</p><p class="font-bold">${listing.expectedPrice}</p></div>
+          <div class="bg-gray-50 rounded-2xl p-3"><p class="text-xs text-gray-500">Highest</p><p class="font-bold text-[var(--moss)]">Rs ${listing.highestBid || 0}</p></div>
+        </div>
+
+        <div class="mb-5 rounded-2xl border border-green-200 bg-green-50 p-4 flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <p class="text-xs uppercase tracking-widest text-green-700 font-bold">Live Auction Timer</p>
+            <p class="text-sm text-green-700">Har bid ke baad timer 10 second se restart hoga.</p>
+          </div>
+          <div
+            class="auction-timer text-2xl font-bold text-[var(--forest)]"
+            data-listing="${listing._id}"
+            data-auction-end="${listing.auctionEndsAt || ""}"
+          >${auctionText}</div>
+        </div>
+
+        <iframe class="w-full h-52 rounded-2xl border mb-5" loading="lazy" src="${mapSrc(listing)}"></iframe>
+
+        <form class="bid-form border-t pt-5" data-id="${listing._id}">
+          <div class="flex flex-wrap gap-2 mb-4">
+            <button type="button" data-room="${listing._id}" class="join-room bg-[var(--forest)] text-white px-4 py-2 rounded-xl font-bold">
+              Join Live Camera Room
+            </button>
+            <span class="bg-green-50 text-green-700 px-3 py-2 rounded-xl text-sm font-bold">Live room join ke baad hi bid hogi</span>
+          </div>
+          <div class="grid md:grid-cols-2 gap-4 mb-4">
+            <input name="buyerName" class="input-style" placeholder="Buyer / Dealer Name" required>
+            <input name="buyerToken" class="input-style" placeholder="Mandi Buyer Pass ID" required>
+            <input name="buyerPhone" class="input-style" placeholder="Phone Number" required>
+            <input name="amount" type="number" min="1" class="input-style" placeholder="Bid Amount Rs" required>
+          </div>
+          <textarea name="message" class="input-style min-h-20 mb-4" placeholder="Offer note, pickup timing, quality condition"></textarea>
+          <button class="w-full bg-[var(--moss)] hover:bg-[var(--forest)] text-white py-3 rounded-xl font-bold transition">
+            Submit Live Bid
+          </button>
+        </form>
+      </div>
+    </article>
+  `;
+}
+
+function isBidFormActive(){
+  const activeElement = document.activeElement;
+  return Boolean(activeElement && activeElement.closest && activeElement.closest(".bid-form, #roomBidForm"));
+}
+
+async function loadListings(options = {}){
+  const {force = false, silent = false} = options;
+
+  if(listingsRequestInFlight || (!force && isBidFormActive())){
+    return;
+  }
+
+  listingsRequestInFlight = true;
+
+  if(!silent){
+    listingGrid.innerHTML = `<div class="bg-white rounded-2xl p-6 text-gray-500">Live crops loading...</div>`;
+  }
+
+  const area = document.getElementById("areaFilter").value;
+  try{
+    const response = await fetchApi(`/api/mandi-listings${area ? `?area=${encodeURIComponent(area)}` : ""}`);
+    const data = await readJsonResponse(response);
+    const markup = data.success && data.listings.length
+      ? data.listings.map(listingCard).join("")
+      : `<div class="bg-white rounded-2xl p-6 text-gray-500">Abhi is area me live token crop nahi hai.</div>`;
+
+    if(force || markup !== lastListingsMarkup){
+      lastListingsMarkup = markup;
+      listingGrid.innerHTML = markup;
+    }
+  }catch(error){
+    if(!silent){
+      listingGrid.innerHTML = `<div class="bg-white rounded-2xl p-6 text-red-600">Backend se connect nahi ho paya.</div>`;
+    }
+  }finally{
+    listingsRequestInFlight = false;
+  }
+}
+
+function updateAuctionTimers(){
+  let shouldRefresh = false;
+
+  document.querySelectorAll(".auction-timer").forEach(timer => {
+    const auctionEnd = timer.dataset.auctionEnd;
+
+    if(!auctionEnd){
+      timer.textContent = "First bid starts 10s timer";
+      return;
+    }
+
+    const remaining = Math.max(
+      0,
+      Math.ceil((new Date(auctionEnd).getTime() - Date.now()) / 1000)
+    );
+
+    timer.textContent = `${remaining}s left`;
+
+    if(remaining <= 0){
+      shouldRefresh = true;
+    }
+  });
+
+  if(shouldRefresh){
+    loadListings({silent:true});
+  }
+}
+
+async function joinLiveRoom(listingId){
+  if(!activeBuyerPass){
+    showStatus("Pehle Mandi Buyer Pass create karein.", false);
+    return;
+  }
+  const response = await fetchApi(`/api/mandi-listings/${listingId}/live-room/join`, {
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    credentials:"include",
+    body:JSON.stringify({
+      role:"buyer",
+      buyerToken:activeBuyerPass.custom_id
+    })
+  });
+  const data = await readJsonResponse(response);
+  showStatus(data.message || "Live room updated", data.success);
+  if(data.success){
+    activeRoomId = listingId;
+    await openLiveRoom(listingId);
+  }
+}
+
+async function openLiveRoom(listingId){
+  const response = await fetchApi(`/api/mandi-listings/${listingId}/live-room`);
+  const data = await readJsonResponse(response);
+  if(!data.success){
+    showStatus(data.message || "Live room open nahi ho paya.", false);
+    return;
+  }
+  const listing = data.listing;
+  const room = data.room;
+  document.getElementById("roomTitle").textContent = `${listing.cropName} Live Bidding`;
+  document.getElementById("roomMeta").textContent = `${listing.mandiName} | Token #${listing.tokenNumber}`;
+  document.getElementById("roomBidTitle").textContent = `${listing.cropName} Live Bid`;
+  document.getElementById("roomHighestBid").textContent = `Rs ${listing.highestBid || 0}`;
+  document.getElementById("roomAuctionTimer").textContent = listing.auctionStarted
+    ? `${listing.auctionRemainingSeconds || 0}s left`
+    : "First bid starts 10s timer";
+  document.getElementById("roomBidListingId").value = listing._id;
+
+  const cropPhoto = document.getElementById("buyerRoomCropPhoto");
+  cropPhoto.src = listing.cropPhoto || "";
+  cropPhoto.classList.toggle("hidden", !listing.cropPhoto);
+
+  document.getElementById("farmerLiveStatus").textContent = room.farmerLive
+    ? `${listing.farmerName} camera live hai. Crop ko camera ke samne check karke bid karein.`
+    : `${listing.farmerName} ka camera abhi waiting par hai.`;
+  document.getElementById("farmerVideoLabel").textContent = `Farmer: ${listing.farmerName || "Kisan"}`;
+
+  document.getElementById("buyerSlotText").textContent = `${room.buyerCount} / ${room.maxBuyers} joined`;
+  const buyers = room.buyers || [];
+  const cards = [];
+  for(let index = 0; index < 8; index++){
+    const buyer = buyers[index];
+    cards.push(`
+      <div class="border rounded-2xl p-3 ${buyer ? "bg-green-50 border-green-200" : "bg-gray-50 border-gray-200"}">
+        <p class="text-xs text-gray-500">Buyer ${index + 1}</p>
+        <p class="font-bold">${buyer ? buyer.buyerName : "Waiting"}</p>
+        <p class="text-xs text-gray-500">${buyer ? buyer.buyerToken : "Slot open"}</p>
+      </div>
+    `);
+  }
+  document.getElementById("roomBuyers").innerHTML = cards.join("");
+  fillRoomBidForm();
+  document.getElementById("liveRoomModal").classList.remove("hidden");
+}
+
+function fillRoomBidForm(force = false){
+  const form = document.getElementById("roomBidForm");
+
+  if(!activeBuyerPass || (!force && (isBidFormActive() || form.contains(document.activeElement)))){
+    return;
+  }
+
+  form.elements.buyerName.value = activeBuyerPass.buyerName || "";
+  form.elements.buyerToken.value = activeBuyerPass.custom_id || "";
+  form.elements.buyerPhone.value = activeBuyerPass.buyerPhone || "";
+}
+
+async function startBuyerCamera(){
+  try{
+    buyerCameraStream = await navigator.mediaDevices.getUserMedia({video:true, audio:false});
+    const video = document.getElementById("buyerVideo");
+    video.srcObject = buyerCameraStream;
+    video.classList.remove("hidden");
+    document.getElementById("buyerVideoEmpty").classList.add("hidden");
+  }catch(error){
+    showStatus("Camera permission nahi mili ya camera available nahi hai.", false);
+  }
+}
+
+listingGrid.addEventListener("submit", async event => {
+  const form = event.target.closest(".bid-form");
+  if(!form){return;}
+  event.preventDefault();
+  const formData = new FormData(form);
+  const bidData = Object.fromEntries(formData.entries());
+  try{
+    const response = await fetchApi(`/api/mandi-listings/${form.dataset.id}/bid`, {
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      credentials:"include",
+      body:JSON.stringify(bidData)
+    });
+    const data = await readJsonResponse(response);
+    showStatus(data.message || "Bid updated", data.success);
+    if(data.success){
+      form.reset();
+      loadListings({force:true});
+    }
+  }catch(error){
+    showStatus("Backend se connect nahi ho paya.", false);
+  }
+});
+
+document.getElementById("roomBidForm").addEventListener("submit", async event => {
+  event.preventDefault();
+  const form = event.target;
+  const listingId = document.getElementById("roomBidListingId").value;
+
+  if(!listingId){
+    showStatus("Pehle live room join karein.", false);
+    return;
+  }
+
+  const bidData = Object.fromEntries(new FormData(form).entries());
+
+  try{
+    const response = await fetchApi(`/api/mandi-listings/${listingId}/bid`, {
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      credentials:"include",
+      body:JSON.stringify(bidData)
+    });
+    const data = await readJsonResponse(response);
+    showStatus(data.message || "Bid updated", data.success);
+
+    if(data.success){
+      form.elements.amount.value = "";
+      form.elements.message.value = "";
+      await openLiveRoom(listingId);
+      loadListings({force:true});
+    }
+  }catch(error){
+    showStatus("Backend se connect nahi ho paya.", false);
+  }
+});
+
+listingGrid.addEventListener("click", event => {
+  const button = event.target.closest(".join-room");
+  if(!button){return;}
+  joinLiveRoom(button.dataset.room);
+});
+
+listingGrid.addEventListener("focusin", event => {
+  const form = event.target.closest(".bid-form");
+  if(!form || !activeBuyerPass){return;}
+  form.elements.buyerName.value = activeBuyerPass.buyerName || "";
+  form.elements.buyerToken.value = activeBuyerPass.custom_id || "";
+  form.elements.buyerPhone.value = activeBuyerPass.buyerPhone || "";
+});
+
+document.getElementById("roomBidForm").addEventListener("focusin", () => fillRoomBidForm(true));
+
+document.getElementById("buyerPassForm").addEventListener("submit", async event => {
+  event.preventDefault();
+  const payload = {
+    buyerName: document.getElementById("passBuyerName").value.trim(),
+    buyerPhone: document.getElementById("passBuyerPhone").value.trim(),
+    mandiArea: document.getElementById("passMandiArea").value,
+    mandiName: document.getElementById("passMandiName").value.trim(),
+    licenseNumber: document.getElementById("licenseNumber").value.trim()
+  };
+  try{
+    const response = await fetchApi(`/api/mandi-buyer-pass`, {
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      credentials:"include",
+      body:JSON.stringify(payload)
+    });
+    const data = await readJsonResponse(response);
+    showStatus(data.message || "Buyer pass updated", data.success);
+    if(data.success){
+      activeBuyerPass = data.buyerPass;
+      localStorage.setItem("mandiBuyerPass", JSON.stringify(activeBuyerPass));
+      renderActivePass();
+    }
+  }catch(error){
+    showStatus(error.message || "Buyer Pass backend se connect nahi ho paya. Flask server restart karein.", false);
+  }
+});
+
+document.getElementById("closeLiveRoom").addEventListener("click", () => {
+  document.getElementById("liveRoomModal").classList.add("hidden");
+});
+
+document.getElementById("startBuyerCamera").addEventListener("click", startBuyerCamera);
+
+document.getElementById("refreshListings").addEventListener("click", () => loadListings({force:true}));
+document.getElementById("areaFilter").addEventListener("change", () => loadListings({force:true}));
+loadListings({force:true});
+renderActivePass();
+blockFarmerPassAccounts();
+loadMyBuyerPass();
+setInterval(updateAuctionTimers, 1000);
+setInterval(() => loadListings({silent:true}), 10000);
+setInterval(() => {
+  if(activeRoomId && !document.getElementById("liveRoomModal").classList.contains("hidden")){
+    openLiveRoom(activeRoomId);
+  }
+}, 10000);
+  </script>
+</body>
+</html>
