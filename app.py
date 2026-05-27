@@ -9,8 +9,12 @@ from pymongo import MongoClient
 from bson.objectid import ObjectId
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime, timedelta
+from dotenv import load_dotenv
 import random
 import os
+import certifi
+
+load_dotenv()
 
 # =========================================
 # FLASK APP
@@ -30,7 +34,20 @@ CORS(
 # MONGODB CONNECTION
 # =========================================
 
-client = MongoClient(os.getenv("MONGO_URI", "mongodb://localhost:27017/"))
+mongo_uri = os.getenv("MONGO_URI", "mongodb://localhost:27017/")
+mongo_options = {
+    "serverSelectionTimeoutMS": 30000,
+    "connectTimeoutMS": 30000,
+    "socketTimeoutMS": 30000,
+}
+
+if mongo_uri.startswith("mongodb+srv://") or "mongodb.net" in mongo_uri:
+    mongo_options.update({
+        "tls": True,
+        "tlsCAFile": certifi.where(),
+    })
+
+client = MongoClient(mongo_uri, **mongo_options)
 
 db = client["KisanYUG"]
 

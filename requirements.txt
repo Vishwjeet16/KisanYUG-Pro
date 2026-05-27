@@ -2,6 +2,7 @@ flask
 flask-pymongo
 flask-cors
 python-dotenv
-pymongo[srv]
+pymongo[srv]>=4.6,<5
+certifi>=2024.8.30
 werkzeug
 gunicorn
