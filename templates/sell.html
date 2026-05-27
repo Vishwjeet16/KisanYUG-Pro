@@ -236,7 +236,7 @@
   </main>
 
   <script>
-const apiBase = location.port === "5000" ? "" : "http://127.0.0.1:5000";
+const apiBase = location.protocol.startsWith("http") ? "" : "http://127.0.0.1:5000";
 const sellForm = document.getElementById("sellForm");
 const messageBox = document.getElementById("messageBox");
 const cropImageInput = document.getElementById("cropImage");
@@ -427,7 +427,7 @@ loadMyPass();
 
   <script>
 async function updateFarmerOnlyLinks(){
-  const apiBase = location.port === "5000" ? "" : "http://127.0.0.1:5000";
+  const apiBase = location.protocol.startsWith("http") ? "" : "http://127.0.0.1:5000";
 
   try{
     const response = await fetch(`${apiBase}/check-login`, {

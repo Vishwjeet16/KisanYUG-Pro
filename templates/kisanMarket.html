@@ -215,7 +215,7 @@ Only Farmer Pass holders can sell crops
 const cropContainer =
 document.getElementById("cropContainer");
 
-const apiBase = location.port === "5000" ? "" : "http://127.0.0.1:5000";
+const apiBase = location.protocol.startsWith("http") ? "" : "http://127.0.0.1:5000";
 
 // LOAD CROPS
 async function loadCrops(){
@@ -310,7 +310,7 @@ loadCrops();
 
   <script>
 async function updateFarmerOnlyLinks(){
-  const apiBase = location.port === "5000" ? "" : "http://127.0.0.1:5000";
+  const apiBase = location.protocol.startsWith("http") ? "" : "http://127.0.0.1:5000";
 
   try{
     const response = await fetch(`${apiBase}/check-login`, {

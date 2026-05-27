@@ -2,6 +2,6 @@ flask
 flask-pymongo
 flask-cors
 python-dotenv
-pymongo
+pymongo[srv]
 werkzeug
 gunicorn

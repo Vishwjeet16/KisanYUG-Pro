@@ -411,11 +411,7 @@ async function readJsonResponse(response){
 
 function getBackendUrl(path){
 
-  const isFlaskServer =
-  window.location.hostname === "127.0.0.1" &&
-  window.location.port === "5000";
-
-  if(isFlaskServer){
+  if(window.location.protocol.startsWith("http")){
 
     return path;
 
@@ -640,7 +636,7 @@ loginForm.addEventListener("submit", async (e)=>{
     document.getElementById("password").value;
 
     const response = await fetch(
-        "http://127.0.0.1:5000/login",
+        "/login",
         {
 
             method:"POST",

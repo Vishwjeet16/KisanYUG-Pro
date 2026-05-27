@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -231,7 +231,7 @@
           </h4>
 
           <p id="impactText" class="text-sm text-gray-300 mb-5">
-            Your shopping saved 4.2kg COÃ¢â€šâ€š this week Ã°Å¸Å’Â±
+            Your shopping saved 4.2kg COâ‚‚ this week ðŸŒ±
           </p>
 
           <div class="w-full h-2 rounded-full bg-gray-700 overflow-hidden mb-3">
@@ -1210,7 +1210,7 @@
           </div>
 
           <div class="bg-white p-4 rounded-2xl rounded-tl-none text-sm shadow">
-            Hello ðŸ‘‹ <br>
+            Hello 👋 <br>
             I can help you find fresh organic products.
           </div>
         </div>
@@ -1247,7 +1247,7 @@
 async function checkLogin(){
 
   const loginApiBase =
-  location.port === "5000" ? "" : "http://127.0.0.1:5000";
+  location.protocol.startsWith("http") ? "" : "http://127.0.0.1:5000";
 
   const response =
   await fetch(`${loginApiBase}/check-login`, {
@@ -1330,7 +1330,7 @@ checkLogin();
 if(document.getElementById("logoutBtn")){
   document.getElementById("logoutBtn").addEventListener("click", async () => {
     const logoutApiBase =
-    location.port === "5000" ? "" : "http://127.0.0.1:5000";
+    location.protocol.startsWith("http") ? "" : "http://127.0.0.1:5000";
 
     const response = await fetch(`${logoutApiBase}/logout`, {
       method: "POST",
@@ -1365,7 +1365,7 @@ const categoryFilters = document.querySelectorAll(".category-filter");
 const impactText = document.getElementById("impactText");
 const impactProgress = document.getElementById("impactProgress");
 const impactGoalText = document.getElementById("impactGoalText");
-const apiBase = location.port === "5000" ? "" : "http://127.0.0.1:5000";
+const apiBase = location.protocol.startsWith("http") ? "" : "http://127.0.0.1:5000";
 const orderSuccessModal = document.getElementById("orderSuccessModal");
 const closeOrderSuccessButton = document.getElementById("closeOrderSuccess");
 const successOrderId = document.getElementById("successOrderId");

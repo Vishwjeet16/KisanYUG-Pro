@@ -79,7 +79,7 @@
   </main>
 
   <script>
-const apiBase = ["5000", "5001"].includes(location.port) ? "" : "http://127.0.0.1:5000";
+const apiBase = location.protocol.startsWith("http") ? "" : "http://127.0.0.1:5000";
 const ordersContainer = document.getElementById("ordersContainer");
 
 async function updateFarmerOnlyLinks(){

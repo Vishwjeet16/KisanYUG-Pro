@@ -492,7 +492,7 @@ const closeChat = document.getElementById("closeChat");
 const chatMessages = document.getElementById("chatMessages");
 const chatInput = document.getElementById("chatInput");
 const chatSend = document.getElementById("chatSend");
-const chatApiBase = location.port === "5000" ? "" : "http://127.0.0.1:5000";
+const chatApiBase = location.protocol.startsWith("http") ? "" : "http://127.0.0.1:5000";
 
 chatBtn.addEventListener("click", () => {
     chatWindow.classList.toggle("hidden");
@@ -566,7 +566,7 @@ chatInput.addEventListener("keydown", (event) => {
 async function checkLogin(){
 
     const response = await fetch(
-        "http://127.0.0.1:5000/check-login",
+        "/check-login",
         {
             credentials:"include"
         }
@@ -600,7 +600,7 @@ checkLogin();
 async function logoutUser(){
 
     const response = await fetch(
-        "http://127.0.0.1:5000/logout",
+        "/logout",
         {
 
             method:"POST",
@@ -626,7 +626,7 @@ async function logoutUser(){
 
   <script>
 async function updateFarmerOnlyLinks(){
-  const apiBase = location.port === "5000" ? "" : "http://127.0.0.1:5000";
+  const apiBase = location.protocol.startsWith("http") ? "" : "http://127.0.0.1:5000";
 
   try{
     const response = await fetch(`${apiBase}/check-login`, {
